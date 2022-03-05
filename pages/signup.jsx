@@ -1,11 +1,7 @@
 import React from 'react';
 import { styled } from '@mui/material/styles';
 // components
-import {
-  ColorButton,
-  Container,
-  CustomizedButtons,
-} from '../src/components/common';
+import { ColorButton, Container } from '../src/components/common';
 // mui
 import {
   TextField,
@@ -27,11 +23,18 @@ const SignUpPage = () => {
   const [inputData, setInputData] = useState({
     id: '',
     password: '',
+    password_check: '',
   });
-  const [showPassword, setShowPassword] = useState(false);
+  const [isVisible, setIsVisible] = useState({
+    password: false,
+    password_check: false,
+  });
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const handleClickShowPassword = () => setShowPassword(!showPassword);
-  const handleMouseDownPassword = () => setShowPassword(!showPassword);
+  const [isFormatOkay, setIsFormatOkay] = useState({
+    id: true,
+    password: true,
+  });
+
   const handleChange = (e) => {
     console.log(e);
     setInputData({
@@ -69,68 +72,125 @@ const SignUpPage = () => {
   };
 
   return (
-    <Container>
+    <Container bgColor={'#F8F0E9'}>
       <div style={{ display: 'flex', width: '100%', flexDirection: 'column' }}>
-        <div style={{ marginBottom: '2.5rem' }}>
-          <Typography sx={{ fontSize: '20px' }} fontWeight="600">
+        <div style={{ marginBottom: '60px' }}>
+          <Typography sx={{ fontSize: '28px' }} fontWeight="600">
             마춤뻡에서 살아남기
           </Typography>
-          <Typography sx={{ fontSize: '20px' }} fontWeight="600">
+          <Typography sx={{ fontSize: '28px' }} fontWeight="600">
             입학
           </Typography>
         </div>
-        <TextField
-          id="id"
-          InputProps={{
-            classes: {
-              input: cssstyle.resize,
-            },
-          }}
-          placeholder="아이디(10자 이내)"
-          type="string"
-          autoComplete="current-id"
-          onChange={handleChange}
-          variant="standard"
-          InputLabelProps={{ shrink: false }}
-        />
+        <div style={{ width: '100%' }}>
+          <TextField
+            sx={{ width: '100%' }}
+            id="id"
+            InputProps={{
+              classes: {
+                input: cssstyle.resize,
+              },
+            }}
+            placeholder="아이디(10자 이내)"
+            type="string"
+            autoComplete="current-id"
+            onChange={handleChange}
+            variant="standard"
+            InputLabelProps={{ shrink: false }}
+            InputProps={{
+              style: { fontSize: 14, paddingBottom: '15px' },
+            }}
+          />
+          <ColorButton
+            color="white"
+            bgColor="#015B30"
+            hoverBgColor="#015B30"
+            onClick={() => setIsModalOpen(true)}
+            variant="contained"
+            width={'80px'}
+            sx={{ position: 'absolute', fontSize: 12, right: 24 }}
+            height={'30px'}
+            text="중복 확인"
+          />
+        </div>
         <TextField
           id="password"
-          InputProps={{
-            classes: {
-              input: cssstyle.resize,
-            },
-          }}
-          size="10px"
-          sx={{ padding: '5px 0' }}
+          error={isFormatOkay.id ? false : true}
+          helperText={isFormatOkay.id ? '' : '*중복된 아이디입니다.'}
+          sx={{ marginTop: '24px' }}
           placeholder="비밀번호 6자리 이상"
-          type="password"
-          autoComplete="current-password"
-          variant="standard"
-          onChange={handleChange}
-          InputLabelProps={{ shrink: false }}
-        />
-        <TextField
-          error={true}
-          id="password"
-          helperText="Incorrect entry."
-          sx={{ padding: '5px 0' }}
-          placeholder="비밀번호 재입력"
-          type={showPassword ? 'text' : 'password'}
+          type={isVisible.password ? 'text' : 'password'}
           autoComplete="current-password"
           variant="standard"
           onChange={handleChange}
           InputLabelProps={{ shrink: false }}
           InputProps={{
-            style: { fontSize: 12, paddingBottom: '15px' },
+            style: { fontSize: 14, paddingBottom: '15px' },
             // <-- This is where the toggle button is added.
             endAdornment: (
               <InputAdornment position="end">
                 <IconButton
                   aria-label="toggle password visibility"
-                  onClick={handleClickShowPassword}
-                  onMouseDown={handleMouseDownPassword}
+                  onClick={() =>
+                    setIsVisible((isVisible) => ({
+                      ...isVisible,
+                      password: !isVisible.password,
+                    }))
+                  }
+                  onMouseDown={() =>
+                    setIsVisible((isVisible) => ({
+                      ...isVisible,
+                      password: !isVisible.password,
+                    }))
+                  }
                 >
-                  {showPassword ? <Visibility /> : <VisibilityOff />}
+                  {isVisible?.password ? (
+                    <Visibility style={{ width: '18px' }} />
+                  ) : (
+                    <VisibilityOff style={{ width: '18px' }} />
+                  )}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
+        <TextField
+          id="password_check"
+          error={isFormatOkay.password ? false : true}
+          helperText={
+            isFormatOkay.password ? '' : '*비밀번호가 일치하지 않습니다.'
+          }
+          sx={{ marginTop: '24px' }}
+          placeholder="비밀번호 재입력"
+          type={isVisible.password_check ? 'text' : 'password'}
+          variant="standard"
+          onChange={handleChange}
+          InputLabelProps={{ shrink: false }}
+          InputProps={{
+            style: { fontSize: 14, paddingBottom: '15px' },
+            // <-- This is where the toggle button is added.
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={() =>
+                    setIsVisible((isVisible) => ({
+                      ...isVisible,
+                      password_check: !isVisible.password_check,
+                    }))
+                  }
+                  onMouseDown={() =>
+                    setIsVisible((isVisible) => ({
+                      ...isVisible,
+                      password_check: !isVisible.password_check,
+                    }))
+                  }
+                >
+                  {isVisible?.password_check ? (
+                    <Visibility style={{ width: '18px' }} />
+                  ) : (
+                    <VisibilityOff style={{ width: '18px' }} />
+                  )}
                 </IconButton>
               </InputAdornment>
             ),
@@ -147,14 +207,20 @@ const SignUpPage = () => {
             paddingBottom: '2rem',
           }}
         >
-          <Button
+          <ColorButton
+            color="white"
+            bgColor="#015B30"
+            hoverBgColor="#015B30"
             onClick={() => setIsModalOpen(true)}
-            sx={{ backgroundColor: 'green', height: '40px' }}
             variant="contained"
+            width={'100%'}
+            height={'56px'}
+            text="회원가입"
+          />
+          <Button
+            sx={{ color: '#E5E5E5', height: '56px', fontWeight: 'bold' }}
+            variant="text"
           >
-            회원가입
-          </Button>
-          <Button sx={{ color: 'green', height: '40px' }} variant="text">
             다음에 하기
           </Button>
         </div>
@@ -181,9 +247,10 @@ const SignUpPage = () => {
               width: '90%',
             }}
             variant="contained"
-          >
-            확인
-          </ColorButton>
+            width={'100%'}
+            height={'56px'}
+            text="확인"
+          />
         </Box>
       </Modal>
     </Container>

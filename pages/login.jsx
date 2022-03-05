@@ -78,15 +78,17 @@ const LoginPage = () => {
           }}
         >
           <ColorButton
+            fontSize="14px"
             color="white"
-            bgColor={'green'}
-            hoverBgColor={'green'}
+            bgColor={'#015B30'}
+            hoverBgColor={'#015B30'}
             variant="contained"
-          >
-            로그인
-          </ColorButton>
+            width={'100%'}
+            height={'56px'}
+            text="로그인"
+          />
           <Link href="/signup">
-            <Button sx={{ color: 'green', height: '40px' }} variant="text">
+            <Button sx={{ color: '#015B30', height: '56px' }} variant="text">
               회원가입
             </Button>
           </Link>
