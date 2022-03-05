@@ -16,7 +16,7 @@ import { Router } from 'next/router';
 import ColorButton from '../../src/components/common/ColorButton';
 import Container from '../../src/components/common/Container';
 import { removeCookie } from '../../token/TokenManager';
-import { common } from '../../styles';
+import { common } from '../../src/styles/common';
 
 const userData = {
   username: '마춤뻐 파괘자', // 닉네임 (ID)
@@ -31,7 +31,7 @@ const MyPageContainer = styled(Box)({
 });
 
 const StyledTableContainer = styled(TableContainer)({
-  width: '50vh',
+  width: '80%',
   border: '0.2px',
   borderStyle: 'solid',
   borderColor: '#443C22',
@@ -43,8 +43,11 @@ const StyledTableContainer = styled(TableContainer)({
 
 const StyledTableCell = styled(TableCell)({
   outline: '0.5px solid',
-  outlineColor: common.fontColor.main,
+  outlineColor: '#443C22',
   textAlign: 'left',
+  fontSize: '14px',
+  fontColor: '#443C22',
+  backgroundColor: '#F8F0E9',
 });
 
 const StyledStampContainer = styled.div`
@@ -72,90 +75,98 @@ const myPage = () => {
     Router.replace('/login');
   };
   return (
-    <Container>
-      <MyPageContainer>
-        <StyledTableContainer component={Paper}>
-          <Table sx={{ minWidth: 320 }} aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <StyledTableCell colSpan={2}>
-                  <Typography variant="h6">생활기록부</Typography>
-                  <ColorButton onClick={onLogout}></ColorButton>
-                </StyledTableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              <TableRow>
-                <StyledTableCell align="left">
-                  <Image
-                    src="/image/profile.png"
-                    alt="profile"
-                    height="96"
-                    width="80"
-                  />
-                </StyledTableCell>
-                <StyledTableCell align="right">
-                  로그인이 필요합니다.
-                </StyledTableCell>
-              </TableRow>
-              <TableRow>
-                <StyledTableCell align="right">받은 도장</StyledTableCell>
-                <StyledTableCell align="right">
-                  <StyledStampContainer>
-                    <StyledStamp>
-                      <Image
-                        src="/stamp/Good.svg"
-                        alt="stamp"
-                        height="56"
-                        width="56"
-                      />
-                      <Typography>0번</Typography>
-                    </StyledStamp>
-                    <StyledStamp>
-                      <Image
-                        src="/stamp/Soso.svg"
-                        alt="stamp"
-                        height="56"
-                        width="56"
-                      />
-                      <Typography>0번</Typography>
-                    </StyledStamp>
-                    <StyledStamp>
-                      <Image
-                        src="/stamp/Bad.svg"
-                        alt="stamp"
-                        height="56"
-                        width="56"
-                      />
-                      <Typography>0번</Typography>
-                    </StyledStamp>
-                  </StyledStampContainer>
-                </StyledTableCell>
-              </TableRow>
-              <TableRow>
-                <StyledTableCell align="right">시험</StyledTableCell>
-                <StyledTableCell align="right">
-                  로그인이 필요합니다
-                </StyledTableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </StyledTableContainer>
+    <Container bgColor={'#F8F0E9'}>
+      <StyledTableContainer component={Paper}>
+        <Table sx={{ Width: '100%' }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <StyledTableCell colSpan={2}>
+                <div
+                  style={{ display: 'flex', justifyContent: 'space-around' }}
+                >
+                  <Typography variant="h5">생활기록부</Typography>
+                  <ColorButton
+                    width="10%"
+                    text="로그아웃"
+                    onClick={onLogout}
+                  ></ColorButton>
+                </div>
+              </StyledTableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            <TableRow>
+              <StyledTableCell align="left">
+                <Image
+                  src="/image/profile.png"
+                  alt="profile"
+                  height="96"
+                  width="80"
+                />
+              </StyledTableCell>
+              <StyledTableCell align="right">
+                로그인이 필요합니다.
+              </StyledTableCell>
+            </TableRow>
+            <TableRow>
+              <StyledTableCell align="right">받은 도장</StyledTableCell>
+              <StyledTableCell align="right">
+                <StyledStampContainer>
+                  <StyledStamp>
+                    <Image
+                      src="/stamp/Good.svg"
+                      alt="stamp"
+                      height="56"
+                      width="56"
+                    />
+                    <Typography>0번</Typography>
+                  </StyledStamp>
+                  <StyledStamp>
+                    <Image
+                      src="/stamp/Soso.svg"
+                      alt="stamp"
+                      height="56"
+                      width="56"
+                    />
+                    <Typography>0번</Typography>
+                  </StyledStamp>
+                  <StyledStamp>
+                    <Image
+                      src="/stamp/Bad.svg"
+                      alt="stamp"
+                      height="56"
+                      width="56"
+                    />
+                    <Typography>0번</Typography>
+                  </StyledStamp>
+                </StyledStampContainer>
+              </StyledTableCell>
+            </TableRow>
+            <TableRow>
+              <StyledTableCell align="right">시험</StyledTableCell>
+              <StyledTableCell align="right">
+                로그인이 필요합니다
+              </StyledTableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </StyledTableContainer>
 
-        <Link href="/login" passHref>
-          <ColorButton text="로그인"></ColorButton>
-        </Link>
-        <Link href="/signup" passHref>
-          <ColorButton
-            color={common.colors.point}
-            bgColor="none"
-            hoverBgColor="#F8F0E9"
-            onClick={common.fontColor.caption}
-            variant="contained"
-            text="회원가입"
-          />
-        </Link>
-      </MyPageContainer>
+      <Link href="/login" passHref>
+        <ColorButton width="100%" fontSize="16px" text="로그인"></ColorButton>
+      </Link>
+      <Link href="/signup" passHref>
+        <ColorButton
+          color="#443C22"
+          bgColor="none"
+          hoverBgColor="#F8F0E9"
+          onClick="A9A69E"
+          variant="contained"
+          width="100%"
+          fontSize="16px"
+          text="회원가입"
+        />
+      </Link>
     </Container>
   );
 };

@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import Navigation from '../src/components/common/Navigation';
 import { Container, CustomModal, ColorButton } from '../src/components/common';
 import styled from '@emotion/styled';
-import { setCookie, getCookie } from '../token/TokenManager';
+import { getCookie } from '../token/TokenManager';
 import Link from 'next/link';
 import { getApi } from '../apis';
 import { useRouter } from 'next/router';
