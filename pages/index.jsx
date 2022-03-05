@@ -52,7 +52,7 @@ const Home = () => {
 
   const handleGoTest = () => {
     setIsModalOpen(false);
-    router.push(`/write/${userInfo.count}`);
+    router.push(`/write/${userInfo.count + 1}`);
   };
 
   console.log(isLogin);
