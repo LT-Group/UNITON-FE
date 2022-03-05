@@ -55,7 +55,7 @@ const SignUpPage = () => {
         password: inputData.password,
       });
       console.log(result);
-      if (!result?.toString().includes('400')) {
+      if (!result) {
         setToken();
         // 쿠키 설정 완료
         setCookie('isLoading', false);
