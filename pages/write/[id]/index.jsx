@@ -8,7 +8,9 @@ import { Container } from '../../../src/components/common';
 const WritePage = () => {
   const [isModalOpen, setIsModalOpen] = useRecoilState(userTestStart);
   const [audio, setAudio] = useRecoilState(testSound);
+
   const [playing, setPlaying] = useState(null);
+  const [paperId, setPaper] = useState(null);
   const [isFirstTime, setIsFirstTime] = useState(true);
 
   useEffect(() => {
@@ -18,7 +20,7 @@ const WritePage = () => {
   const getData = async () => {
     const ID = await localStorage.getItem('userID');
     const data = await getApi.getTestData(ID);
-
+    setPaper(data.paper_id);
     setAudio(new Audio(data.file));
   };
 
@@ -50,7 +52,12 @@ const WritePage = () => {
 
   return (
     <Container bgColor={'#F8F0E9'}>
-      <WritePaper isButton={true} onToggle={toggle} isPlay={playing} />
+      <WritePaper
+        isButton={true}
+        onToggle={toggle}
+        isPlay={playing}
+        paperId={paperId}
+      />
     </Container>
   );
 };

@@ -4,7 +4,7 @@ import TestEndList from './TestEndList';
 import { useRouter } from 'next/router';
 import { Button, Grid } from '@mui/material';
 import { useRecoilState } from 'recoil';
-import { problemsInitialState, ProblemsState } from '../../store/atoms';
+import { problemsInitialState, ProblemsState } from '../../../stores/problems';
 
 const WriteEndPaper = () => {
   const router = useRouter();

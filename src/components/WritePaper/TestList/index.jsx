@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { Box, Divider, Input, List, ListItem } from '@mui/material';
-import { ProblemsState } from '../../../store/atoms';
+import { ProblemsState } from '../../../../stores/problems';
 import { useRecoilState } from 'recoil';
 
 const TestList = () => {

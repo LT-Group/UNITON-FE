@@ -11,6 +11,7 @@ import { getApi } from '../apis';
 import { useRouter } from 'next/router';
 import { useRecoilState } from 'recoil';
 import { userTestStart, testSound } from '../stores/write';
+import { UserInfo } from '../stores/userInfo';
 
 const StyledTypo = styled.div`
   margin-bottom: 16px;
@@ -18,34 +19,32 @@ const StyledTypo = styled.div`
 
 const Home = () => {
   const router = useRouter();
-  const [count, setCount] = useState(350);
   const [isLogin, setIsLogin] = useState(null);
-  const [userInfo, setUserInfo] = useState({
-    name: '',
-    count: 0,
-    entire_count: 0,
-  });
+  const [userInfo, setUserInfo] = useRecoilState(UserInfo);
   const [isModalOpen, setIsModalOpen] = useRecoilState(userTestStart);
   const [audio, setAudio] = useRecoilState(testSound);
-
-  const [userID, setUserID] = useState(-1);
 
   useEffect(() => {
     const getData = async () => {
       setIsLogin(getCookie('isLogin'));
+
       const userName = localStorage.getItem('userName');
-      setUserInfo((userInfo) => ({ ...userInfo, name: userName }));
+
+      setUserInfo((userInfo) => ({ ...userInfo, userName }));
+
       const { user_id } = await getApi.getUserID(userName);
-      setUserID(user_id);
       const { count_paperuser } = await getApi.getTestCount(user_id);
       const { paper_count } = await getApi.getAllTestCount();
+
       setUserInfo((userInfo) => ({
         ...userInfo,
-        count: count_paperuser,
+        page_id: count_paperuser,
         entire_count: paper_count,
       }));
+
       localStorage.setItem('userID', user_id);
     };
+
     getData();
   }, []);
 
@@ -56,7 +55,7 @@ const Home = () => {
 
   const handleGoTest = () => {
     setIsModalOpen(false);
-    router.push(`/write/${userInfo.count + 1}`);
+    router.push(`/write/${userInfo.page_id}`);
   };
 
   return (
@@ -65,12 +64,12 @@ const Home = () => {
         {isLogin ? (
           <Typography sx={{ fontSize: '28px', lineHeight: '33.6px' }}>
             <span style={{ fontWeight: 'bold', color: '#015B30' }}>
-              {userInfo.name}
+              {userInfo.userName}
             </span>{' '}
             학생
             <br />
             <b>
-              1회 받아쓰기 시험을
+              {userInfo.page_id}회 받아쓰기 시험을
               <br />
               시작해볼까요?
             </b>
