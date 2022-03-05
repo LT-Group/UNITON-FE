@@ -75,11 +75,27 @@ const getAllTestCount = async () => {
   }
 };
 
+const getUserInfo = async (ID) => {
+  try {
+    const { data } = await axios({
+      baseURL: API_DOMAIN,
+      url: `/accounts/my_profile/${ID}/`,
+      method: 'get',
+    });
+    console.log('[SUCCESS] GET USER INFO', data);
+    return data;
+  } catch (e) {
+    console.log('[FAIL] GET USER INFO', e);
+    return e;
+  }
+};
+
 const getApi = {
   getUserID,
   getRankingData,
   getTestData,
   getTestCount,
   getAllTestCount,
+  getUserInfo,
 };
 export default getApi;
