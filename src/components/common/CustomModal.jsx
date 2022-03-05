@@ -14,6 +14,7 @@ const CustomModal = ({
     position: 'absolute',
     top: '50%',
     width: '90%',
+    maxWidth: '320px',
     left: '50%',
     transform: 'translate(-50%, -50%)',
     bgcolor: '#F8F0E9',
