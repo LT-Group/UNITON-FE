@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { BottomNavigation, BottomNavigationAction } from '@mui/material';
 import { MypageIcon, RankingIcon, SolveIcon } from './Icon';
+import { styled } from '@mui/material/styles';
+
 import { useRouter } from 'next/router';
 const Navigation = () => {
   const router = useRouter();
   const [value, setValue] = useState('solve');
   return (
-    <BottomNavigation
+    <BottomNavigationList
       showLabels
       sx={{
         width: '100%',
@@ -15,7 +17,6 @@ const Navigation = () => {
         boxShadow: '0 0 0.15rem 0.15rem rgba(0,0,0,0.05)',
       }}
       value={value}
-      color="success"
       onChange={(event, newValue) => {
         setValue(newValue);
         router.replace(`/${newValue}`);
@@ -34,10 +35,25 @@ const Navigation = () => {
       <BottomNavigationAction
         label="생활기록부"
         value="mypage"
-        icon={<MypageIcon />}
+        icon={<MypageIcon sx={{ width: '20 imporatant!' }} />}
       />
-    </BottomNavigation>
+    </BottomNavigationList>
   );
 };
 
-export default Navigation;
+const BottomNavigationList = styled(BottomNavigation)`
+  font-size: 14px !important;
+  height: 83px;
+  background-color: #f1e8df;
+  .Mui-selected {
+    color: #015b30 !important;
+  }
+  .MuiSvgIcon-root {
+    width: 30px !important;
+    height: 30px !important;
+    margin-bottom: 6px;
+  }
+  .MuiBottomNavigationAction-label {
+    font-size: 12px !important;
+  }
+`;
