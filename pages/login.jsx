@@ -48,7 +48,7 @@ const LoginPage = () => {
         alert('사용자 정보가 유효하지 않습니다.');
       }
     } else {
-      alert('입력 폼에 맞게 입력해주세요.');
+      alert('아이디/비밀번호를 확인해주세요.');
     }
   };
 
@@ -193,7 +193,15 @@ const LoginPage = () => {
             onClick={handleLogin}
           />
           <Link href="/signup">
-            <Button sx={{ color: '#015B30', height: '56px' }} variant="text">
+            <Button
+              sx={{
+                color: '#015B30',
+                height: '56px',
+                fontSize: '16px',
+                fontWeight: 'bold',
+              }}
+              variant="text"
+            >
               회원가입
             </Button>
           </Link>
