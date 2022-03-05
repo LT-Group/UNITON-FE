@@ -1,13 +1,16 @@
+import { BloodtypeTwoTone } from '@mui/icons-material';
 import { Button } from '@mui/material';
 import PropTypes from 'prop-types';
 const ColorButton = ({
-  color,
-  bgColor,
-  hoverBgColor,
+  color = 'white',
+  bgColor = "#015B30",
+  hoverBgColor = "#015B30",
   text,
-  width,
-  height,
-  fontSize,
+  width = '100%',
+  height = 56,
+  fontSize = '12px',
+  borderRadius = '4px',
+  variant = 'contained',
   ...props,
 }) => {
   console.log(props);
@@ -20,11 +23,12 @@ const ColorButton = ({
         backgroundColor: bgColor,
         width: width,
         height: height,
+        borderRadius: borderRadius,
         '&:hover': {
           backgroundColor: hoverBgColor,
         },
+        variant:{variant}
       }}
-      variant="contained"
     >
       {text}
     </Button>
@@ -36,7 +40,6 @@ ColorButton.propTypes = {
   bgColor: PropTypes.string,
   hoverBgColor: PropTypes.string,
   hoverBgColor: PropTypes.text,
-
   width: PropTypes.number,
   height: PropTypes.number,
 };
