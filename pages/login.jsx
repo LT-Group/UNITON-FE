@@ -69,17 +69,13 @@ const LoginPage = () => {
     const rfExpireAt = new Date();
     rfExpireAt.setDate(rfExpireAt.getDate() + 8);
 
-    const user
+    localStorage.setItem('userName', inputData.id);
     setCookie('isLogin', true, {
       path: '/',
       ...COOKIE_OPTION,
       expires: rfExpireAt,
     });
-    setCookie('userName', true, {
-        path: '/',
-        ...COOKIE_OPTION,
-        expires: rfExpireAt,
-      });
+
     setCookie('accessToken', token.access, {
       path: '/',
       ...COOKIE_OPTION,

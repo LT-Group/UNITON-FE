@@ -59,6 +59,7 @@ const StyledStamp = styled.div`
 const myPage = () => {
   const handleSignUp = () => {};
   const onLogout = () => {
+    localStorage.removeItem('userName');
     removeCookie('accessToken');
     removeCookie('refreshToken');
     removeCookie('acexpireAt');

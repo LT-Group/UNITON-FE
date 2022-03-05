@@ -36,6 +36,7 @@ const MyApp = ({ Component, pageProps }) => {
       (!isLogin && isLoading !== true)
     ) {
       console.log('hi');
+      localStorage.removeItem('userName');
       removeCookie('accessToken');
       removeCookie('refreshToken');
       removeCookie('acexpireAt');
@@ -103,6 +104,7 @@ const MyApp = ({ Component, pageProps }) => {
         moment(acExpireAt).diff(moment()) < 0 &&
         moment(rfExpireAt).diff(moment()) < 0
       ) {
+        localStorage.removeItem('userName');
         removeCookie('accessToken');
         removeCookie('refreshToken');
         removeCookie('acexpireAt');

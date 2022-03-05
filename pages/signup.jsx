@@ -81,6 +81,8 @@ const SignUpPage = () => {
 
     const rfExpireAt = new Date();
     rfExpireAt.setDate(rfExpireAt.getDate() + 8);
+    localStorage.setItem('userName', inputData.id);
+
     setCookie('isLogin', true, {
       path: '/',
       ...COOKIE_OPTION,
@@ -326,8 +328,10 @@ const SignUpPage = () => {
       </div>
       <CustomModal
         isModalOpen={isModalOpen}
+        isBackClick={gotoHome}
         onClick={gotoHome}
         text="입학을 축하드립니다."
+        btnText="확인"
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       />
