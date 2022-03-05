@@ -16,6 +16,7 @@ import { Router } from 'next/router';
 import ColorButton from '../../src/components/common/ColorButton';
 import Container from '../../src/components/common/Container';
 import { removeCookie } from '../../token/TokenManager';
+import { common } from '../../styles';
 
 const userData = {
   username: '마춤뻐 파괘자', // 닉네임 (ID)
@@ -41,7 +42,8 @@ const StyledTableContainer = styled(TableContainer)({
 });
 
 const StyledTableCell = styled(TableCell)({
-  outline: '0.5px solid #443C22',
+  outline: '0.5px solid',
+  outlineColor: common.fontColor.main,
   textAlign: 'left',
 });
 
@@ -123,10 +125,10 @@ const myPage = (handleSignUp) => {
         </Link>
         <Link href="/signup">
           <ColorButton
-            color="#015B30"
+            color={common.colors.point}
             bgColor="none"
             hoverBgColor="#F8F0E9"
-            onClick={handleSignUp}
+            onClick={common.fontColor.caption}
             variant="contained"
             text="회원가입"
             variant="text"
