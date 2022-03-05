@@ -15,18 +15,85 @@ import {
 } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { postApi } from '../apis';
+import { setCookie, COOKIE_OPTION } from '../token/TokenManager';
+import moment from 'moment';
+import { useRouter } from 'next/router';
 const LoginPage = () => {
+  const router = useRouter();
   const [inputData, setInputData] = useState({
     id: '',
     password: '',
   });
-  const [isVisible, setIsVisible] = useState({ password: true });
+  const [isVisible, setIsVisible] = useState({ password: false });
   const handleChange = (e) => {
     console.log(e);
     setInputData({
       ...inputData,
       [e.target.id]: e.target.value,
     });
+  };
+  const handleLogin = async () => {
+    if (
+      inputData.id.length < 11 &&
+      inputData.id.length > 0 &&
+      inputData.password.length > 6
+    ) {
+      const isValid = await setToken();
+      if (isValid) {
+        // 쿠키 설정 완료
+        setCookie('isLoading', false);
+        router.replace('/');
+      } else {
+        alert('사용자 정보가 유효하지 않습니다.');
+      }
+    } else {
+      alert('입력 폼에 맞게 입력해주세요.');
+    }
+  };
+
+  const setToken = async () => {
+    // 토큰 발급 진행중
+    setCookie('isLoading', true);
+    const date = moment();
+    const token = await postApi.login({
+      username: inputData.id,
+      password: inputData.password,
+    });
+    if (token?.toString().includes('401')) {
+      return false;
+    }
+    const acexpireAt = new Date();
+    acexpireAt.setDate(acexpireAt.getDate() + 2);
+
+    const rfExpireAt = new Date();
+    rfExpireAt.setDate(rfExpireAt.getDate() + 8);
+    setCookie('isLogin', true, {
+      path: '/',
+      ...COOKIE_OPTION,
+      expires: rfExpireAt,
+    });
+    setCookie('accessToken', token.access, {
+      path: '/',
+      ...COOKIE_OPTION,
+      expires: acexpireAt,
+    });
+    setCookie('refreshToken', token.refresh, {
+      path: '/',
+      ...COOKIE_OPTION,
+      expires: rfExpireAt,
+    });
+    setCookie('acexpireAt', date.add(1, 'days').format('yyyy-MM-DD HH:mm:ss'), {
+      path: '/',
+      ...COOKIE_OPTION,
+      expires: acexpireAt,
+    });
+    setCookie('rfExpireAt', date.add(7, 'days').format('yyyy-MM-DD HH:mm:ss'), {
+      path: '/',
+      ...COOKIE_OPTION,
+      expires: rfExpireAt,
+    });
+    return true;
   };
 
   return (
@@ -115,7 +182,7 @@ const LoginPage = () => {
           }}
         >
           <ColorButton
-            fontSize="14px"
+            sx={{ fontSize: '16px', fontWeight: 'bold' }}
             color="white"
             bgColor={'#015B30'}
             hoverBgColor={'#015B30'}
@@ -123,6 +190,7 @@ const LoginPage = () => {
             width={'100%'}
             height={'56px'}
             text="로그인"
+            onClick={handleLogin}
           />
           <Link href="/signup">
             <Button sx={{ color: '#015B30', height: '56px' }} variant="text">

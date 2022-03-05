@@ -1,5 +1,6 @@
 import React from 'react';
 import { styled } from '@mui/material/styles';
+import { useRouter } from 'next/router';
 // components
 import { ColorButton, Container } from '../src/components/common';
 // mui
@@ -18,8 +19,14 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { useRecoilState } from 'recoil';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import { postApi } from '../apis';
+// moment
+import moment from 'moment';
+// cookie
+import { setCookie, COOKIE_OPTION } from '../token/TokenManager';
 
 const SignUpPage = () => {
+  const router = useRouter();
   const [inputData, setInputData] = useState({
     id: '',
     password: '',
@@ -31,30 +38,116 @@ const SignUpPage = () => {
   });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isFormatOkay, setIsFormatOkay] = useState({
-    id: true,
-    password: true,
+    id: null,
+    password: null,
   });
+  const handleSignUp = async () => {
+    if (isFormatOkay.id === null) {
+      alert('아이디 중복 검사를 해주세요');
+    } else if (
+      inputData.id.length < 11 &&
+      inputData.id.length > 0 &&
+      inputData.password.length > 6 &&
+      isFormatOkay.id &&
+      isFormatOkay.password
+    ) {
+      const result = await postApi.signup({
+        username: inputData.id,
+        password: inputData.password,
+      });
+      console.log(result);
+      if (!result?.toString().includes('400')) {
+        setToken();
+        // 쿠키 설정 완료
+        setCookie('isLoading', false);
+        setIsModalOpen(true);
+      } else {
+        alert('회원가입에 실패했습니다.');
+      }
+    } else {
+      alert('아이디/비밀번호를 다시 확인해주세요.');
+    }
+  };
+
+  const setToken = async () => {
+    // 토큰 발급 진행중
+    setCookie('isLoading', true);
+    const date = moment();
+    const token = await postApi.login({
+      username: inputData.id,
+      password: inputData.password,
+    });
+    const acexpireAt = new Date();
+    acexpireAt.setDate(acexpireAt.getDate() + 2);
+
+    const rfExpireAt = new Date();
+    rfExpireAt.setDate(rfExpireAt.getDate() + 8);
+    setCookie('isLogin', true, {
+      path: '/',
+      ...COOKIE_OPTION,
+      expires: rfExpireAt,
+    });
+    setCookie('accessToken', token.access, {
+      path: '/',
+      ...COOKIE_OPTION,
+      expires: acexpireAt,
+    });
+    setCookie('refreshToken', token.refresh, {
+      path: '/',
+      ...COOKIE_OPTION,
+      expires: rfExpireAt,
+    });
+    setCookie('acexpireAt', date.add(1, 'days').format('yyyy-MM-DD HH:mm:ss'), {
+      path: '/',
+      ...COOKIE_OPTION,
+      expires: acexpireAt,
+    });
+    setCookie('rfExpireAt', date.add(7, 'days').format('yyyy-MM-DD HH:mm:ss'), {
+      path: '/',
+      ...COOKIE_OPTION,
+      expires: rfExpireAt,
+    });
+  };
+
+  const handleCheckID = async () => {
+    const { result } = await postApi.checkID({ username: inputData.id });
+    if (result) {
+      setIsFormatOkay({ ...isFormatOkay, id: true });
+    } else {
+      setIsFormatOkay({ ...isFormatOkay, id: true });
+    }
+  };
 
   const handleChange = (e) => {
-    console.log(e);
     setInputData({
       ...inputData,
       [e.target.id]: e.target.value,
     });
+    console.log(e);
+    if (e.target.id === 'password_check') {
+      e.target.value.length > 0 && e.target.value !== inputData.password
+        ? setIsFormatOkay({ ...isFormatOkay, password: false })
+        : setIsFormatOkay({ ...isFormatOkay, password: true });
+    }
   };
   useEffect(() => {
     console.log(inputData);
   }, [inputData]);
 
+  const gotoHome = () => {
+    setIsModalOpen(false);
+    router.replace('/');
+  };
+
   const boxStyle = {
     position: 'absolute',
     top: '50%',
+    width: '90%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 400,
     bgcolor: '#F8F0E9',
     borderRadius: '2px',
-    padding: '10px',
+    padding: '23px 25px',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -65,7 +158,7 @@ const SignUpPage = () => {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    width: '90%',
+    width: '100%',
     height: 197,
     marginBottom: '20px',
     bgcolor: 'white',
@@ -75,15 +168,28 @@ const SignUpPage = () => {
     <Container bgColor={'#F8F0E9'}>
       <div style={{ display: 'flex', width: '100%', flexDirection: 'column' }}>
         <div style={{ marginBottom: '60px' }}>
-          <Typography sx={{ fontSize: '28px' }} fontWeight="600">
+          <Typography sx={{ fontSize: '28px' }} fontWeight="bold">
             마춤뻡에서 살아남기
-          </Typography>
-          <Typography sx={{ fontSize: '28px' }} fontWeight="600">
+            <br />
             입학
           </Typography>
         </div>
         <div style={{ width: '100%' }}>
           <TextField
+            error={
+              isFormatOkay.id || isFormatOkay.id === null
+                ? inputData.id.length > 8
+                  ? true
+                  : false
+                : true
+            }
+            helperText={
+              isFormatOkay.id || isFormatOkay.id === null
+                ? inputData.id.length > 8
+                  ? '8자 이내로 입력해주세요'
+                  : ''
+                : '*중복된 아이디입니다.'
+            }
             sx={{ width: '100%' }}
             id="id"
             InputProps={{
@@ -91,41 +197,50 @@ const SignUpPage = () => {
                 input: cssstyle.resize,
               },
             }}
-            placeholder="아이디(10자 이내)"
+            placeholder="아이디 (8자 이내)"
             type="string"
             autoComplete="current-id"
             onChange={handleChange}
             variant="standard"
             InputLabelProps={{ shrink: false }}
             InputProps={{
-              style: { fontSize: 14, paddingBottom: '15px' },
+              style: { fontSize: 14, paddingBottom: '20px' },
             }}
           />
           <ColorButton
             color="white"
             bgColor="#015B30"
             hoverBgColor="#015B30"
-            onClick={() => setIsModalOpen(true)}
+            onClick={handleCheckID}
             variant="contained"
             width={'80px'}
-            sx={{ position: 'absolute', fontSize: 12, right: 24 }}
+            fontSize={12}
+            sx={{ position: 'absolute', right: 24 }}
             height={'30px'}
             text="중복 확인"
           />
         </div>
         <TextField
           id="password"
-          error={isFormatOkay.id ? false : true}
-          helperText={isFormatOkay.id ? '' : '*중복된 아이디입니다.'}
           sx={{ marginTop: '24px' }}
-          placeholder="비밀번호 6자리 이상"
+          placeholder="비밀번호 (6자 이상)"
+          error={
+            inputData.password.length < 6 && inputData.password.length > 0
+              ? true
+              : false
+          }
+          helperText={
+            inputData.password.length < 6 && inputData.password.length > 0
+              ? '6자 이상 입력해주세요.'
+              : ''
+          }
           type={isVisible.password ? 'text' : 'password'}
           autoComplete="current-password"
           variant="standard"
           onChange={handleChange}
           InputLabelProps={{ shrink: false }}
           InputProps={{
-            style: { fontSize: 14, paddingBottom: '15px' },
+            style: { fontSize: 14, paddingBottom: '20px' },
             // <-- This is where the toggle button is added.
             endAdornment: (
               <InputAdornment position="end">
@@ -156,18 +271,24 @@ const SignUpPage = () => {
         />
         <TextField
           id="password_check"
-          error={isFormatOkay.password ? false : true}
+          error={
+            isFormatOkay.password || isFormatOkay.password === null
+              ? false
+              : true
+          }
           helperText={
-            isFormatOkay.password ? '' : '*비밀번호가 일치하지 않습니다.'
+            isFormatOkay.password || isFormatOkay.password === null
+              ? ''
+              : '*비밀번호가 일치하지 않습니다.'
           }
           sx={{ marginTop: '24px' }}
-          placeholder="비밀번호 재입력"
+          placeholder="비밀번호 재입력 (6자 이상)"
           type={isVisible.password_check ? 'text' : 'password'}
           variant="standard"
           onChange={handleChange}
           InputLabelProps={{ shrink: false }}
           InputProps={{
-            style: { fontSize: 14, paddingBottom: '15px' },
+            style: { fontSize: 14, paddingBottom: '20px' },
             // <-- This is where the toggle button is added.
             endAdornment: (
               <InputAdornment position="end">
@@ -208,17 +329,23 @@ const SignUpPage = () => {
           }}
         >
           <ColorButton
+            sx={{ fontSize: '16px', fontWeight: 'bold' }}
             color="white"
             bgColor="#015B30"
             hoverBgColor="#015B30"
-            onClick={() => setIsModalOpen(true)}
+            onClick={handleSignUp}
             variant="contained"
             width={'100%'}
             height={'56px'}
             text="회원가입"
           />
           <Button
-            sx={{ color: '#E5E5E5', height: '56px', fontWeight: 'bold' }}
+            sx={{
+              color: '#E5E5E5',
+              height: '56px',
+              fontWeight: 'bold',
+              fontSize: '16px',
+            }}
             variant="text"
           >
             다음에 하기
@@ -227,7 +354,7 @@ const SignUpPage = () => {
       </div>
       <Modal
         open={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        onClose={gotoHome}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -238,13 +365,15 @@ const SignUpPage = () => {
             </Typography>
           </Box>
           <ColorButton
-            onClick={() => setIsModalOpen(false)}
+            onClick={gotoHome}
             color={'white'}
-            bgColor={'green'}
-            hoverBgColor="green"
+            bgColor="#015B30"
+            hoverBgColor="#015B30"
             sx={{
               height: '40px',
               width: '90%',
+              fontSize: '16px',
+              fontWeight: 'bold',
             }}
             variant="contained"
             width={'100%'}
@@ -261,6 +390,6 @@ export default SignUpPage;
 
 const cssstyle = `
 .MuiFormHelperText-root{
-  margin-top:-1.2rem;
+  margin-top:-1.35rem;
 }
 `;
