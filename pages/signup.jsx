@@ -144,7 +144,10 @@ const SignUpPage = () => {
     <Container bgColor={'#F8F0E9'}>
       <div style={{ display: 'flex', width: '100%', flexDirection: 'column' }}>
         <div style={{ marginBottom: '60px' }}>
-          <Typography sx={{ fontSize: '28px' }} fontWeight="bold">
+          <Typography
+            sx={{ fontSize: '28px', lineHeight: '33.6px' }}
+            fontWeight="bold"
+          >
             마춤뻡에서 살아남기
             <br />
             입학
@@ -329,9 +332,9 @@ const SignUpPage = () => {
       <CustomModal
         isModalOpen={isModalOpen}
         isBackClick={gotoHome}
+        image={'/image/main/signup-image.png'}
         onClick={gotoHome}
-        text="입학을 축하드립니다."
-        btnText="확인"
+        btnText="네네 선생님"
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       />
