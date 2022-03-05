@@ -29,8 +29,8 @@ const CustomModal = ({ text, btnText, onClick, isModalOpen, isBackClick }) => {
   };
   return (
     <Modal
-      open={isBackClick}
-      onClose={onClick}
+      open={isModalOpen}
+      onClose={isBackClick}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
