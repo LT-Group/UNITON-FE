@@ -1,11 +1,11 @@
 import React from 'react';
 import Image from 'next/image';
 import { Box, Divider, Input, List, ListItem } from '@mui/material';
-import { ProblomsState } from '../../../store/atoms';
+import { ProblemsState } from '../../../store/atoms';
 import { useRecoilState } from 'recoil';
 
 const TestList = () => {
-  const [problems, setProblems] = useRecoilState(ProblomsState);
+  const [problems, setProblems] = useRecoilState(ProblemsState);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
