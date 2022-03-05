@@ -1,5 +1,6 @@
 import React from 'react';
 import { styled } from '@mui/material/styles';
+import { useRouter } from 'next/router';
 // components
 import { ColorButton, Container } from '../src/components/common';
 // mui
@@ -18,8 +19,14 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { useRecoilState } from 'recoil';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import { postApi } from '../apis';
+// moment
+import moment from 'moment';
+// cookie
+import { setCookie, COOKIE_OPTION } from '../token/TokenManager';
 
 const SignUpPage = () => {
+  const router = useRouter();
   const [inputData, setInputData] = useState({
     id: '',
     password: '',
@@ -31,30 +38,112 @@ const SignUpPage = () => {
   });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isFormatOkay, setIsFormatOkay] = useState({
-    id: true,
-    password: true,
+    id: null,
+    password: null,
   });
+  const handleSignUp = async () => {
+    if (isFormatOkay.id === null) {
+      alert('아이디 중복 검사를 해주세요');
+    } else if (
+      inputData.id.length < 11 &&
+      inputData.id.length > 0 &&
+      inputData.password.length > 6 &&
+      isFormatOkay.id &&
+      isFormatOkay.password
+    ) {
+      const result = await postApi.signup({
+        username: inputData.id,
+        password: inputData.password,
+      });
+      console.log(result);
+      if (!result?.toString().includes('400')) {
+        setToken();
+        // 쿠키 설정 완료
+        setCookie('isLoading', false);
+        setIsModalOpen(true);
+      } else {
+        alert('회원가입에 실패했습니다.');
+      }
+    } else {
+      alert('입력 폼에 맞게 입력해주세요.');
+    }
+  };
+
+  const setToken = async () => {
+    // 토큰 발급 진행중
+    setCookie('isLoading', true);
+    const date = moment();
+    const token = await postApi.login({
+      username: inputData.id,
+      password: inputData.password,
+    });
+    const acexpireAt = new Date();
+    acexpireAt.setDate(acexpireAt.getDate() + 2);
+
+    const rfExpireAt = new Date();
+    rfExpireAt.setDate(rfExpireAt.getDate() + 8);
+
+    setCookie('accessToken', token.access, {
+      path: '/',
+      ...COOKIE_OPTION,
+      expires: acexpireAt,
+    });
+    setCookie('refreshToken', token.refresh, {
+      path: '/',
+      ...COOKIE_OPTION,
+      expires: rfExpireAt,
+    });
+    setCookie('acexpireAt', date.add(1, 'days').format('yyyy-MM-DD HH:mm:ss'), {
+      path: '/',
+      ...COOKIE_OPTION,
+      expires: acexpireAt,
+    });
+    setCookie('rfExpireAt', date.add(7, 'days').format('yyyy-MM-DD HH:mm:ss'), {
+      path: '/',
+      ...COOKIE_OPTION,
+      expires: rfExpireAt,
+    });
+  };
+
+  const handleCheckID = async () => {
+    const { result } = await postApi.checkID({ username: inputData.id });
+    if (result) {
+      setIsFormatOkay({ ...isFormatOkay, id: true });
+    } else {
+      setIsFormatOkay({ ...isFormatOkay, id: false });
+    }
+  };
 
   const handleChange = (e) => {
-    console.log(e);
     setInputData({
       ...inputData,
       [e.target.id]: e.target.value,
     });
+    console.log(e);
+    if (e.target.id === 'password_check') {
+      e.target.value.length > 0 && e.target.value !== inputData.password
+        ? setIsFormatOkay({ ...isFormatOkay, password: false })
+        : setIsFormatOkay({ ...isFormatOkay, password: true });
+    }
   };
   useEffect(() => {
     console.log(inputData);
   }, [inputData]);
 
+  const gotoHome = () => {
+    setIsModalOpen(false);
+    router.replace('/');
+  };
+
   const boxStyle = {
     position: 'absolute',
     top: '50%',
+    width: '90%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 400,
     bgcolor: '#F8F0E9',
     borderRadius: '2px',
-    padding: '10px',
+    padding: '23px 25px',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -65,7 +154,7 @@ const SignUpPage = () => {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    width: '90%',
+    width: '100%',
     height: 197,
     marginBottom: '20px',
     bgcolor: 'white',
@@ -84,6 +173,12 @@ const SignUpPage = () => {
         </div>
         <div style={{ width: '100%' }}>
           <TextField
+            error={isFormatOkay.id || isFormatOkay.id === null ? false : true}
+            helperText={
+              isFormatOkay.id || isFormatOkay.id === null
+                ? ''
+                : '*중복된 아이디입니다.'
+            }
             sx={{ width: '100%' }}
             id="id"
             InputProps={{
@@ -105,7 +200,7 @@ const SignUpPage = () => {
             color="white"
             bgColor="#015B30"
             hoverBgColor="#015B30"
-            onClick={() => setIsModalOpen(true)}
+            onClick={handleCheckID}
             variant="contained"
             width={'80px'}
             sx={{ position: 'absolute', fontSize: 12, right: 24 }}
@@ -115,8 +210,6 @@ const SignUpPage = () => {
         </div>
         <TextField
           id="password"
-          error={isFormatOkay.id ? false : true}
-          helperText={isFormatOkay.id ? '' : '*중복된 아이디입니다.'}
           sx={{ marginTop: '24px' }}
           placeholder="비밀번호 6자리 이상"
           type={isVisible.password ? 'text' : 'password'}
@@ -156,9 +249,15 @@ const SignUpPage = () => {
         />
         <TextField
           id="password_check"
-          error={isFormatOkay.password ? false : true}
+          error={
+            isFormatOkay.password || isFormatOkay.password === null
+              ? false
+              : true
+          }
           helperText={
-            isFormatOkay.password ? '' : '*비밀번호가 일치하지 않습니다.'
+            isFormatOkay.password || isFormatOkay.password === null
+              ? ''
+              : '*비밀번호가 일치하지 않습니다.'
           }
           sx={{ marginTop: '24px' }}
           placeholder="비밀번호 재입력"
@@ -211,7 +310,7 @@ const SignUpPage = () => {
             color="white"
             bgColor="#015B30"
             hoverBgColor="#015B30"
-            onClick={() => setIsModalOpen(true)}
+            onClick={handleSignUp}
             variant="contained"
             width={'100%'}
             height={'56px'}
@@ -227,7 +326,7 @@ const SignUpPage = () => {
       </div>
       <Modal
         open={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        onClose={gotoHome}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -238,10 +337,10 @@ const SignUpPage = () => {
             </Typography>
           </Box>
           <ColorButton
-            onClick={() => setIsModalOpen(false)}
+            onClick={gotoHome}
             color={'white'}
-            bgColor={'green'}
-            hoverBgColor="green"
+            bgColor="#015B30"
+            hoverBgColor="#015B30"
             sx={{
               height: '40px',
               width: '90%',
