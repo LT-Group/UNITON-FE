@@ -9,6 +9,7 @@ import moment from 'moment';
 import axios from 'axios';
 // router
 import router from 'next/router';
+import { postApi } from '../apis';
 // token
 import {
   getCookie,
