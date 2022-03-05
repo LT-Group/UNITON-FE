@@ -28,11 +28,13 @@ const MyApp = ({ Component, pageProps }) => {
     const isLogin = getCookie('isLogin');
     console.log(isLoading);
     console.log(isLogin);
+    console.log(accessToken);
     // 토큰이 없는 경우, 로그아웃
     if (
-      (accessToken === 'undefined' || accessToken === undefined) &&
-      isLoading !== true
+      (accessToken === undefined && isLoading !== true) ||
+      (!isLogin && isLoading !== true)
     ) {
+      console.log('hi');
       removeCookie('accessToken');
       removeCookie('refreshToken');
       removeCookie('acexpireAt');
@@ -122,7 +124,7 @@ const MyApp = ({ Component, pageProps }) => {
       !config.url.includes('checkid')
     )
       config.headers.Authorization = `JWT ${token}`;
-    // console.log(config);
+    console.log(config);
     //console.log(token);
     return config;
   });
