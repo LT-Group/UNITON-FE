@@ -1,12 +1,14 @@
 import Image from 'next/image';
 import { Box, Button } from '@mui/material';
 import { Typography } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Navigation from '../src/components/common/Navigation';
-import { Container } from '../src/components/common';
+import { Container, CustomModal } from '../src/components/common';
 import styled from '@emotion/styled';
-import { setCookie } from '../token/TokenManager';
+import { setCookie, getCookie } from '../token/TokenManager';
 import Link from 'next/link';
+import { getApi } from '../apis';
+import { useRouter } from 'next/router';
 
 const StyledTypo = styled.div`
   margin-bottom: 16px;
@@ -26,7 +28,24 @@ const MainButton = styled(Button)({
   },
 });
 const Home = () => {
+  const router = useRouter();
   const [count, setCount] = useState(350);
+  const isLogin = getCookie('isLogin');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [userID, setUserID] = useState(-1);
+  useEffect(async () => {
+    const userName = await localStorage.getItem('userName');
+    console.log(userName);
+    const { user_id } = await getApi.getUserID(userName);
+    setUserID(user_id);
+  }, []);
+  const handleGoTest = () => {
+    setIsModalOpen(false);
+    router.replace(`/write/${userID}`);
+  };
+
+  console.log(isLogin);
   return (
     <Container>
       <div style={{ width: '100%', alignItems: 'flex-start' }}>
@@ -40,7 +59,7 @@ const Home = () => {
           </b>
         </Typography>
       </div>
-      {setCookie.isLogin ? (
+      {isLogin ? (
         <StyledTypo>
           <Typography variant="h5" align="left">
             이 상태라면
@@ -75,12 +94,10 @@ const Home = () => {
         component="div"
         sx={{ display: 'flex', flexDirection: 'row', position: 'relative' }}
       >
-        {setCookie.isLogin ? (
-          <Link href="/login" passHref>
-            <MainButton>
-              <Typography variant="button">시험보기</Typography>
-            </MainButton>
-          </Link>
+        {isLogin ? (
+          <MainButton onClick={() => setIsModalOpen(true)}>
+            <Typography variant="button">시험보기</Typography>
+          </MainButton>
         ) : (
           <Link href="/login" passHref>
             <MainButton>
@@ -97,6 +114,16 @@ const Home = () => {
         />
       </Box>
       <Navigation />
+
+      <CustomModal
+        isModalOpen={isModalOpen}
+        onClick={handleGoTest}
+        isBackClick={() => isModalOpen(false)}
+        text="시험 볼 준비 됐나요?"
+        btnText="네네 선생님!"
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      />
     </Container>
   );
 };

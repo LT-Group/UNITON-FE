@@ -3,7 +3,6 @@ import React, { useEffect } from 'react';
 import { CssBaseline } from '@mui/material';
 import Head from 'next/head';
 import { RecoilRoot } from 'recoil';
-import { postApi } from '../apis';
 // moment
 import moment from 'moment';
 // axios
@@ -18,7 +17,6 @@ import {
   removeCookie,
   COOKIE_OPTION,
 } from '../token/TokenManager';
-import { postApi } from '../apis';
 
 const MyApp = ({ Component, pageProps }) => {
   useEffect(() => {
@@ -28,14 +26,18 @@ const MyApp = ({ Component, pageProps }) => {
       const acExpireAt = getCookie('acexpireAt');
       const rfExpireAt = getCookie('rfExpireAt');
       const isLoading = getCookie('isLoading');
+
       const isLogin = getCookie('isLogin');
       console.log(isLoading);
       console.log(isLogin);
+      console.log(accessToken);
       // 토큰이 없는 경우, 로그아웃
       if (
-        (accessToken === 'undefined' || accessToken === undefined) &&
-        isLoading !== true
+        (accessToken === undefined && isLoading !== true) ||
+        (!isLogin && isLoading !== true)
       ) {
+        console.log('hi');
+        localStorage.removeItem('userName');
         removeCookie('accessToken');
         removeCookie('refreshToken');
         removeCookie('acexpireAt');
@@ -103,6 +105,7 @@ const MyApp = ({ Component, pageProps }) => {
           moment(acExpireAt).diff(moment()) < 0 &&
           moment(rfExpireAt).diff(moment()) < 0
         ) {
+          localStorage.removeItem('userName');
           removeCookie('accessToken');
           removeCookie('refreshToken');
           removeCookie('acexpireAt');
@@ -114,7 +117,7 @@ const MyApp = ({ Component, pageProps }) => {
       }
     };
     fetchData();
-  }, []);
+  });
 
   // Add a request interceptor
   axios.interceptors.request.use(function (config) {

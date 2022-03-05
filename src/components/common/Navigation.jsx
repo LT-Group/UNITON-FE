@@ -24,7 +24,7 @@ const Navigation = () => {
     >
       <BottomNavigationAction
         label="문제풀기"
-        value="solve"
+        value="write"
         icon={<SolveIcon />}
       />
       <BottomNavigationAction
