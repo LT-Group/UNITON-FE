@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import Navigation from '../src/components/common/Navigation';
 import { Container, CustomModal, ColorButton } from '../src/components/common';
 import styled from '@emotion/styled';
-import { setCookie, getCookie } from '../token/TokenManager';
+import { getCookie } from '../token/TokenManager';
 import Link from 'next/link';
 import { getApi } from '../apis';
 import { useRouter } from 'next/router';
@@ -16,19 +16,6 @@ const StyledTypo = styled.div`
   margin-bottom: 16px;
 `;
 
-const MainButton = styled(Button)({
-  variant: 'contained',
-  color: 'success',
-  sx: {
-    display: 'inline',
-    position: 'absolute',
-    'z-index': 1,
-    cursor: 'pointer',
-    transform: 'translate(28px, 320px)',
-    width: 264,
-    height: 40,
-  },
-});
 const Home = () => {
   const router = useRouter();
   const [count, setCount] = useState(350);
