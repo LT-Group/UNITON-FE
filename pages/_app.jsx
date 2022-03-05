@@ -49,7 +49,7 @@ const MyApp = ({ Component, pageProps }) => {
           router.router.asPath !== '/login' &&
           router.router.asPath !== '/signup'
         )
-          router.replace('/login');
+          router.replace('/');
       } else if (isLogin) {
         // accessToken 만료, refreshToken 유효 -> refreshToken으로 token 재발급
         if (
@@ -112,7 +112,7 @@ const MyApp = ({ Component, pageProps }) => {
           removeCookie('rfExpireAt');
           removeCookie('isLoading');
           removeCookie('isLogin');
-          router.push('/login');
+          router.push('/');
         }
       }
     };
