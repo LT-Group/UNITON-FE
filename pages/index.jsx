@@ -9,6 +9,8 @@ import { setCookie, getCookie } from '../token/TokenManager';
 import Link from 'next/link';
 import { getApi } from '../apis';
 import { useRouter } from 'next/router';
+import { useRecoilState } from 'recoil';
+import { userTestStart } from '../stores/write';
 
 const StyledTypo = styled.div`
   margin-bottom: 16px;
@@ -31,7 +33,7 @@ const Home = () => {
   const router = useRouter();
   const [count, setCount] = useState(350);
   const isLogin = getCookie('isLogin');
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useRecoilState(userTestStart);
 
   const [userID, setUserID] = useState(-1);
   useEffect(async () => {
