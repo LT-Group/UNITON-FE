@@ -56,7 +56,8 @@ const StyledStamp = styled.div`
   margin: 8px;
 `;
 
-const myPage = (handleSignUp) => {
+const myPage = () => {
+  const handleSignUp = () => {};
   const onLogout = () => {
     removeCookie('accessToken');
     removeCookie('refreshToken');
@@ -83,7 +84,12 @@ const myPage = (handleSignUp) => {
             <TableBody>
               <TableRow>
                 <StyledTableCell align="left">
-                  <Image src="/image/profile.png" height="96" width="80" />
+                  <Image
+                    src="/image/profile.png"
+                    alt="profile"
+                    height="96"
+                    width="80"
+                  />
                 </StyledTableCell>
                 <StyledTableCell align="right">
                   로그인이 필요합니다.
@@ -94,15 +100,30 @@ const myPage = (handleSignUp) => {
                 <StyledTableCell align="right">
                   <StyledStampContainer>
                     <StyledStamp>
-                      <Image src="/stamp/Good.svg" height="56" width="56" />
+                      <Image
+                        src="/stamp/Good.svg"
+                        alt="stamp"
+                        height="56"
+                        width="56"
+                      />
                       <Typography>0번</Typography>
                     </StyledStamp>
                     <StyledStamp>
-                      <Image src="/stamp/Soso.svg" height="56" width="56" />
+                      <Image
+                        src="/stamp/Soso.svg"
+                        alt="stamp"
+                        height="56"
+                        width="56"
+                      />
                       <Typography>0번</Typography>
                     </StyledStamp>
                     <StyledStamp>
-                      <Image src="/stamp/Bad.svg" height="56" width="56" />
+                      <Image
+                        src="/stamp/Bad.svg"
+                        alt="stamp"
+                        height="56"
+                        width="56"
+                      />
                       <Typography>0번</Typography>
                     </StyledStamp>
                   </StyledStampContainer>
@@ -118,10 +139,10 @@ const myPage = (handleSignUp) => {
           </Table>
         </StyledTableContainer>
 
-        <Link href="/login">
+        <Link href="/login" passHref>
           <ColorButton text="로그인"></ColorButton>
         </Link>
-        <Link href="/signup">
+        <Link href="/signup" passHref>
           <ColorButton
             color="#015B30"
             bgColor="none"
@@ -129,7 +150,6 @@ const myPage = (handleSignUp) => {
             onClick={handleSignUp}
             variant="contained"
             text="회원가입"
-            variant="text"
           />
         </Link>
       </MyPageContainer>

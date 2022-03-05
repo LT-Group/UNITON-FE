@@ -17,6 +17,7 @@
     "axios": "^0.26.0",
     "dotenv": "^16.0.0",
     "dotenv-webpack": "^7.1.0",
+    "eslint-plugin-prettier": "^4.0.0",
     "moment": "^2.29.1",
     "next": "12.1.0",
     "prop-types": "^15.8.1",

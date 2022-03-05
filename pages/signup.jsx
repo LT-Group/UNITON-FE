@@ -170,6 +170,7 @@ const SignUpPage = () => {
               classes: {
                 input: cssstyle.resize,
               },
+              style: { fontSize: 14, paddingBottom: '20px' },
             }}
             placeholder="아이디 (8자 이내)"
             type="string"
@@ -177,9 +178,6 @@ const SignUpPage = () => {
             onChange={handleChange}
             variant="standard"
             InputLabelProps={{ shrink: false }}
-            InputProps={{
-              style: { fontSize: 14, paddingBottom: '20px' },
-            }}
           />
           <ColorButton
             color="white"

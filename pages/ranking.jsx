@@ -34,18 +34,53 @@ const LoginPage = () => {
             flexDirection: 'column',
           }}
         >
-          {datas.length > 0 &&
-            datas.map((data, idx) => {
-              return (
-                <Box isEven={idx % 2 == 0} isLast={datas.length - 1 === idx}>
-                  <NumberBox>{data.rank}</NumberBox>
-                  <ContentsBox>
-                    <Sentence>{data.question}</Sentence>
-                    <Percentage>{data.wrong_answer_rate}%</Percentage>
-                  </ContentsBox>
-                </Box>
-              );
-            })}
+          {datas.map((data, idx) => {
+            return (
+              <Box
+                key={idx}
+                isEven={idx % 2 == 0}
+                isLast={datas.length - 1 === idx}
+              >
+                <div
+                  style={{
+                    fontSize: '16px',
+                    height: '64px',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    fontWeight: 'bold',
+                    width: '44px',
+                    borderRight: '1px solid #c4c4c4',
+                  }}
+                >
+                  {data.rank}
+                </div>
+                <div
+                  style={{
+                    width: 'calc(100% - 44px)',
+                    padding: '16px',
+                    display: 'flex',
+                    fontSize: '22px',
+                    justifyContent: 'space-between',
+                  }}
+                >
+                  <div style={{ fontFamily: 'Middleschool_student' }}>
+                    {data.setence}
+                  </div>
+                  <div
+                    style={{
+                      fontWeight: '700',
+                      fontSize: '14px',
+                      color: '#C02C3D',
+                    }}
+                  >
+                    {' '}
+                    {data.percentage}
+                  </div>
+                </div>
+              </Box>
+            );
+          })}
         </div>
       </div>
       <Navigation />
