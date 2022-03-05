@@ -2,7 +2,7 @@ import React from 'react';
 import { styled } from '@mui/material/styles';
 import { useRouter } from 'next/router';
 // components
-import { ColorButton, Container } from '../src/components/common';
+import { ColorButton, Container, CustomModal } from '../src/components/common';
 // mui
 import {
   TextField,
@@ -11,7 +11,6 @@ import {
   InputAdornment,
   IconButton,
   Box,
-  Modal,
 } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
@@ -137,31 +136,6 @@ const SignUpPage = () => {
   const gotoHome = () => {
     setIsModalOpen(false);
     router.replace('/');
-  };
-
-  const boxStyle = {
-    position: 'absolute',
-    top: '50%',
-    width: '90%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    bgcolor: '#F8F0E9',
-    borderRadius: '2px',
-    padding: '23px 25px',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-  };
-
-  const innerBoxStyle = {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '100%',
-    height: 197,
-    marginBottom: '20px',
-    bgcolor: 'white',
   };
 
   return (
@@ -352,36 +326,13 @@ const SignUpPage = () => {
           </Button>
         </div>
       </div>
-      <Modal
-        open={isModalOpen}
-        onClose={gotoHome}
+      <CustomModal
+        isModalOpen={isModalOpen}
+        onClick={gotoHome}
+        text="입학을 축하드립니다."
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
-      >
-        <Box sx={boxStyle}>
-          <Box sx={innerBoxStyle}>
-            <Typography id="modal-modal-title" variant="h6" component="h2">
-              입학을 축하드립니다.
-            </Typography>
-          </Box>
-          <ColorButton
-            onClick={gotoHome}
-            color={'white'}
-            bgColor="#015B30"
-            hoverBgColor="#015B30"
-            sx={{
-              height: '40px',
-              width: '90%',
-              fontSize: '16px',
-              fontWeight: 'bold',
-            }}
-            variant="contained"
-            width={'100%'}
-            height={'56px'}
-            text="확인"
-          />
-        </Box>
-      </Modal>
+      />
     </Container>
   );
 };

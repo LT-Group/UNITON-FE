@@ -32,7 +32,6 @@ const ColorButton = ({
   );
 };
 ColorButton.propTypes = {
-  //객체를 가진 배열을 proptype로 받음
   color: PropTypes.string,
   bgColor: PropTypes.string,
   hoverBgColor: PropTypes.string,
