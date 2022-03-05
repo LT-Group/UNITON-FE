@@ -3,20 +3,20 @@ import { Button } from '@mui/material';
 import PropTypes from 'prop-types';
 const ColorButton = ({
   color = 'white',
-  bgColor = "#015B30",
-  hoverBgColor = "#015B30",
+  bgColor = '#015B30',
+  hoverBgColor = '#015B30',
   text,
   width = '100%',
   height = 56,
   fontSize = '12px',
   borderRadius = '4px',
   variant = 'contained',
-  ...props,
+  ...props
 }) => {
   console.log(props);
   return (
     <Button
-    onClick={props.onClick?props.onClick:()=>{}}
+      onClick={props.onClick ? props.onClick : () => {}}
       sx={{
         ...props.sx,
         color: color,
@@ -27,7 +27,7 @@ const ColorButton = ({
         '&:hover': {
           backgroundColor: hoverBgColor,
         },
-        variant:{variant}
+        variant: { variant },
       }}
     >
       {text}
@@ -44,4 +44,3 @@ ColorButton.propTypes = {
   fontSize: PropTypes.number,
 };
 export default ColorButton;
-

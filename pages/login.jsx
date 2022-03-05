@@ -135,12 +135,6 @@ const LoginPage = () => {
           <TextField
             sx={{ marginTop: '24px', color: '#A9A69E', borderColor: '#A9A69E' }}
             id="password"
-            InputProps={{
-              style: {
-                fontSize: 14,
-                paddingBottom: '20px',
-              },
-            }}
             placeholder="비밀번호를 입력해주세요."
             type={isVisible.password ? 'text' : 'password'}
             autoComplete="current-password"
@@ -199,7 +193,7 @@ const LoginPage = () => {
             text="로그인"
             onClick={handleLogin}
           />
-          <Link href="/signup">
+          <Link href="/signup" passHref>
             <Button
               sx={{
                 color: '#015B30',

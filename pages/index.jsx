@@ -87,21 +87,24 @@ const Home = () => {
         sx={{ display: 'flex', flexDirection: 'row', position: 'relative' }}
       >
         {isLogin ? (
-          <Link href="/login">
+          <Link href="/login" passHref>
             <MainButton>
               <Typography variant="button">시험보기</Typography>
             </MainButton>
           </Link>
         ) : (
-          <MainButton>
-            <Typography variant="button">시작하기</Typography>
-          </MainButton>
+          <Link href="/login" passHref>
+            <MainButton>
+              <Typography variant="button">시작하기</Typography>
+            </MainButton>
+          </Link>
         )}
         <Image
           src={setCookie.isLogin ? 'image/main_text.png' : '/image/main.png'}
           alt={setCookie.isLogin ? '철수와 영희 이미지' : '시험지 이미지'}
           width={320}
           height={424}
+          passHref
         />
       </Box>
       <Navigation />
