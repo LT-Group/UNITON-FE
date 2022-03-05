@@ -34,6 +34,7 @@ const WritePage = () => {
   }, [isModalOpen, audio]);
 
   const toggle = () => setPlaying(!playing);
+  const removeToggle = () => setPlaying(false);
 
   useEffect(() => {
     if (audio) {
@@ -57,6 +58,7 @@ const WritePage = () => {
         onToggle={toggle}
         isPlay={playing}
         paperId={paperId}
+        removeToggle={removeToggle}
       />
     </Container>
   );

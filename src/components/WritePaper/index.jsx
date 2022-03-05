@@ -9,7 +9,7 @@ import axios from 'axios';
 import next from 'next';
 import { UserInfo } from '../../../stores/userInfo';
 
-const WritePaper = ({ isButton, onToggle, isPlay, paperId }) => {
+const WritePaper = ({ isButton, onToggle, isPlay, paperId, removeToggle }) => {
   const router = useRouter();
   const [problems, setProblems] = useRecoilState(ProblemsState);
 
@@ -27,7 +27,7 @@ const WritePaper = ({ isButton, onToggle, isPlay, paperId }) => {
     };
 
     try {
-      onToggle();
+      removeToggle();
 
       const { data } = await axios({
         baseURL: API_DOMAIN,
