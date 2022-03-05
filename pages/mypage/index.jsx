@@ -18,7 +18,7 @@ import { Box, flexbox } from '@mui/system';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { ColorButton, Container } from '../../src/components/common';
+import { ColorButton, Container, Navigation } from '../../src/components/common';
 import { removeCookie, getCookie } from '../../token/TokenManager';
 import { common } from '../../src/styles/common';
 import { getApi } from '../../apis';
