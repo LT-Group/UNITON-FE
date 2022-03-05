@@ -40,7 +40,11 @@ const LoginPage = () => {
         >
           {datas.map((data, idx) => {
             return (
-              <Box isEven={idx % 2 == 0} isLast={datas.length - 1 === idx}>
+              <Box
+                key={idx}
+                isEven={idx % 2 == 0}
+                isLast={datas.length - 1 === idx}
+              >
                 <div
                   style={{
                     fontSize: '16px',
