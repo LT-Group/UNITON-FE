@@ -49,7 +49,7 @@ const CustomModal = ({
           onClick={onClick}
           color={'white'}
           bgColor="#015B30"
-          hoverBgColor="#015B30"
+          hoverBgColor="#037A41"
           sx={{
             height: '40px',
             width: '90%',

@@ -1,19 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { getApi } from '../../../apis';
 import WritePaper from '../../../src/components/WritePaper';
-import { useRouter } from 'next/router';
 import { useRecoilState } from 'recoil';
 import { userTestStart, testSound } from '../../../stores/write';
 import { Container } from '../../../src/components/common';
 
 const WritePage = () => {
-  const [testData, setTestData] = useState([]);
   const [isModalOpen, setIsModalOpen] = useRecoilState(userTestStart);
-
   const [audio, setAudio] = useRecoilState(testSound);
   const [playing, setPlaying] = useState(null);
   const [isFirstTime, setIsFirstTime] = useState(true);
-  const router = useRouter();
+
   useEffect(() => {
     getData();
   }, []);
@@ -21,7 +18,6 @@ const WritePage = () => {
   const getData = async () => {
     const ID = await localStorage.getItem('userID');
     const data = await getApi.getTestData(ID);
-    setTestData(data);
 
     setAudio(new Audio(data.file));
   };

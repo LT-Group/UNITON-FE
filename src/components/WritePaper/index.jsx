@@ -17,8 +17,10 @@ const WritePaper = ({ isButton, onToggle, isPlay }) => {
 
     const [score, ...inputs] = problems;
     const answer = [...inputs].map((input) => input.input);
+    const userId = await localStorage.getItem('userID');
+
     const requestData = {
-      user_id: 6,
+      user_id: userId,
       paper_id: router.query.id,
       answer,
     };
@@ -30,12 +32,14 @@ const WritePaper = ({ isButton, onToggle, isPlay }) => {
         method: 'post',
         data: requestData,
       });
+
       const nextState = data.answer.map((resAnswer, i) => {
         if (data.is_correct[i]) {
           return { input: answer[i], answer: inputs[i + 1].answer };
         }
         return { input: answer[i], answer: resAnswer };
       });
+
       setProblems([data.score, ...nextState]);
       router.push(`/write/${router.query.id}/end`);
     } catch (e) {
@@ -60,6 +64,7 @@ const WritePaper = ({ isButton, onToggle, isPlay }) => {
           fullWidth
           variant="contained"
           sx={{
+            fontSize: '16px',
             height: 56,
             backgroundColor: '#015B30',
             '&:hover': {
@@ -73,6 +78,7 @@ const WritePaper = ({ isButton, onToggle, isPlay }) => {
         <Button
           fullWidth
           sx={{
+            fontSize: '16px',
             height: 56,
             color: '#015B30',
             '&:hover': {

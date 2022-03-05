@@ -38,12 +38,11 @@ const Home = () => {
       const { user_id } = await getApi.getUserID(userName);
       setUserID(user_id);
       const { count_paperuser } = await getApi.getTestCount(user_id);
-      const entire_count = getApi.getAllTestCount();
-      console.log(entire_count);
+      const { paper_count } = await getApi.getAllTestCount();
       setUserInfo((userInfo) => ({
         ...userInfo,
         count: count_paperuser,
-        entire_count: 0,
+        entire_count: paper_count,
       }));
       localStorage.setItem('userID', user_id);
     };
@@ -98,7 +97,7 @@ const Home = () => {
           개의 시험이 풀렸어요.
         </Typography>
       </div>
-      <div style={{ width: '100%' }}>
+      <div style={{ width: '100%', maxWidth: '320px' }}>
         <img
           src={
             isLogin
@@ -117,6 +116,7 @@ const Home = () => {
             position: 'absolute',
             marginTop: '-100px',
             padding: '0 25px',
+            maxWidth: '320px',
           }}
         >
           {isLogin ? (
@@ -124,7 +124,7 @@ const Home = () => {
               sx={{ fontSize: '16px', fontWeight: 'bold' }}
               color="white"
               bgColor="#015B30"
-              hoverBgColor="#015B30"
+              hoverBgColor="#037A41"
               onClick={() => setIsModalOpen(true)}
               variant="contained"
               width={'100%'}
@@ -137,7 +137,7 @@ const Home = () => {
                 sx={{ fontSize: '16px', fontWeight: 'bold' }}
                 color="white"
                 bgColor="#015B30"
-                hoverBgColor="#015B30"
+                hoverBgColor="#037A41"
                 onClick={() => {}}
                 variant="contained"
                 width={'100%'}
