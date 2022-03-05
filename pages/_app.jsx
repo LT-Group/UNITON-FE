@@ -153,7 +153,6 @@ const MyApp = ({ Component, pageProps }) => {
           property="og:description"
           content="세종대왕님이 노하시기 전에 받아쓰기를 연습하자!"
         />
-        <meta property="og:image" content="/thumnail.png" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <RecoilRoot>
