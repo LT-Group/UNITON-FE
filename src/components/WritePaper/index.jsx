@@ -8,7 +8,7 @@ import { Box, Button } from '@mui/material';
 import axios from 'axios';
 import next from 'next';
 
-const WritePaper = () => {
+const WritePaper = ({ isButton, onToggle, isPlay }) => {
   const router = useRouter();
   const [problems, setProblems] = useRecoilState(ProblemsState);
 
@@ -52,7 +52,7 @@ const WritePaper = () => {
 
   return (
     <>
-      <WriteTitle />
+      <WriteTitle isButton={isButton} onToggle={onToggle} isPlay={isPlay} />
       <TestList />
       <Box sx={{ width: '100%', mt: '31px' }}>
         <Button
