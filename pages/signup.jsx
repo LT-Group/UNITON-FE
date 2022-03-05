@@ -55,7 +55,7 @@ const SignUpPage = () => {
         password: inputData.password,
       });
       console.log(result);
-      if (!result?.toString().includes('400')) {
+      if (!result) {
         setToken();
         // 쿠키 설정 완료
         setCookie('isLoading', false);
@@ -81,6 +81,8 @@ const SignUpPage = () => {
 
     const rfExpireAt = new Date();
     rfExpireAt.setDate(rfExpireAt.getDate() + 8);
+    localStorage.setItem('userName', inputData.id);
+
     setCookie('isLogin', true, {
       path: '/',
       ...COOKIE_OPTION,
@@ -142,7 +144,10 @@ const SignUpPage = () => {
     <Container bgColor={'#F8F0E9'}>
       <div style={{ display: 'flex', width: '100%', flexDirection: 'column' }}>
         <div style={{ marginBottom: '60px' }}>
-          <Typography sx={{ fontSize: '28px' }} fontWeight="bold">
+          <Typography
+            sx={{ fontSize: '28px', lineHeight: '33.6px' }}
+            fontWeight="bold"
+          >
             마춤뻡에서 살아남기
             <br />
             입학
@@ -170,6 +175,7 @@ const SignUpPage = () => {
               classes: {
                 input: cssstyle.resize,
               },
+              style: { fontSize: 14, paddingBottom: '20px' },
             }}
             placeholder="아이디 (8자 이내)"
             type="string"
@@ -177,9 +183,6 @@ const SignUpPage = () => {
             onChange={handleChange}
             variant="standard"
             InputLabelProps={{ shrink: false }}
-            InputProps={{
-              style: { fontSize: 14, paddingBottom: '20px' },
-            }}
           />
           <ColorButton
             color="white"
@@ -328,8 +331,10 @@ const SignUpPage = () => {
       </div>
       <CustomModal
         isModalOpen={isModalOpen}
+        isBackClick={gotoHome}
+        image={'/image/main/signup-image.png'}
         onClick={gotoHome}
-        text="입학을 축하드립니다."
+        btnText="네네 선생님"
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       />

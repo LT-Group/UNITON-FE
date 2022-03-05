@@ -60,7 +60,9 @@ const LoginPage = () => {
       username: inputData.id,
       password: inputData.password,
     });
-    if (token?.toString().includes('401')) {
+    console.log(typeof token === 'object');
+
+    if (!token.refresh) {
       return false;
     }
     const acexpireAt = new Date();
@@ -68,11 +70,14 @@ const LoginPage = () => {
 
     const rfExpireAt = new Date();
     rfExpireAt.setDate(rfExpireAt.getDate() + 8);
+
+    localStorage.setItem('userName', inputData.id);
     setCookie('isLogin', true, {
       path: '/',
       ...COOKIE_OPTION,
       expires: rfExpireAt,
     });
+
     setCookie('accessToken', token.access, {
       path: '/',
       ...COOKIE_OPTION,
@@ -99,7 +104,9 @@ const LoginPage = () => {
   return (
     <Container bgColor={'#F8F0E9'}>
       <div style={{ display: 'flex', width: '100%', flexDirection: 'column' }}>
-        <Typography sx={{ fontSize: '28px', fontWeight: 'bold' }}>
+        <Typography
+          sx={{ fontSize: '28px', fontWeight: 'bold', lineHeight: '33.6px' }}
+        >
           지금은
           <br />
           마춤뻡에서 살아남기
@@ -128,12 +135,6 @@ const LoginPage = () => {
           <TextField
             sx={{ marginTop: '24px', color: '#A9A69E', borderColor: '#A9A69E' }}
             id="password"
-            InputProps={{
-              style: {
-                fontSize: 14,
-                paddingBottom: '20px',
-              },
-            }}
             placeholder="비밀번호를 입력해주세요."
             type={isVisible.password ? 'text' : 'password'}
             autoComplete="current-password"
@@ -192,7 +193,7 @@ const LoginPage = () => {
             text="로그인"
             onClick={handleLogin}
           />
-          <Link href="/signup">
+          <Link href="/signup" passHref>
             <Button
               sx={{
                 color: '#015B30',

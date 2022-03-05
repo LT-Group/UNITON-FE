@@ -1,126 +1,112 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useState, useEffect } from 'react';
+import TotalScore from '../common/TotalScore';
+import { useRouter } from 'next/router';
 import { Divider, Typography, Box, List, ListItem } from '@mui/material';
-import { getDate, getStamp } from '../../utils';
+import { getDate } from '../../utils';
+import Image from 'next/image';
+import axios from 'axios';
 
-const MyTestPaper = ({
-  times,
-  username,
-  date,
-  score,
-  is_correct_list,
-  answer_user,
-  answer,
-}) => {
+const MyTestPaper = () => {
+  const router = useRouter();
+  const [testData, setTestData] = useState({
+    answer_user: [],
+    created_at: '',
+    is_correct_list: [],
+    score: 0,
+    username: '',
+    answer: [],
+  });
+
+  useEffect(() => {
+    if (!router) return;
+
+    const fetchData = async () => {
+      try {
+        //userId와 paperId
+        const { data } = await axios({
+          baseURL: API_DOMAIN,
+          url: `/papers/get_paper_detail/6/1/`,
+          method: 'get',
+        });
+        setTestData(data);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
+    fetchData();
+  }, [router.query.id]);
+
+  if (!router) return null;
+
   return (
     <>
-      <Typography variant="h5" mb="17px">
-        제 {times}회 받아쓰기
-      </Typography>
-      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+      <Box sx={{ display: 'flex', width: '100%', alignItems: 'center' }}>
+        <Typography variant="h3" mb="17px">
+          제 {router.query.id}회 받아쓰기
+        </Typography>
+      </Box>
+      <Box sx={{ display: 'flex', width: '100%', alignItems: 'center' }}>
         <Image src="/image/paper/date.png" alt="날짜" width={31} height={18} />
         <Typography ml={2} component="span" varaint="body1">
-          {getDate(date)}
+          {getDate(testData.created_at)}
         </Typography>
       </Box>
       <Divider mb="4px" />
-      <Box mb={2} sx={{ display: 'flex', alignItems: 'center' }}>
+      <Box mb={2} sx={{ display: 'flex', width: '100%', alignItems: 'center' }}>
         <Image src="/image/paper/name.png" alt="이름" width={31} height={18} />
         <Typography component="span" ml={2} varaint="body1">
-          {username}
+          {testData.username}
         </Typography>
       </Box>
       <Divider />
       <List disablePadding sx={{ width: '100%', border: '1px solid' }}>
-        {is_correct_list.map((isCorrect, i) => {
-          return (
-            <React.Fragment key={i}>
-              <ListItem
-                disablePadding
-                sx={{
-                  height: 63,
-                }}
-              >
-                <Box sx={{ width: 44, textAlign: 'center' }}>
-                  <Image
-                    src={`/image/paper/${i + 1}.png`}
-                    alt={i + 1}
-                    width={9}
-                    height={23}
-                  />
-                </Box>
-                <Divider orientation="vertical" />
-                <Box
+        {testData.is_correct_list.length &&
+          testData.is_correct_list.map((isCorrect, i) => {
+            return (
+              <React.Fragment key={i}>
+                <ListItem
+                  disablePadding
                   sx={{
-                    maxWidth: 282,
-                    marginLeft: 2,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'center',
+                    height: 63,
                   }}
                 >
-                  <Typography component="div" variant="body2">
-                    {answer_user[i]}
-                  </Typography>
-                  {!isCorrect && (
-                    <Typography component="div" variant="body2" color="red">
-                      {answer[i]}
+                  <Box sx={{ width: 44, textAlign: 'center' }}>
+                    <Image
+                      src={`/image/paper/${i + 1}.png`}
+                      alt={i + 1}
+                      width={9}
+                      height={23}
+                    />
+                  </Box>
+                  <Divider orientation="vertical" />
+                  <Box
+                    sx={{
+                      maxWidth: 282,
+                      marginLeft: 2,
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <Typography component="div" variant="body2">
+                      {testData.answer_user[i]}
                     </Typography>
-                  )}
-                </Box>
-              </ListItem>
-              <Divider />
-            </React.Fragment>
-          );
-        })}
-        <ListItem
-          disablePadding
-          sx={{
-            pt: '18px',
-            pl: '18px',
-            height: 116,
-            alignItems: 'flex-start',
-          }}
-        >
-          <Image
-            src="/image/paper/totalScore.png"
-            alt="totalScore"
-            width={31}
-            height={18}
-          />
-          <Box ml={5}>
-            <Typography variant="h2" color="red">
-              {problems[0]}
-            </Typography>
-            <Image
-              width={74}
-              height={26}
-              src="/image/paper/scoreUnderline.png"
-              alt="scoreUnderline"
-            />
-          </Box>
-          <Avatar
-            src={`/image/paper/${getStamp(score)}.png`}
-            alt="stamp"
-            sx={{
-              ml: 7,
-              width: 96,
-              height: 96,
-            }}
-          />
-        </ListItem>
+                    {!isCorrect && (
+                      <Typography component="div" variant="body2" color="red">
+                        {testData.answer[i]}
+                      </Typography>
+                    )}
+                  </Box>
+                </ListItem>
+                <Divider />
+              </React.Fragment>
+            );
+          })}
+        <TotalScore score={testData.score} />
       </List>
     </>
   );
-};
-
-MyTestPaper.propTypes = {
-  username: PropTypes.string,
-  date: PropTypes.string,
-  score: PropTypes.number,
-  is_correct_list: PropTypes.arrayOf(PropTypes.bool),
-  answer_user: PropTypes.arrayOf(PropTypes.string),
-  answer: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default MyTestPaper;

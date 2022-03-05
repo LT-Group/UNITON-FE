@@ -2,7 +2,14 @@ import { Modal, Box, Typography } from '@mui/material';
 import { ColorButton } from '.';
 import PropTypes from 'prop-types';
 
-const CustomModal = ({ text, onClick, isModalOpen }) => {
+const CustomModal = ({
+  text,
+  image,
+  btnText,
+  onClick,
+  isModalOpen,
+  isBackClick,
+}) => {
   const boxStyle = {
     position: 'absolute',
     top: '50%',
@@ -30,15 +37,13 @@ const CustomModal = ({ text, onClick, isModalOpen }) => {
   return (
     <Modal
       open={isModalOpen}
-      onClose={onClick}
+      onClose={isBackClick}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
       <Box sx={boxStyle}>
         <Box sx={innerBoxStyle}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            {text}
-          </Typography>
+          <img src={image} style={{ width: '100%', height: '100%' }} />
         </Box>
         <ColorButton
           onClick={onClick}
@@ -54,7 +59,7 @@ const CustomModal = ({ text, onClick, isModalOpen }) => {
           variant="contained"
           width={'100%'}
           height={'56px'}
-          text="확인"
+          text={btnText}
         />
       </Box>
     </Modal>
@@ -64,6 +69,9 @@ export default CustomModal;
 
 Modal.propTypes = {
   text: PropTypes.string,
+  btnText: PropTypes.string,
+  image: PropTypes.string,
   onClick: PropTypes.func,
   isModalOpen: PropTypes.bool,
+  isBackClick: PropTypes.func,
 };

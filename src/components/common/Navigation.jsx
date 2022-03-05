@@ -6,7 +6,7 @@ import { styled } from '@mui/material/styles';
 import { useRouter } from 'next/router';
 const Navigation = () => {
   const router = useRouter();
-  const [value, setValue] = useState('solve');
+  const [value, setValue] = useState('');
   return (
     <BottomNavigationList
       showLabels
@@ -24,7 +24,7 @@ const Navigation = () => {
     >
       <BottomNavigationAction
         label="문제풀기"
-        value="solve"
+        value=""
         icon={<SolveIcon />}
       />
       <BottomNavigationAction
@@ -34,7 +34,7 @@ const Navigation = () => {
       />
       <BottomNavigationAction
         label="생활기록부"
-        value="myPage"
+        value="mypage"
         icon={<MypageIcon sx={{ width: '20 imporatant!' }} />}
       />
     </BottomNavigationList>

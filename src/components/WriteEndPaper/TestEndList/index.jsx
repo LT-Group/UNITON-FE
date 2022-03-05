@@ -10,7 +10,7 @@ import React from 'react';
 import Image from 'next/image';
 import { useRecoilValue } from 'recoil';
 import { ProblemsState } from '../../../store/atoms';
-import { getStamp } from '../../../utils';
+import TotalScore from '../../common/TotalScore';
 
 const TestEndList = () => {
   const problems = useRecoilValue(ProblemsState);
@@ -50,9 +50,9 @@ const TestEndList = () => {
                   <Typography component="div" variant="body2">
                     {problem.input}
                   </Typography>
-                  {problems.answer && (
+                  {problem.answer && (
                     <Typography component="div" variant="body2" color="red">
-                      {problems.answer}
+                      {problem.answer}
                     </Typography>
                   )}
                 </Box>
@@ -61,44 +61,7 @@ const TestEndList = () => {
             </React.Fragment>
           );
         })}
-        <ListItem
-          disablePadding
-          sx={{
-            pt: '18px',
-            pl: '18px',
-            height: 116,
-            alignItems: 'flex-start',
-          }}
-        >
-          <Image
-            src="/image/paper/totalScore.png"
-            alt="totalScore"
-            width={31}
-            height={18}
-          />
-          <Box ml={5}>
-            <Typography variant="h2" color="red">
-              {problems[0]}
-            </Typography>
-            <Image
-              width={74}
-              height={26}
-              src="/image/paper/scoreUnderline.png"
-              alt="scoreUnderline"
-            />
-          </Box>
-          {problems[0] && (
-            <Avatar
-              src={`/image/paper/${getStamp(problems[0])}.png`}
-              alt="stamp"
-              sx={{
-                ml: 7,
-                width: 96,
-                height: 96,
-              }}
-            />
-          )}
-        </ListItem>
+        <TotalScore score={problems[0]} />
       </List>
     </>
   );
