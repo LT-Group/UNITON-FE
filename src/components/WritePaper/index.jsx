@@ -2,16 +2,18 @@ import React from 'react';
 import WriteTitle from '../common/WriteTitle';
 import TestList from './TestList';
 import { useRouter } from 'next/router';
-import { useRecoilState } from 'recoil';
-import { problemsInitialState, ProblemsState } from '../../store/atoms';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { problemsInitialState, ProblemsState } from '../../../stores/problems';
 import { Box, Button } from '@mui/material';
 import axios from 'axios';
 import next from 'next';
+import { UserInfo } from '../../../stores/userInfo';
 
 const WritePaper = ({ isButton, onToggle, isPlay }) => {
   const router = useRouter();
   const [problems, setProblems] = useRecoilState(ProblemsState);
-
+  const { page_id } = useRecoilValue(UserInfo);
+  console.log('page_id', page_id);
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -21,7 +23,7 @@ const WritePaper = ({ isButton, onToggle, isPlay }) => {
 
     const requestData = {
       user_id: userId,
-      paper_id: router.query.id,
+      paper_id: page_id,
       answer,
     };
 

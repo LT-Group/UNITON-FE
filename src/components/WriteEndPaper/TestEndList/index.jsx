@@ -9,7 +9,7 @@ import {
 import React from 'react';
 import Image from 'next/image';
 import { useRecoilValue } from 'recoil';
-import { ProblemsState } from '../../../store/atoms';
+import { ProblemsState } from '../../../../stores/problems';
 import TotalScore from '../../common/TotalScore';
 
 const TestEndList = () => {

@@ -8,6 +8,7 @@ import { Container } from '../../../src/components/common';
 const WritePage = () => {
   const [isModalOpen, setIsModalOpen] = useRecoilState(userTestStart);
   const [audio, setAudio] = useRecoilState(testSound);
+
   const [playing, setPlaying] = useState(null);
   const [isFirstTime, setIsFirstTime] = useState(true);
 
