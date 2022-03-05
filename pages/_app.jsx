@@ -16,6 +16,7 @@ import {
   removeCookie,
   COOKIE_OPTION,
 } from '../token/TokenManager';
+import { postApi } from '../apis';
 
 const MyApp = ({ Component, pageProps }) => {
   useEffect(async () => {

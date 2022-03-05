@@ -60,7 +60,9 @@ const LoginPage = () => {
       username: inputData.id,
       password: inputData.password,
     });
-    if (token?.toString().includes('401')) {
+    console.log(typeof token === 'object');
+
+    if (!token.refresh) {
       return false;
     }
     const acexpireAt = new Date();
