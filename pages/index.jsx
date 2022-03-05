@@ -38,7 +38,7 @@ const Home = () => {
 
       setUserInfo((userInfo) => ({
         ...userInfo,
-        count: count_paperuser,
+        count: count_paperuser + 1,
         entire_count: paper_count,
       }));
 
