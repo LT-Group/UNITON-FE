@@ -114,7 +114,7 @@ const SignUpPage = () => {
   const handleCheckID = async () => {
     const { result } = await postApi.checkID({ id: inputData.id });
     if (result) {
-      setIsFormatOkay({ ...isFormatOkay, id: true });
+      setIsFormatOkay({ ...isFormatOkay, id: false });
     } else {
       setIsFormatOkay({ ...isFormatOkay, id: true });
     }
