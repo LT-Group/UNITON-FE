@@ -1,20 +1,32 @@
 import { Button } from '@mui/material';
 import PropTypes from 'prop-types';
-const ColorButton = ({ color, bgColor, hoverBgColor }) => {
+const ColorButton = ({
+  color,
+  bgColor,
+  hoverBgColor,
+  text,
+  width,
+  height,
+  fontSize,
+  ...props,
+}) => {
+  console.log(props);
   return (
     <Button
       onClick={() => setIsModalOpen(false)}
       sx={{
+        ...props.sx,
         color: color,
         backgroundColor: bgColor,
-        height: '40px',
+        width: width,
+        height: height,
         '&:hover': {
           backgroundColor: hoverBgColor,
         },
       }}
       variant="contained"
     >
-      확인
+      {text}
     </Button>
   );
 };
@@ -23,5 +35,10 @@ ColorButton.propTypes = {
   color: PropTypes.string,
   bgColor: PropTypes.string,
   hoverBgColor: PropTypes.string,
+  hoverBgColor: PropTypes.text,
+
+  width: PropTypes.number,
+  height: PropTypes.number,
 };
 export default ColorButton;
+
