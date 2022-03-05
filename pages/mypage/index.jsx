@@ -82,11 +82,16 @@ const myPage = () => {
             <TableRow>
               <StyledTableCell colSpan={2}>
                 <div
-                  style={{ display: 'flex', justifyContent: 'space-around' }}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                  }}
                 >
                   <Typography variant="h5">생활기록부</Typography>
                   <ColorButton
                     width="10%"
+                    height="32px"
                     text="로그아웃"
                     onClick={onLogout}
                   ></ColorButton>

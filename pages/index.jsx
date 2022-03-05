@@ -20,21 +20,34 @@ const Home = () => {
   const router = useRouter();
   const [count, setCount] = useState(350);
   const [isLogin, setIsLogin] = useState(null);
-  const [userInfo, setUserInfo] = useState({ name: '', count: 0 });
+  const [userInfo, setUserInfo] = useState({
+    name: '',
+    count: 0,
+    entire_count: 0,
+  });
   const [isModalOpen, setIsModalOpen] = useRecoilState(userTestStart);
   const [audio, setAudio] = useRecoilState(testSound);
 
   const [userID, setUserID] = useState(-1);
 
-  useEffect(async () => {
-    setIsLogin(getCookie('isLogin'));
-    const userName = localStorage.getItem('userName');
-    setUserInfo((userInfo) => ({ ...userInfo, name: userName }));
-    const { user_id } = await getApi.getUserID(userName);
-    setUserID(user_id);
-    const { count_paperuser } = await getApi.getTestCount(user_id);
-    setUserInfo((userInfo) => ({ ...userInfo, count: count_paperuser }));
-    localStorage.setItem('userID', user_id);
+  useEffect(() => {
+    const getData = async () => {
+      setIsLogin(getCookie('isLogin'));
+      const userName = localStorage.getItem('userName');
+      setUserInfo((userInfo) => ({ ...userInfo, name: userName }));
+      const { user_id } = await getApi.getUserID(userName);
+      setUserID(user_id);
+      const { count_paperuser } = await getApi.getTestCount(user_id);
+      const entire_count = getApi.getAllTestCount();
+      console.log(entire_count);
+      setUserInfo((userInfo) => ({
+        ...userInfo,
+        count: count_paperuser,
+        entire_count: 0,
+      }));
+      localStorage.setItem('userID', user_id);
+    };
+    getData();
   }, []);
 
   // pause audio
@@ -47,7 +60,6 @@ const Home = () => {
     router.push(`/write/${userInfo.count + 1}`);
   };
 
-  console.log(isLogin);
   return (
     <Container bgColor={'#F8F0E9'}>
       <div style={{ width: '100%', alignItems: 'flex-start' }}>
@@ -80,7 +92,9 @@ const Home = () => {
           sx={{ fontSize: '16px', marginTop: '15px', marginBottom: '25px' }}
         >
           지금까지{' '}
-          <span style={{ fontWeight: 'bold', color: '#C02C3D' }}>{count}</span>
+          <span style={{ fontWeight: 'bold', color: '#C02C3D' }}>
+            {userInfo.entire_count}
+          </span>
           개의 시험이 풀렸어요.
         </Typography>
       </div>
