@@ -104,7 +104,9 @@ const LoginPage = () => {
   return (
     <Container bgColor={'#F8F0E9'}>
       <div style={{ display: 'flex', width: '100%', flexDirection: 'column' }}>
-        <Typography sx={{ fontSize: '28px', fontWeight: 'bold' }}>
+        <Typography
+          sx={{ fontSize: '28px', fontWeight: 'bold', lineHeight: '33.6px' }}
+        >
           지금은
           <br />
           마춤뻡에서 살아남기
