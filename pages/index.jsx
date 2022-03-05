@@ -38,7 +38,7 @@ const Home = () => {
 
       setUserInfo((userInfo) => ({
         ...userInfo,
-        page_id: count_paperuser,
+        count: count_paperuser,
         entire_count: paper_count,
       }));
 
@@ -55,7 +55,7 @@ const Home = () => {
 
   const handleGoTest = () => {
     setIsModalOpen(false);
-    router.push(`/write/${userInfo.page_id}`);
+    router.push(`/write/${userInfo.count}`);
   };
 
   return (
@@ -69,7 +69,7 @@ const Home = () => {
             학생
             <br />
             <b>
-              {userInfo.page_id}회 받아쓰기 시험을
+              {userInfo.count}회 받아쓰기 시험을
               <br />
               시작해볼까요?
             </b>

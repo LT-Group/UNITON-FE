@@ -17,16 +17,11 @@ import LinearProgress, {
 import { Box, flexbox } from '@mui/system';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Router } from 'next/router';
-import {
-  ColorButton,
-  Container,
-  Navigation,
-} from '../../src/components/common';
+import { useRouter } from 'next/router';
+import { ColorButton, Container } from '../../src/components/common';
 import { removeCookie, getCookie } from '../../token/TokenManager';
 import { common } from '../../src/styles/common';
 import { getApi } from '../../apis';
-import { useRouter } from 'next/router';
 
 const userData = {
   username: '마춤뻐 파괘자', // 닉네임 (ID)
@@ -69,7 +64,7 @@ const StyledStamp = styled.div`
   margin: 8px;
 `;
 
-const myPage = () => {
+const MyPage = () => {
   const router = useRouter();
   const [isLogin, setIsLogin] = useState(null);
   const [userID, setUserID] = useState(-1);
@@ -102,6 +97,9 @@ const myPage = () => {
     router.replace('/login');
   };
   console.log(isLogin);
+
+  if (!router) return null;
+
   if (!isLogin) {
     return (
       <Container bgColor={'#F8F0E9'}>
@@ -426,7 +424,7 @@ const myPage = () => {
           {userInfo?.paper_list?.length > 0 &&
             userInfo?.paper_list.map((id, index) => {
               return (
-                <div>
+                <div key={id}>
                   <img
                     onClick={() => {
                       console.log(id);
@@ -469,7 +467,7 @@ const myPage = () => {
     );
 };
 
-export default myPage;
+export default MyPage;
 const cssstyle = `
 .css-12j2wjg-MuiTableCell-root{
   margin-top:-20px;

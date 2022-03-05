@@ -3,10 +3,19 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { Box, Button, Divider, Typography } from '@mui/material';
 import { getDate } from '../../utils';
+import { useRecoilState } from 'recoil';
+import { testSound } from '../../../stores/write';
 
 const WriteTitle = ({ isButton, onToggle, isPlay }) => {
   const router = useRouter();
   const [userName, setUserName] = useState('');
+  const [audio, setAudio] = useRecoilState(testSound);
+
+  useEffect(() => {
+    if (audio) {
+      isPlay ? audio.play() : audio?.pause();
+    }
+  }, [isPlay]);
 
   useEffect(() => {
     if (!localStorage) return;
