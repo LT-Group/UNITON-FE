@@ -358,11 +358,9 @@ const BtnContainer = styles.div`
     width: 480px;
     margin: 0 auto;
     bottom: 0;
-    position: fixed;
   }
   @media screen and (max-width: 480px) {
     width: 100%;
     bottom: 0;
-    position: fixed;
   }
 `;

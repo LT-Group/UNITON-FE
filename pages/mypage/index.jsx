@@ -269,6 +269,7 @@ const MyPage = () => {
           </Button>
         </Link>
         <style>{cssstyle}</style>
+        <Navigation />
       </Container>
     );
   } else
@@ -335,8 +336,7 @@ const MyPage = () => {
                 >
                   <div>{Math.floor(userInfo?.paper_count / 4) + 1}학년</div>
                   <div style={{ opacity: '0.3' }}>
-                    {Math.floor(userInfo?.paper_count / 4) / 4 + 2}학년
-                    진학&nbsp;
+                    {Math.floor(userInfo?.paper_count / 4) + 2}학년 진학&nbsp;
                     {userInfo?.paper_count % 4}/4
                   </div>
                 </div>

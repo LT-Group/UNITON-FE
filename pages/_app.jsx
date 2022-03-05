@@ -49,7 +49,8 @@ const MyApp = ({ Component, pageProps }) => {
           router.router.asPath !== '/' &&
           router.router.asPath !== '/login' &&
           router.router.asPath !== '/signup' &&
-          router.router.asPath !== '/mypage'
+          router.router.asPath !== '/mypage' &&
+          router.router.asPath !== '/ranking'
         )
           router.replace('/');
       } else if (isLogin) {
