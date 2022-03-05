@@ -16,7 +16,6 @@ const ColorButton = ({
     onClick={props.onClick?props.onClick:()=>{}}
       sx={{
         ...props.sx,
-        fontSize:fontSize,
         color: color,
         backgroundColor: bgColor,
         width: width,
