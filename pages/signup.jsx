@@ -306,29 +306,39 @@ const SignUpPage = () => {
               paddingBottom: '2rem',
             }}
           >
-            <ColorButton
-              sx={{ fontSize: '16px', fontWeight: 'bold' }}
-              color="white"
-              bgColor="#015B30"
-              hoverBgColor="#015B30"
-              onClick={handleSignUp}
-              variant="contained"
-              width={'100%'}
-              height={'56px'}
-              text="회원가입"
-            />
-            <Button
-              onClick={() => router.replace('/')}
-              sx={{
-                color: '#015B30',
-                height: '56px',
-                fontWeight: 'bold',
-                fontSize: '16px',
+            <div style={{ maxWidth: '432px' }}>
+              <ColorButton
+                sx={{ fontSize: '16px', fontWeight: 'bold' }}
+                color="white"
+                bgColor="#015B30"
+                hoverBgColor="#015B30"
+                onClick={handleSignUp}
+                variant="contained"
+                width={'100%'}
+                height={'56px'}
+                text="회원가입"
+              />
+            </div>
+            <div
+              style={{
+                maxWidth: '432px',
+                display: 'flex',
+                justifyContent: 'center',
               }}
-              variant="text"
             >
-              다음에 하기
-            </Button>
+              <Button
+                onClick={() => router.replace('/')}
+                sx={{
+                  color: '#015B30',
+                  height: '56px',
+                  fontWeight: 'bold',
+                  fontSize: '16px',
+                }}
+                variant="text"
+              >
+                다음에 하기
+              </Button>
+            </div>
           </div>
         </BtnContainer>
       </div>
@@ -354,7 +364,7 @@ const cssstyle = `
 `;
 
 const BtnContainer = styles.div`
-  @media screen and (min-width: 480px) {
+@media screen and (min-width: 480px) {
     width: 480px;
     margin: 0 auto;
     bottom: 0;
