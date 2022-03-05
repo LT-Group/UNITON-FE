@@ -182,7 +182,7 @@ const LoginPage = () => {
           }}
         >
           <ColorButton
-            fontSize="14px"
+            sx={{ fontSize: '16px', fontWeight: 'bold' }}
             color="white"
             bgColor={'#015B30'}
             hoverBgColor={'#015B30'}

@@ -16,6 +16,7 @@ const ColorButton = ({
     onClick={props.onClick?props.onClick:()=>{}}
       sx={{
         ...props.sx,
+        fontSize:fontSize,
         color: color,
         backgroundColor: bgColor,
         width: width,
@@ -36,9 +37,9 @@ ColorButton.propTypes = {
   bgColor: PropTypes.string,
   hoverBgColor: PropTypes.string,
   hoverBgColor: PropTypes.text,
-
   width: PropTypes.number,
   height: PropTypes.number,
+  fontSize: PropTypes.number,
 };
 export default ColorButton;
 
