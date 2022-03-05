@@ -4,6 +4,7 @@ import WritePaper from '../../../src/components/WritePaper';
 import { useRouter } from 'next/router';
 import { useRecoilState } from 'recoil';
 import { userTestStart, testSound } from '../../../stores/write';
+import { Container } from '../../../src/components/common';
 
 const WritePage = () => {
   const [testData, setTestData] = useState([]);
@@ -52,10 +53,9 @@ const WritePage = () => {
   }, [audio, playing]);
 
   return (
-    <>
-      <button onClick={toggle}>{playing ? 'Pause' : 'Play'}</button>
-      <WritePaper />
-    </>
+    <Container bgColor={'#F8F0E9'}>
+      <WritePaper isButton={true} onToggle={toggle} isPlay={playing} />
+    </Container>
   );
 };
 
