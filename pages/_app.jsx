@@ -131,7 +131,7 @@ const MyApp = ({ Component, pageProps }) => {
       !config.url.includes('checkid')
     )
       config.headers.Authorization = `JWT ${token}`;
-    console.log(config);
+    //console.log(config);
     //console.log(token);
     return config;
   });
