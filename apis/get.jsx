@@ -45,9 +45,25 @@ const getTestData = async (ID) => {
   }
 };
 
+const getTestCount = async (ID) => {
+  try {
+    const { data } = await axios({
+      baseURL: API_DOMAIN,
+      url: `/papers/count_paperuser/${ID}/`,
+      method: 'get',
+    });
+    console.log('[SUCCESS] GET TEST COUNT', data);
+    return data;
+  } catch (e) {
+    console.log('[FAIL] GET TEST COUNT', e);
+    return e;
+  }
+};
+
 const getApi = {
   getUserID,
   getRankingData,
   getTestData,
+  getTestCount,
 };
 export default getApi;

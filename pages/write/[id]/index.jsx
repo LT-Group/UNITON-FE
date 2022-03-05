@@ -13,11 +13,12 @@ const WritePage = () => {
   const [playing, setPlaying] = useState(null);
   const router = useRouter();
   useEffect(() => {
-    getData(router?.query?.id);
-  }, [router?.query?.id]);
+    getData();
+  }, []);
 
-  const getData = async (userID) => {
-    const data = await getApi.getTestData(userID);
+  const getData = async () => {
+    const ID = await localStorage.getItem('userID');
+    const data = await getApi.getTestData(ID);
     setTestData(data);
 
     setAudio(new Audio(data.file));
@@ -26,8 +27,8 @@ const WritePage = () => {
   useEffect(() => {
     if ((!isModalOpen, audio)) {
       setTimeout(() => {
-        audio.play();
-      }, [300]);
+        setPlaying(true);
+      }, [100]);
     }
   }, [isModalOpen, audio]);
 
@@ -57,3 +58,13 @@ const WritePage = () => {
 };
 
 export default WritePage;
+
+// url 직접 접근 방지
+export async function getServerSideProps({ req, res, params }) {
+  if (!req.headers.referer) {
+    res.statusCode = 302;
+    res.setHeader('Location', `/`);
+    res.end();
+  }
+  return { props: {} };
+}

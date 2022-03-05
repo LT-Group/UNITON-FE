@@ -33,24 +33,26 @@ const Home = () => {
   const router = useRouter();
   const [count, setCount] = useState(350);
   const [isLogin, setIsLogin] = useState(null);
-  const [userInfo, setUserInfo] = useState('');
+  const [userInfo, setUserInfo] = useState({ name: '', count: 0 });
   const [isModalOpen, setIsModalOpen] = useRecoilState(userTestStart);
 
   const [userID, setUserID] = useState(-1);
 
   useEffect(async () => {
     setIsLogin(getCookie('isLogin'));
-    const userName = await localStorage.getItem('userName');
+    const userName = localStorage.getItem('userName');
     console.log(userName);
-    setUserInfo(userName);
+    setUserInfo({ ...userInfo, name: userName });
     const { user_id } = await getApi.getUserID(userName);
     setUserID(user_id);
+    const { count_paperuser } = await getApi.getTestCount(user_id);
+    setUserInfo({ ...userInfo, count: count_paperuser });
     localStorage.setItem('userID', user_id);
   }, []);
 
   const handleGoTest = () => {
     setIsModalOpen(false);
-    router.push(`/write/${userID}`);
+    router.push(`/write/${userInfo.count}`);
   };
 
   console.log(isLogin);
@@ -60,7 +62,7 @@ const Home = () => {
         {isLogin ? (
           <Typography sx={{ fontSize: '28px', lineHeight: '33.6px' }}>
             <span style={{ fontWeight: 'bold', color: '#015B30' }}>
-              {userInfo}
+              {userInfo.name}
             </span>{' '}
             학생
             <br />
