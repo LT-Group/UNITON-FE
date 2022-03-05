@@ -69,11 +69,11 @@ const WritePage = () => {
 export default WritePage;
 
 // url 직접 접근 방지
-export async function getServerSideProps({ req, res, params }) {
-  if (!req.headers.referer) {
-    res.statusCode = 302;
-    res.setHeader('Location', `/`);
-    res.end();
-  }
-  return { props: {} };
-}
+// export async function getServerSideProps({ req, res, params }) {
+//   if (!req.headers.referer) {
+//     res.statusCode = 302;
+//     res.setHeader('Location', `/`);
+//     res.end();
+//   }
+//   return { props: {} };
+// }
