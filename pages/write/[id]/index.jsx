@@ -46,10 +46,7 @@ const WritePage = () => {
     if (audio) {
       audio?.addEventListener('ended', () => setPlaying(false));
       return () => {
-        audio?.removeEventListener('ended', () => {
-          setPlaying(false);
-          setAudio(null);
-        });
+        audio?.removeEventListener('ended', () => setPlaying(false));
       };
     }
   }, [audio, playing]);
