@@ -13,6 +13,7 @@ const TestList = () => {
     const nextState = problems.map((prevValue, i) =>
       nameIndex === i ? { ...problems[i], input: value } : prevValue,
     );
+
     setProblems(nextState);
   };
 
@@ -41,9 +42,15 @@ const TestList = () => {
               <Input
                 name={`input${i}`}
                 fullWidth
-                sx={{ ml: 2, mr: 2 }}
+                sx={{ ml: 2, mr: 2, color: '#443C22' }}
                 placeholder={answerWriter}
                 disableUnderline
+                inputProps={{
+                  style: {
+                    fontSize: '22px',
+                    fontFamily: 'Middleschool_student',
+                  },
+                }}
                 onChange={handleChange}
               />
             </ListItem>

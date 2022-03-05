@@ -16,6 +16,7 @@ const MyTestPage = () => {
         sx={{
           mt: 6,
           height: 56,
+          fontSize: '16px',
           backgroundColor: '#015B30',
           '&:hover': {
             backgroundColor: '#015B30',

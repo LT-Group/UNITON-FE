@@ -18,16 +18,18 @@ const MyTestPaper = () => {
   });
 
   useEffect(() => {
-    if (!router) return;
+    if (!localStorage || !router) return;
+
+    const userId = localStorage.getItem('userID');
 
     const fetchData = async () => {
       try {
-        //userId와 paperId
         const { data } = await axios({
           baseURL: API_DOMAIN,
-          url: `/papers/get_paper_detail/6/1/`,
+          url: `/papers/get_paper_detail/${userId}/${router.query.id}/`,
           method: 'get',
         });
+
         setTestData(data);
       } catch (e) {
         console.log(e);
@@ -42,20 +44,46 @@ const MyTestPaper = () => {
   return (
     <>
       <Box sx={{ display: 'flex', width: '100%', alignItems: 'center' }}>
-        <Typography variant="h3" mb="17px">
+        <Typography
+          variant="h3"
+          sx={{
+            mb: '17px',
+            fontFamily: 'Pretendard',
+            fontWeight: 'bold',
+            color: '#443C22',
+          }}
+        >
           제 {router.query.id}회 받아쓰기
         </Typography>
       </Box>
       <Box sx={{ display: 'flex', width: '100%', alignItems: 'center' }}>
         <Image src="/image/paper/date.png" alt="날짜" width={31} height={18} />
-        <Typography ml={2} component="span" varaint="body1">
+        <Typography
+          sx={{
+            ml: 2,
+            fontSize: '22px',
+            fontFamily: 'Middleschool_student',
+            color: '#443C22',
+          }}
+          component="span"
+          varaint="body1"
+        >
           {getDate(testData.created_at)}
         </Typography>
       </Box>
       <Divider mb="4px" />
       <Box mb={2} sx={{ display: 'flex', width: '100%', alignItems: 'center' }}>
         <Image src="/image/paper/name.png" alt="이름" width={31} height={18} />
-        <Typography component="span" ml={2} varaint="body1">
+        <Typography
+          component="span"
+          sx={{
+            ml: 2,
+            fontSize: '22px',
+            fontFamily: 'Middleschool_student',
+            color: '#443C22',
+          }}
+          varaint="body1"
+        >
           {testData.username}
         </Typography>
       </Box>
@@ -89,11 +117,28 @@ const MyTestPaper = () => {
                       justifyContent: 'center',
                     }}
                   >
-                    <Typography component="div" variant="body2">
+                    <Typography
+                      component="div"
+                      variant="body2"
+                      sx={{
+                        fontSize: '22px',
+                        fontFamily: 'Middleschool_student',
+                        color: '#443C22',
+                      }}
+                    >
                       {testData.answer_user[i]}
                     </Typography>
                     {!isCorrect && (
-                      <Typography component="div" variant="body2" color="red">
+                      <Typography
+                        component="div"
+                        variant="body2"
+                        color="red"
+                        sx={{
+                          fontSize: '22px',
+                          fontFamily: 'Middleschool_student',
+                          color: '#C02C3D',
+                        }}
+                      >
                         {testData.answer[i]}
                       </Typography>
                     )}

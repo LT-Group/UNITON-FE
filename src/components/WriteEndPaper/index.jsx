@@ -33,6 +33,7 @@ const WriteEndPaper = () => {
             fullWidth
             variant="contained"
             sx={{
+              fontSize: '16px',
               height: 56,
               backgroundColor: '#015B30',
               '&:hover': {
@@ -49,6 +50,7 @@ const WriteEndPaper = () => {
             fullWidth
             variant="contained"
             sx={{
+              fontSize: '16px',
               height: 56,
               backgroundColor: '#015B30',
               '&:hover': {
