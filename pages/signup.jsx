@@ -65,7 +65,7 @@ const SignUpPage = () => {
         alert('회원가입에 실패했습니다.');
       }
     } else {
-      alert('입력 폼에 맞게 입력해주세요.');
+      alert('아이디/비밀번호를 다시 확인해주세요.');
     }
   };
 
@@ -114,7 +114,7 @@ const SignUpPage = () => {
     if (result) {
       setIsFormatOkay({ ...isFormatOkay, id: true });
     } else {
-      setIsFormatOkay({ ...isFormatOkay, id: false });
+      setIsFormatOkay({ ...isFormatOkay, id: true });
     }
   };
 
@@ -168,19 +168,26 @@ const SignUpPage = () => {
     <Container bgColor={'#F8F0E9'}>
       <div style={{ display: 'flex', width: '100%', flexDirection: 'column' }}>
         <div style={{ marginBottom: '60px' }}>
-          <Typography sx={{ fontSize: '28px' }} fontWeight="600">
+          <Typography sx={{ fontSize: '28px' }} fontWeight="bold">
             마춤뻡에서 살아남기
-          </Typography>
-          <Typography sx={{ fontSize: '28px' }} fontWeight="600">
+            <br />
             입학
           </Typography>
         </div>
         <div style={{ width: '100%' }}>
           <TextField
-            error={isFormatOkay.id || isFormatOkay.id === null ? false : true}
+            error={
+              isFormatOkay.id || isFormatOkay.id === null
+                ? inputData.id.length > 8
+                  ? true
+                  : false
+                : true
+            }
             helperText={
               isFormatOkay.id || isFormatOkay.id === null
-                ? ''
+                ? inputData.id.length > 8
+                  ? '8자 이내로 입력해주세요'
+                  : ''
                 : '*중복된 아이디입니다.'
             }
             sx={{ width: '100%' }}
@@ -190,14 +197,14 @@ const SignUpPage = () => {
                 input: cssstyle.resize,
               },
             }}
-            placeholder="아이디(10자 이내)"
+            placeholder="아이디 (8자 이내)"
             type="string"
             autoComplete="current-id"
             onChange={handleChange}
             variant="standard"
             InputLabelProps={{ shrink: false }}
             InputProps={{
-              style: { fontSize: 14, paddingBottom: '15px' },
+              style: { fontSize: 14, paddingBottom: '20px' },
             }}
           />
           <ColorButton
@@ -207,7 +214,8 @@ const SignUpPage = () => {
             onClick={handleCheckID}
             variant="contained"
             width={'80px'}
-            sx={{ position: 'absolute', fontSize: 12, right: 24 }}
+            fontSize={12}
+            sx={{ position: 'absolute', right: 24 }}
             height={'30px'}
             text="중복 확인"
           />
@@ -215,14 +223,24 @@ const SignUpPage = () => {
         <TextField
           id="password"
           sx={{ marginTop: '24px' }}
-          placeholder="비밀번호 6자리 이상"
+          placeholder="비밀번호 (6자 이상)"
+          error={
+            inputData.password.length < 6 && inputData.password.length > 0
+              ? true
+              : false
+          }
+          helperText={
+            inputData.password.length < 6 && inputData.password.length > 0
+              ? '6자 이상 입력해주세요.'
+              : ''
+          }
           type={isVisible.password ? 'text' : 'password'}
           autoComplete="current-password"
           variant="standard"
           onChange={handleChange}
           InputLabelProps={{ shrink: false }}
           InputProps={{
-            style: { fontSize: 14, paddingBottom: '15px' },
+            style: { fontSize: 14, paddingBottom: '20px' },
             // <-- This is where the toggle button is added.
             endAdornment: (
               <InputAdornment position="end">
@@ -264,13 +282,13 @@ const SignUpPage = () => {
               : '*비밀번호가 일치하지 않습니다.'
           }
           sx={{ marginTop: '24px' }}
-          placeholder="비밀번호 재입력"
+          placeholder="비밀번호 재입력 (6자 이상)"
           type={isVisible.password_check ? 'text' : 'password'}
           variant="standard"
           onChange={handleChange}
           InputLabelProps={{ shrink: false }}
           InputProps={{
-            style: { fontSize: 14, paddingBottom: '15px' },
+            style: { fontSize: 14, paddingBottom: '20px' },
             // <-- This is where the toggle button is added.
             endAdornment: (
               <InputAdornment position="end">
@@ -311,6 +329,7 @@ const SignUpPage = () => {
           }}
         >
           <ColorButton
+            sx={{ fontSize: '16px', fontWeight: 'bold' }}
             color="white"
             bgColor="#015B30"
             hoverBgColor="#015B30"
@@ -321,7 +340,12 @@ const SignUpPage = () => {
             text="회원가입"
           />
           <Button
-            sx={{ color: '#E5E5E5', height: '56px', fontWeight: 'bold' }}
+            sx={{
+              color: '#E5E5E5',
+              height: '56px',
+              fontWeight: 'bold',
+              fontSize: '16px',
+            }}
             variant="text"
           >
             다음에 하기
@@ -348,6 +372,8 @@ const SignUpPage = () => {
             sx={{
               height: '40px',
               width: '90%',
+              fontSize: '16px',
+              fontWeight: 'bold',
             }}
             variant="contained"
             width={'100%'}
@@ -364,6 +390,6 @@ export default SignUpPage;
 
 const cssstyle = `
 .MuiFormHelperText-root{
-  margin-top:-1.2rem;
+  margin-top:-1.35rem;
 }
 `;
