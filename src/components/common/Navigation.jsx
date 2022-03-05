@@ -34,7 +34,7 @@ const Navigation = () => {
       />
       <BottomNavigationAction
         label="생활기록부"
-        value="myPage"
+        value="mypage"
         icon={<MypageIcon sx={{ width: '20 imporatant!' }} />}
       />
     </BottomNavigationList>

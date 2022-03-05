@@ -1,23 +1,19 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 // components
 import { Container, Navigation } from '../src/components/common';
 // mui
-import { TextField, Button, Typography } from '@mui/material';
-
+import { Typography } from '@mui/material';
+// api
+import { getApi } from '../apis';
 const LoginPage = () => {
-  const datas = [
-    { rank: 1, setence: '웬만하면', percentage: '56%' },
-    { rank: 2, setence: '웬만하면', percentage: '56%' },
-    { rank: 3, setence: '웬만하면', percentage: '56%' },
-    { rank: 4, setence: '웬만하면', percentage: '56%' },
-    { rank: 5, setence: '웬만하면', percentage: '56%' },
-    { rank: 6, setence: '웬만하면', percentage: '56%' },
-    { rank: 7, setence: '웬만하면', percentage: '56%' },
-    { rank: 8, setence: '웬만하면', percentage: '56%' },
-    { rank: 9, setence: '웬만하면', percentage: '56%' },
-    { rank: 10, setence: '웬만하면', percentage: '56%' },
-  ];
+  const [datas, setDatas] = useState([]);
+
+  useEffect(async () => {
+    const result = await getApi.getRankingData();
+    console.log(result);
+    setDatas(result);
+  }, []);
   return (
     <Container bgColor={'#F8F0E9'}>
       <div style={{ display: 'flex', width: '100%', flexDirection: 'column' }}>
@@ -38,49 +34,18 @@ const LoginPage = () => {
             flexDirection: 'column',
           }}
         >
-          {datas.map((data, idx) => {
-            return (
-              <Box isEven={idx % 2 == 0} isLast={datas.length - 1 === idx}>
-                <div
-                  style={{
-                    fontSize: '16px',
-                    height: '64px',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    fontWeight: 'bold',
-                    width: '44px',
-                    borderRight: '1px solid #c4c4c4',
-                  }}
-                >
-                  {data.rank}
-                </div>
-                <div
-                  style={{
-                    width: 'calc(100% - 44px)',
-                    padding: '16px',
-                    display: 'flex',
-                    fontSize: '22px',
-                    justifyContent: 'space-between',
-                  }}
-                >
-                  <div style={{ fontFamily: 'Middleschool_student' }}>
-                    {data.setence}
-                  </div>
-                  <div
-                    style={{
-                      fontWeight: '700',
-                      fontSize: '14px',
-                      color: '#C02C3D',
-                    }}
-                  >
-                    {' '}
-                    {data.percentage}
-                  </div>
-                </div>
-              </Box>
-            );
-          })}
+          {datas.length > 0 &&
+            datas.map((data, idx) => {
+              return (
+                <Box isEven={idx % 2 == 0} isLast={datas.length - 1 === idx}>
+                  <NumberBox>{data.rank}</NumberBox>
+                  <ContentsBox>
+                    <Sentence>{data.question}</Sentence>
+                    <Percentage>{data.wrong_answer_rate}%</Percentage>
+                  </ContentsBox>
+                </Box>
+              );
+            })}
         </div>
       </div>
       <Navigation />
@@ -98,5 +63,30 @@ const Box = styled.div`
   border-bottom: ${(props) =>
     props.isEven || props.isLast ? '1px solid #c4c4c4' : 'none'};
 `;
+const NumberBox = styled.div`
+  font-size: 16px;
+  height: 64px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  width: 44px;
+  border-right: 1px solid #c4c4c4;
+`;
 
+const ContentsBox = styled.div`
+  width: calc(100% - 44px);
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+`;
+const Sentence = styled.div`
+  font-size: 22px;
+  font-family: 'Middleschool_student';
+`;
+const Percentage = styled.div`
+  font-weight: 700;
+  font-size: 14px;
+  color: #c02c3d;
+`;
 export default LoginPage;
