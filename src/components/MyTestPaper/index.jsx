@@ -1,64 +1,68 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import TotalScore from '../common/TotalScore';
 import { useRouter } from 'next/router';
-import {
-  Divider,
-  Typography,
-  Box,
-  List,
-  ListItem,
-  Avatar,
-} from '@mui/material';
-import { getDate, getStamp } from '../../utils';
+import { Divider, Typography, Box, List, ListItem } from '@mui/material';
+import { getDate } from '../../utils';
 import Image from 'next/image';
+import axios from 'axios';
 
 const MyTestPaper = () => {
   const router = useRouter();
-  const [testData, setTestData] = useState(null);
+  const [testData, setTestData] = useState({
+    answer_user: [],
+    created_at: '',
+    is_correct_list: [],
+    score: 0,
+    username: '',
+    answer: [],
+  });
 
   useEffect(() => {
     if (!router) return;
-    if (!testData) return;
 
     const fetchData = async () => {
       try {
+        //userId와 paperId
         const { data } = await axios({
           baseURL: API_DOMAIN,
-          url: `papers/get_paper_detail/2/6/`,
+          url: `/papers/get_paper_detail/6/1/`,
           method: 'get',
         });
-
         setTestData(data);
-      } catch (e) {}
+      } catch (e) {
+        console.log(e);
+      }
     };
 
     fetchData();
-  }, []);
+  }, [router.query.id]);
 
-  if (!router || !testData) return null;
+  if (!router) return null;
 
   return (
     <>
-      <Typography variant="h5" mb="17px">
-        제 {router.query.id}회 받아쓰기
-      </Typography>
-      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+      <Box sx={{ display: 'flex', width: '100%', alignItems: 'center' }}>
+        <Typography variant="h3" mb="17px">
+          제 {router.query.id}회 받아쓰기
+        </Typography>
+      </Box>
+      <Box sx={{ display: 'flex', width: '100%', alignItems: 'center' }}>
         <Image src="/image/paper/date.png" alt="날짜" width={31} height={18} />
         <Typography ml={2} component="span" varaint="body1">
-          {getDate(testData?.date)}
+          {getDate(testData.created_at)}
         </Typography>
       </Box>
       <Divider mb="4px" />
-      <Box mb={2} sx={{ display: 'flex', alignItems: 'center' }}>
+      <Box mb={2} sx={{ display: 'flex', width: '100%', alignItems: 'center' }}>
         <Image src="/image/paper/name.png" alt="이름" width={31} height={18} />
         <Typography component="span" ml={2} varaint="body1">
-          {testData?.username}
+          {testData.username}
         </Typography>
       </Box>
       <Divider />
       <List disablePadding sx={{ width: '100%', border: '1px solid' }}>
-        {testData?.is_correct_list &&
-          testData?.is_correct_list.map((isCorrect, i) => {
+        {testData.is_correct_list.length &&
+          testData.is_correct_list.map((isCorrect, i) => {
             return (
               <React.Fragment key={i}>
                 <ListItem
@@ -86,11 +90,11 @@ const MyTestPaper = () => {
                     }}
                   >
                     <Typography component="div" variant="body2">
-                      {testData?.answer_user[i]}
+                      {testData.answer_user[i]}
                     </Typography>
                     {!isCorrect && (
                       <Typography component="div" variant="body2" color="red">
-                        {testData?.answer[i]}
+                        {testData.answer[i]}
                       </Typography>
                     )}
                   </Box>
@@ -99,42 +103,7 @@ const MyTestPaper = () => {
               </React.Fragment>
             );
           })}
-        <ListItem
-          disablePadding
-          sx={{
-            pt: '18px',
-            pl: '18px',
-            height: 116,
-            alignItems: 'flex-start',
-          }}
-        >
-          <Image
-            src="/image/paper/totalScore.png"
-            alt="totalScore"
-            width={31}
-            height={18}
-          />
-          <Box ml={5}>
-            <Typography variant="h2" color="red">
-              {testData?.problems[0]}
-            </Typography>
-            <Image
-              width={74}
-              height={26}
-              src="/image/paper/scoreUnderline.png"
-              alt="scoreUnderline"
-            />
-          </Box>
-          <Avatar
-            src={`/image/paper/${getStamp(score)}.png`}
-            alt="stamp"
-            sx={{
-              ml: 7,
-              width: 96,
-              height: 96,
-            }}
-          />
-        </ListItem>
+        <TotalScore score={testData.score} />
       </List>
     </>
   );

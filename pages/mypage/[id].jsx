@@ -1,22 +1,31 @@
-import axios from 'axios';
 import React from 'react';
 import { useRouter } from 'next/router';
 import MyTestPaper from '../../src/components/MyTestPaper';
 import { Button } from '@mui/material';
+import Container from '../../src/components/common/Container';
 
 const MyTestPage = () => {
   const router = useRouter();
+
   return (
-    <>
+    <Container bgColor={'#F8F0E9'}>
       <MyTestPaper />
       <Button
         fullWidth
-        sx={{ mt: 6, height: 56 }}
+        variant="contained"
+        sx={{
+          mt: 6,
+          height: 56,
+          backgroundColor: '#015B30',
+          '&:hover': {
+            backgroundColor: '#015B30',
+          },
+        }}
         onClick={() => router.back()}
       >
         닫기
       </Button>
-    </>
+    </Container>
   );
 };
 

@@ -32,7 +32,13 @@ const WriteEndPaper = () => {
             component="a"
             fullWidth
             variant="contained"
-            sx={{ height: 56 }}
+            sx={{
+              height: 56,
+              backgroundColor: '#015B30',
+              '&:hover': {
+                backgroundColor: '#015B30',
+              },
+            }}
             onClick={goMyPage}
           >
             생활기록부 보기
@@ -42,7 +48,13 @@ const WriteEndPaper = () => {
           <Button
             fullWidth
             variant="contained"
-            sx={{ height: 56 }}
+            sx={{
+              height: 56,
+              backgroundColor: '#015B30',
+              '&:hover': {
+                backgroundColor: '#015B30',
+              },
+            }}
             onClick={goTesting}
           >
             다른 시험 보기
