@@ -10,7 +10,7 @@ import Link from 'next/link';
 import { getApi } from '../apis';
 import { useRouter } from 'next/router';
 import { useRecoilState } from 'recoil';
-import { userTestStart } from '../stores/write';
+import { userTestStart, testSound } from '../stores/write';
 
 const StyledTypo = styled.div`
   margin-bottom: 16px;
@@ -35,20 +35,25 @@ const Home = () => {
   const [isLogin, setIsLogin] = useState(null);
   const [userInfo, setUserInfo] = useState({ name: '', count: 0 });
   const [isModalOpen, setIsModalOpen] = useRecoilState(userTestStart);
+  const [audio, setAudio] = useRecoilState(testSound);
 
   const [userID, setUserID] = useState(-1);
 
   useEffect(async () => {
     setIsLogin(getCookie('isLogin'));
     const userName = localStorage.getItem('userName');
-    console.log(userName);
-    setUserInfo({ ...userInfo, name: userName });
+    setUserInfo((userInfo) => ({ ...userInfo, name: userName }));
     const { user_id } = await getApi.getUserID(userName);
     setUserID(user_id);
     const { count_paperuser } = await getApi.getTestCount(user_id);
-    setUserInfo({ ...userInfo, count: count_paperuser });
+    setUserInfo((userInfo) => ({ ...userInfo, count: count_paperuser }));
     localStorage.setItem('userID', user_id);
   }, []);
+
+  // pause audio
+  useEffect(() => {
+    audio.pause();
+  });
 
   const handleGoTest = () => {
     setIsModalOpen(false);

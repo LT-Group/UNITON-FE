@@ -3,14 +3,15 @@ import { getApi } from '../../../apis';
 import WritePaper from '../../../src/components/WritePaper';
 import { useRouter } from 'next/router';
 import { useRecoilState } from 'recoil';
-import { userTestStart } from '../../../stores/write';
+import { userTestStart, testSound } from '../../../stores/write';
 
 const WritePage = () => {
   const [testData, setTestData] = useState([]);
   const [isModalOpen, setIsModalOpen] = useRecoilState(userTestStart);
 
-  const [audio, setAudio] = useState(null);
+  const [audio, setAudio] = useRecoilState(testSound);
   const [playing, setPlaying] = useState(null);
+  const [isFirstTime, setIsFirstTime] = useState(true);
   const router = useRouter();
   useEffect(() => {
     getData();
@@ -27,7 +28,8 @@ const WritePage = () => {
   useEffect(() => {
     if ((!isModalOpen, audio)) {
       setTimeout(() => {
-        setPlaying(true);
+        audio.play();
+        setIsFirstTime(false);
       }, [100]);
     }
   }, [isModalOpen, audio]);
@@ -41,13 +43,16 @@ const WritePage = () => {
   }, [playing]);
 
   useEffect(() => {
+    console.log(audio);
+    console.log(router);
+    console.log('1');
     if (audio) {
       audio?.addEventListener('ended', () => setPlaying(false));
       return () => {
         audio?.removeEventListener('ended', () => setPlaying(false));
       };
     }
-  }, [audio, playing]);
+  }, [audio, playing, router]);
 
   return (
     <>
