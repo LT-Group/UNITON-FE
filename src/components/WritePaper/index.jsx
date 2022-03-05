@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import WriteTitle from '../common/WriteTitle';
 import TestList from './TestList';
 import { useRouter } from 'next/router';
@@ -11,10 +11,12 @@ import { UserInfo } from '../../../stores/userInfo';
 
 const WritePaper = ({ isButton, onToggle, isPlay, paperId, removeToggle }) => {
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
   const [problems, setProblems] = useRecoilState(ProblemsState);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
     const [score, ...inputs] = problems;
     const answer = [...inputs].map((input) => input.input);
@@ -48,6 +50,7 @@ const WritePaper = ({ isButton, onToggle, isPlay, paperId, removeToggle }) => {
     } catch (e) {
       console.log('error', e);
     }
+    setIsLoading(false);
   };
 
   const moveMainPage = () => {
@@ -66,6 +69,7 @@ const WritePaper = ({ isButton, onToggle, isPlay, paperId, removeToggle }) => {
           component="a"
           fullWidth
           variant="contained"
+          disabled={isLoading}
           sx={{
             fontSize: '16px',
             height: 56,

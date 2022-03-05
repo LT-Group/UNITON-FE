@@ -15,6 +15,8 @@ const WritePage = () => {
 
   useEffect(() => {
     getData();
+
+    return () => setAudio(null);
   }, []);
 
   const getData = async () => {
