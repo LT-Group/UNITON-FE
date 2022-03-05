@@ -22,11 +22,7 @@ const Navigation = () => {
         router.replace(`/${newValue}`);
       }}
     >
-      <BottomNavigationAction
-        label="문제풀기"
-        value=""
-        icon={<SolveIcon />}
-      />
+      <BottomNavigationAction label="문제풀기" value="" icon={<SolveIcon />} />
       <BottomNavigationAction
         label="많이 틀린 문제"
         value="ranking"

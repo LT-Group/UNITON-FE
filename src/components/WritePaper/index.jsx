@@ -27,6 +27,8 @@ const WritePaper = ({ isButton, onToggle, isPlay, paperId }) => {
     };
 
     try {
+      onToggle();
+
       const { data } = await axios({
         baseURL: API_DOMAIN,
         url: `papers/post_paper/`,

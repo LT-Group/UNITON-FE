@@ -37,7 +37,11 @@ const LoginPage = () => {
           {datas.length > 0 &&
             datas.map((data, idx) => {
               return (
-                <Box isEven={idx % 2 == 0} isLast={datas.length - 1 === idx}>
+                <Box
+                  key={idx}
+                  isEven={idx % 2 == 0}
+                  isLast={datas.length - 1 === idx}
+                >
                   <NumberBox>{data.rank}</NumberBox>
                   <ContentsBox>
                     <Sentence>{data.question}</Sentence>
@@ -48,7 +52,7 @@ const LoginPage = () => {
             })}
         </div>
       </div>
-      <Navigation value='ranking' />
+      <Navigation value="ranking" />
     </Container>
   );
 };
