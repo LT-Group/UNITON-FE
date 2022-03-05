@@ -9,7 +9,6 @@ const Container = styled.div`
   @media screen and (max-width: 480px) {
     width: 100%;
   }
-  height: 100vh;
   padding: 24px;
   padding-bottom: 0;
   background-color: ${(props) => (props?.bgColor ? props?.bgColor : 'none')};
