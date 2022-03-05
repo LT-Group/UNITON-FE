@@ -1,5 +1,6 @@
 import React from 'react';
 import { styled } from '@mui/material/styles';
+import styles from '@emotion/styled';
 import { useRouter } from 'next/router';
 // components
 import { ColorButton, Container, CustomModal } from '../src/components/common';
@@ -113,7 +114,7 @@ const SignUpPage = () => {
   const handleCheckID = async () => {
     const { result } = await postApi.checkID({ id: inputData.id });
     if (result) {
-      setIsFormatOkay({ ...isFormatOkay, id: true });
+      setIsFormatOkay({ ...isFormatOkay, id: false });
     } else {
       setIsFormatOkay({ ...isFormatOkay, id: true });
     }
@@ -191,7 +192,7 @@ const SignUpPage = () => {
             onClick={handleCheckID}
             variant="contained"
             width={'80px'}
-            sx={{ position: 'absolute', right: 24, fontSize: '12px' }}
+            sx={{ position: 'absolute', marginLeft: '-80px', fontSize: '12px' }}
             height={'30px'}
             text="중복 확인"
           />
@@ -294,40 +295,42 @@ const SignUpPage = () => {
           }}
         />
         <style>{cssstyle}</style>
-        <div
-          style={{
-            position: 'absolute',
-            bottom: 0,
-            display: 'flex',
-            flexDirection: 'column',
-            width: `calc(100% - 4.8rem)`,
-            paddingBottom: '2rem',
-          }}
-        >
-          <ColorButton
-            sx={{ fontSize: '16px', fontWeight: 'bold' }}
-            color="white"
-            bgColor="#015B30"
-            hoverBgColor="#015B30"
-            onClick={handleSignUp}
-            variant="contained"
-            width={'100%'}
-            height={'56px'}
-            text="회원가입"
-          />
-          <Button
-            onClick={() => router.replace('/')}
-            sx={{
-              color: '#015B30',
-              height: '56px',
-              fontWeight: 'bold',
-              fontSize: '16px',
+        <BtnContainer>
+          <div
+            style={{
+              position: 'absolute',
+              bottom: 0,
+              display: 'flex',
+              flexDirection: 'column',
+              width: `calc(100% - 4.8rem)`,
+              paddingBottom: '2rem',
             }}
-            variant="text"
           >
-            다음에 하기
-          </Button>
-        </div>
+            <ColorButton
+              sx={{ fontSize: '16px', fontWeight: 'bold' }}
+              color="white"
+              bgColor="#015B30"
+              hoverBgColor="#015B30"
+              onClick={handleSignUp}
+              variant="contained"
+              width={'100%'}
+              height={'56px'}
+              text="회원가입"
+            />
+            <Button
+              onClick={() => router.replace('/')}
+              sx={{
+                color: '#015B30',
+                height: '56px',
+                fontWeight: 'bold',
+                fontSize: '16px',
+              }}
+              variant="text"
+            >
+              다음에 하기
+            </Button>
+          </div>
+        </BtnContainer>
       </div>
       <CustomModal
         isModalOpen={isModalOpen}
@@ -348,4 +351,18 @@ const cssstyle = `
 .MuiFormHelperText-root{
   margin-top:-20px;
 }
+`;
+
+const BtnContainer = styles.div`
+  @media screen and (min-width: 480px) {
+    width: 480px;
+    margin: 0 auto;
+    bottom: 0;
+    position: fixed;
+  }
+  @media screen and (max-width: 480px) {
+    width: 100%;
+    bottom: 0;
+    position: fixed;
+  }
 `;

@@ -172,44 +172,61 @@ const LoginPage = () => {
             }}
           />
         </div>
-        <div
-          style={{
-            position: 'absolute',
-            bottom: 0,
-            display: 'flex',
-            flexDirection: 'column',
-            width: `calc(100% - 4.8rem)`,
-            paddingBottom: '2rem',
-          }}
-        >
-          <ColorButton
-            sx={{ fontSize: '16px', fontWeight: 'bold' }}
-            color="white"
-            bgColor={'#015B30'}
-            hoverBgColor={'#015B30'}
-            variant="contained"
-            width={'100%'}
-            height={'56px'}
-            text="로그인"
-            onClick={handleLogin}
-          />
-          <Link href="/signup" passHref>
-            <Button
-              sx={{
-                color: '#015B30',
-                height: '56px',
-                fontSize: '16px',
-                fontWeight: 'bold',
-              }}
-              variant="text"
-            >
-              회원가입
-            </Button>
-          </Link>
-        </div>
+        <BtnContainer>
+          <div
+            style={{
+              position: 'absolute',
+              bottom: 0,
+              display: 'flex',
+              flexDirection: 'column',
+              width: `calc(100% - 4.8rem)`,
+              paddingBottom: '2rem',
+            }}
+          >
+            <ColorButton
+              sx={{ fontSize: '16px', fontWeight: 'bold' }}
+              color="white"
+              bgColor={'#015B30'}
+              hoverBgColor={'#015B30'}
+              variant="contained"
+              width={'100%'}
+              height={'56px'}
+              text="로그인"
+              onClick={handleLogin}
+            />
+            <Link href="/signup" passHref>
+              <Button
+                sx={{
+                  color: '#015B30',
+                  height: '56px',
+                  fontSize: '16px',
+                  fontWeight: 'bold',
+                }}
+                variant="text"
+              >
+                회원가입
+              </Button>
+            </Link>
+          </div>
+        </BtnContainer>
       </div>
     </Container>
   );
 };
 
 export default LoginPage;
+
+const BtnContainer = styled.div`
+  @media screen and (min-width: 480px) {
+    width: 480px;
+    margin: 0 auto;
+    bottom:0;
+    position: fixed;
+
+  }
+  @media screen and (max-width: 480px) {
+    width: 100%;
+    bottom:0;
+    position: fixed;
+  }
+`;

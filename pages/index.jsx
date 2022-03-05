@@ -50,6 +50,7 @@ const Home = () => {
 
   // pause audio
   useEffect(() => {
+    setAudio(null);
     audio?.pause();
   });
 

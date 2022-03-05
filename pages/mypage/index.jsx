@@ -18,7 +18,11 @@ import { Box, flexbox } from '@mui/system';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { ColorButton, Container, Navigation } from '../../src/components/common';
+import {
+  ColorButton,
+  Container,
+  Navigation,
+} from '../../src/components/common';
 import { removeCookie, getCookie } from '../../token/TokenManager';
 import { common } from '../../src/styles/common';
 import { getApi } from '../../apis';
@@ -161,10 +165,7 @@ const MyPage = () => {
                   <div>1학년</div>
                   <div style={{ opacity: '0.3' }}>2학년 진학&nbsp; 0/4</div>
                 </div>
-                <BorderLinearProgress
-                  variant="determinate"
-                  value={(userInfo?.paper_count % 4) * 25}
-                />
+                <BorderLinearProgress variant="determinate" value={0} />
               </StyledTableCell>
             </TableRow>
             <TableRow>
@@ -480,6 +481,7 @@ const Imgcontainer = styled.div`
   width: calc(100% + 48px);
   padding: 0 24px;
   background-color: #f8f0e9;
+  padding-bottom: 110px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: center;

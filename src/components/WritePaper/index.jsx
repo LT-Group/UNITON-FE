@@ -10,6 +10,8 @@ import next from 'next';
 import { UserInfo } from '../../../stores/userInfo';
 
 const WritePaper = ({ isButton, onToggle, isPlay, paperId, removeToggle }) => {
+  console.log(paperId);
+  console.log('비교');
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [problems, setProblems] = useRecoilState(ProblemsState);

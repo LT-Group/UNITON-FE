@@ -31,12 +31,11 @@ const WritePage = () => {
     if ((!isModalOpen, audio)) {
       setTimeout(() => {
         setPlaying(true);
-        setIsFirstTime(false);
       }, [100]);
     }
   }, [isModalOpen, audio]);
 
-  const toggle = () => setPlaying(!playing);
+  const toggle = () => setPlaying((playing) => !playing);
   const removeToggle = () => setPlaying(false);
 
   useEffect(() => {
