@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 const Container = styled.div`
   width: 100%;
   height: 100vh;
-  padding: 2.4rem;
+  padding: 24px;
   padding-bottom: 0;
   background-color: ${(props) => (props?.bgColor ? props?.bgColor : 'none')};
   display: flex;
