@@ -47,11 +47,27 @@ const TestEndList = () => {
                     justifyContent: 'center',
                   }}
                 >
-                  <Typography component="div" variant="body2">
+                  <Typography
+                    component="div"
+                    variant="body2"
+                    sx={{
+                      fontSize: '22px',
+                      fontFamily: 'Middleschool_student',
+                      color: '#443C22',
+                    }}
+                  >
                     {problem.input}
                   </Typography>
                   {problem.answer && (
-                    <Typography component="div" variant="body2" color="red">
+                    <Typography
+                      component="div"
+                      variant="body2"
+                      color="#C02C3D"
+                      sx={{
+                        fontSize: '22px',
+                        fontFamily: 'Middleschool_student',
+                      }}
+                    >
                       {problem.answer}
                     </Typography>
                   )}
@@ -66,7 +82,5 @@ const TestEndList = () => {
     </>
   );
 };
-
-const problemNums = [1, 2, 3, 4, 5];
 
 export default TestEndList;

@@ -23,16 +23,36 @@ const TotalScore = ({ score }) => {
           height={18}
         />
       </Box>
-      <Box ml={5} mt={1}>
-        <Typography variant="h2" color="red" align="center">
+      <Box ml={5} mt={1} sx={{ position: 'relative', width: 64, height: 92 }}>
+        <Typography
+          variant="h2"
+          color="#C02C3D"
+          sx={{
+            position: 'absolute',
+            fontSize: 80,
+            top: '-30px',
+            left: '10%',
+            fontFamily: 'Middleschool_student',
+          }}
+        >
           {score}
         </Typography>
-        <Image
-          width={74}
-          height={26}
-          src="/image/paper/scoreUnderline.png"
-          alt="scoreUnderline"
-        />
+        <Box
+          sx={{
+            width: 74,
+            height: 26,
+            position: 'absolute',
+            top: '55%',
+            left: 0,
+          }}
+        >
+          <Image
+            width={74}
+            height={26}
+            src="/image/paper/scoreUnderline.png"
+            alt="scoreUnderline"
+          />
+        </Box>
       </Box>
       {score >= 0 && (
         <Avatar
