@@ -4,15 +4,23 @@ import styled from '@emotion/styled';
 // components
 import { Container, ColorButton } from '../src/components/common';
 // mui
-import { TextField, Button, Typography } from '@mui/material';
 // recoil
 import { useRecoilState } from 'recoil';
-
+import {
+  TextField,
+  Button,
+  Typography,
+  InputAdornment,
+  IconButton,
+} from '@mui/material';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 const LoginPage = () => {
   const [inputData, setInputData] = useState({
     id: '',
     password: '',
   });
+  const [isVisible, setIsVisible] = useState({ password: true });
   const handleChange = (e) => {
     console.log(e);
     setInputData({
@@ -60,11 +68,40 @@ const LoginPage = () => {
               },
             }}
             placeholder="비밀번호를 입력해주세요."
-            type="password"
+            type={isVisible.password ? 'text' : 'password'}
             autoComplete="current-password"
             variant="standard"
             onChange={handleChange}
             InputLabelProps={{ shrink: false }}
+            InputProps={{
+              style: { fontSize: 14, paddingBottom: '15px' },
+              // <-- This is where the toggle button is added.
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={() =>
+                      setIsVisible((isVisible) => ({
+                        ...isVisible,
+                        password: !isVisible.password,
+                      }))
+                    }
+                    onMouseDown={() =>
+                      setIsVisible((isVisible) => ({
+                        ...isVisible,
+                        password: !isVisible.password,
+                      }))
+                    }
+                  >
+                    {isVisible?.password ? (
+                      <Visibility style={{ width: '18px' }} />
+                    ) : (
+                      <VisibilityOff style={{ width: '18px' }} />
+                    )}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
           />
         </div>
         <div
