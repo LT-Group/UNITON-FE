@@ -8,6 +8,7 @@ import styled from '@emotion/styled';
 import { setCookie, getCookie } from '../token/TokenManager';
 import Link from 'next/link';
 import { getApi } from '../apis';
+import { useRouter } from 'next/router';
 
 const StyledTypo = styled.div`
   margin-bottom: 16px;
@@ -27,17 +28,24 @@ const MainButton = styled(Button)({
   },
 });
 const Home = () => {
+  const router = useRouter();
   const [count, setCount] = useState(350);
   const isLogin = getCookie('isLogin');
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [userID, setUserID] = useState(-1);
   useEffect(async () => {
-    const ID = await getApi.getUserID(getCookie('userName'));
-    setUserID(ID);
+    const userName = await localStorage.getItem('userName');
+    console.log(userName);
+    const { user_id } = await getApi.getUserID(userName);
+    setUserID(user_id);
   }, []);
+  const handleGoTest = () => {
+    setIsModalOpen(false);
+    router.replace(`/write/${userID}`);
+  };
 
   console.log(isLogin);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   return (
     <Container>
       <div style={{ width: '100%', alignItems: 'flex-start' }}>
@@ -87,11 +95,9 @@ const Home = () => {
         sx={{ display: 'flex', flexDirection: 'row', position: 'relative' }}
       >
         {isLogin ? (
-          <Link href="/login" passHref>
-            <MainButton>
-              <Typography variant="button">시험보기</Typography>
-            </MainButton>
-          </Link>
+          <MainButton onClick={() => setIsModalOpen(true)}>
+            <Typography variant="button">시험보기</Typography>
+          </MainButton>
         ) : (
           <Link href="/login" passHref>
             <MainButton>
@@ -108,12 +114,13 @@ const Home = () => {
         />
       </Box>
       <Navigation />
+
       <CustomModal
         isModalOpen={isModalOpen}
-        onClick={() => {
-          router.replace(`/write/${userID}`);
-        }}
-        text="입학을 축하드립니다."
+        onClick={handleGoTest}
+        isBackClick={() => isModalOpen(false)}
+        text="시험 볼 준비 됐나요?"
+        btnText="네네 선생님!"
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       />

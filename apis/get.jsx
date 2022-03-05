@@ -1,10 +1,10 @@
 import axios from 'axios';
 
-const getUserID = async (data) => {
+const getUserID = async (name) => {
   try {
     const { data } = await axios({
       baseURL: API_DOMAIN,
-      url: `/papers/get_user_id/?username=${data}`,
+      url: `/accounts/get_user_id/?username=${name}`,
       method: 'get',
     });
     console.log('[SUCCESS] GET USER ID', data);
