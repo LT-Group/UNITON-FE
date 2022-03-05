@@ -1,3 +1,5 @@
+import '../styles/globals.css';
+
 import { CssBaseline } from '@mui/material';
 import { RecoilRoot } from 'recoil';
 
