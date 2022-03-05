@@ -18,7 +18,7 @@ const CustomModal = ({
     left: '50%',
     transform: 'translate(-50%, -50%)',
     bgcolor: '#F8F0E9',
-    borderRadius: '2px',
+    borderRadius: '5px',
     padding: '23px 25px',
     display: 'flex',
     flexDirection: 'column',
