@@ -2,18 +2,10 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { Box, Divider, Typography } from '@mui/material';
+import { getDate } from '../../utils';
 
 const WriteTitle = () => {
   const router = useRouter();
-
-  const getDate = () => {
-    const date = new Date();
-    const year = date.getFullYear();
-    const month = date.getMonth();
-    const day = date.getDay();
-
-    return `${year}년 ${month}월 ${day}일`;
-  };
 
   if (!router.query.id) return null;
 

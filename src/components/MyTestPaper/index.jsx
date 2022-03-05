@@ -1,26 +1,38 @@
-import {
-  Avatar,
-  Box,
-  Divider,
-  List,
-  ListItem,
-  Typography,
-} from '@mui/material';
 import React from 'react';
-import Image from 'next/image';
-import { useRecoilValue } from 'recoil';
-import { ProblemsState } from '../../../store/atoms';
-import { getStamp } from '../../../utils';
+import PropTypes from 'prop-types';
+import { Divider, Typography, Box, List, ListItem } from '@mui/material';
+import { getDate, getStamp } from '../../utils';
 
-const TestEndList = () => {
-  const problems = useRecoilValue(ProblemsState);
-
+const MyTestPaper = ({
+  times,
+  username,
+  date,
+  score,
+  is_correct_list,
+  answer_user,
+  answer,
+}) => {
   return (
     <>
+      <Typography variant="h5" mb="17px">
+        제 {times}회 받아쓰기
+      </Typography>
+      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        <Image src="/image/paper/date.png" alt="날짜" width={31} height={18} />
+        <Typography ml={2} component="span" varaint="body1">
+          {getDate(date)}
+        </Typography>
+      </Box>
+      <Divider mb="4px" />
+      <Box mb={2} sx={{ display: 'flex', alignItems: 'center' }}>
+        <Image src="/image/paper/name.png" alt="이름" width={31} height={18} />
+        <Typography component="span" ml={2} varaint="body1">
+          {username}
+        </Typography>
+      </Box>
+      <Divider />
       <List disablePadding sx={{ width: '100%', border: '1px solid' }}>
-        {problems.map((problem, i) => {
-          if (i === 0) return;
-
+        {is_correct_list.map((isCorrect, i) => {
           return (
             <React.Fragment key={i}>
               <ListItem
@@ -31,8 +43,8 @@ const TestEndList = () => {
               >
                 <Box sx={{ width: 44, textAlign: 'center' }}>
                   <Image
-                    src={`/image/paper/${i}.png`}
-                    alt={i}
+                    src={`/image/paper/${i + 1}.png`}
+                    alt={i + 1}
                     width={9}
                     height={23}
                   />
@@ -48,11 +60,11 @@ const TestEndList = () => {
                   }}
                 >
                   <Typography component="div" variant="body2">
-                    {problem.input}
+                    {answer_user[i]}
                   </Typography>
-                  {problems.answer && (
+                  {!isCorrect && (
                     <Typography component="div" variant="body2" color="red">
-                      {problems.answer}
+                      {answer[i]}
                     </Typography>
                   )}
                 </Box>
@@ -87,23 +99,28 @@ const TestEndList = () => {
               alt="scoreUnderline"
             />
           </Box>
-          {problems[0] && (
-            <Avatar
-              src={`/image/paper/${getStamp(problems[0])}.png`}
-              alt="stamp"
-              sx={{
-                ml: 7,
-                width: 96,
-                height: 96,
-              }}
-            />
-          )}
+          <Avatar
+            src={`/image/paper/${getStamp(score)}.png`}
+            alt="stamp"
+            sx={{
+              ml: 7,
+              width: 96,
+              height: 96,
+            }}
+          />
         </ListItem>
       </List>
     </>
   );
 };
 
-const problemNums = [1, 2, 3, 4, 5];
+MyTestPaper.propTypes = {
+  username: PropTypes.string,
+  date: PropTypes.string,
+  score: PropTypes.number,
+  is_correct_list: PropTypes.arrayOf(PropTypes.bool),
+  answer_user: PropTypes.arrayOf(PropTypes.string),
+  answer: PropTypes.arrayOf(PropTypes.string),
+};
 
-export default TestEndList;
+export default MyTestPaper;
