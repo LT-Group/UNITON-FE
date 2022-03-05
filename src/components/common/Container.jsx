@@ -2,7 +2,13 @@ import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 
 const Container = styled.div`
-  width: 100%;
+  @media screen and (min-width: 480px) {
+    width: 480px;
+    margin: 0 auto;
+  }
+  @media screen and (max-width: 480px) {
+    width: 100%;
+  }
   height: 100vh;
   padding: 24px;
   padding-bottom: 0;

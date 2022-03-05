@@ -18,7 +18,7 @@ import { Box, flexbox } from '@mui/system';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { ColorButton, Container } from '../../src/components/common';
+import { ColorButton, Container, Navigation } from '../../src/components/common';
 import { removeCookie, getCookie } from '../../token/TokenManager';
 import { common } from '../../src/styles/common';
 import { getApi } from '../../apis';
@@ -78,7 +78,8 @@ const MyPage = () => {
       setUserID(ID);
 
       // ID로 바꿀것
-      const Info = await getApi.getUserInfo(2);
+      const Info = await getApi.getUserInfo(ID);
+      console.log(Info);
       setUserInfo(Info);
     };
     getData();
@@ -331,9 +332,10 @@ const MyPage = () => {
                     justifyContent: 'space-between',
                   }}
                 >
-                  <div>{userInfo?.paper_count / 4 + 1}학년</div>
+                  <div>{Math.floor(userInfo?.paper_count / 4) + 1}학년</div>
                   <div style={{ opacity: '0.3' }}>
-                    {userInfo?.paper_count / 4 + 2}학년 진학&nbsp;
+                    {Math.floor(userInfo?.paper_count / 4) / 4 + 2}학년
+                    진학&nbsp;
                     {userInfo?.paper_count % 4}/4
                   </div>
                 </div>
@@ -420,7 +422,7 @@ const MyPage = () => {
         </Table>
         <Imgcontainer height={userInfo?.paper_list?.length * 207}>
           {userInfo?.paper_list?.length > 0 &&
-            userInfo?.paper_list.map((id) => {
+            userInfo?.paper_list.map((id, index) => {
               return (
                 <div key={id}>
                   <img
@@ -452,7 +454,7 @@ const MyPage = () => {
                         fontWeight: 'bold',
                       }}
                     >
-                      제{id}회
+                      제{index + 1}회
                     </div>
                   </div>
                 </div>
@@ -460,6 +462,7 @@ const MyPage = () => {
             })}
         </Imgcontainer>
         <style>{cssstyle}</style>
+        <Navigation />
       </Container>
     );
 };

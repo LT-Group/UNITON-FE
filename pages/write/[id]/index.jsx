@@ -20,7 +20,8 @@ const WritePage = () => {
   const getData = async () => {
     const ID = await localStorage.getItem('userID');
     const data = await getApi.getTestData(ID);
-    setPaper(data.paper_id);
+    console.log(data);
+    setPaper(() => data.paper_id);
     setAudio(new Audio(data.file));
   };
 

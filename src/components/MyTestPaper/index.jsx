@@ -37,7 +37,7 @@ const MyTestPaper = () => {
     };
 
     fetchData();
-  }, [router.query.id]);
+  }, [router?.query?.id]);
 
   if (!router) return null;
 
@@ -89,7 +89,7 @@ const MyTestPaper = () => {
       </Box>
       <Divider />
       <List disablePadding sx={{ width: '100%', border: '1px solid' }}>
-        {testData.is_correct_list.length &&
+        {testData.is_correct_list?.length &&
           testData.is_correct_list.map((isCorrect, i) => {
             return (
               <React.Fragment key={i}>
