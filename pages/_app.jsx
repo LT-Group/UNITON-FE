@@ -23,7 +23,9 @@ const MyApp = ({ Component, pageProps }) => {
     const rfExpireAt = getCookie('rfExpireAt');
     const isLoading = getCookie('isLoading');
 
-    const isLogin = localStorage.getItem('isLogin');
+    const isLogin = getCookie('isLogin');
+    console.log(isLoading);
+    console.log(isLogin);
     // 토큰이 없는 경우, 로그아웃
     if (
       (accessToken === 'undefined' || accessToken === undefined) &&
@@ -34,13 +36,13 @@ const MyApp = ({ Component, pageProps }) => {
       removeCookie('acexpireAt');
       removeCookie('rfExpireAt');
       removeCookie('isLoading');
+      removeCookie('isLogin');
       // 메인 페이지가 아닌 경우 -> 메인페이지로 이동
       if (
-        router.router.asPath !== '/' &&
         router.router.asPath !== '/login' &&
         router.router.asPath !== '/signup'
       )
-        router.replace('/');
+        router.replace('/login');
     } else if (isLogin) {
       // accessToken 만료, refreshToken 유효 -> refreshToken으로 token 재발급
       if (
@@ -57,7 +59,11 @@ const MyApp = ({ Component, pageProps }) => {
 
         const rfExpireAt = new Date();
         rfExpireAt.setDate(rfExpireAt.getDate() + 8);
-
+        setCookie('isLogin', true, {
+          path: '/',
+          ...COOKIE_OPTION,
+          expires: rfExpireAt,
+        });
         setCookie('accessToken', token.access, {
           path: '/',
           ...COOKIE_OPTION,
@@ -97,7 +103,8 @@ const MyApp = ({ Component, pageProps }) => {
         removeCookie('acexpireAt');
         removeCookie('rfExpireAt');
         removeCookie('isLoading');
-        router.push('/');
+        removeCookie('isLogin');
+        router.push('/login');
       }
     }
   });
@@ -105,7 +112,7 @@ const MyApp = ({ Component, pageProps }) => {
   // Add a request interceptor
   axios.interceptors.request.use(function (config) {
     const token = getCookie('accessToken');
-    
+
     if (
       token !== undefined &&
       token !== 'undefined' &&
