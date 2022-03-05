@@ -40,6 +40,7 @@ const Navigation = () => {
     </BottomNavigationList>
   );
 };
+export default Navigation;
 
 const BottomNavigationList = styled(BottomNavigation)`
   font-size: 14px !important;
