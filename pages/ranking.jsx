@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 // components
-import { Container } from '../src/components/common';
+import { Container, Navigation } from '../src/components/common';
 // mui
 import { TextField, Button, Typography } from '@mui/material';
 
@@ -83,6 +83,7 @@ const LoginPage = () => {
           })}
         </div>
       </div>
+      <Navigation />
     </Container>
   );
 };
