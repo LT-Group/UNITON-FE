@@ -1,12 +1,13 @@
 import Image from 'next/image';
 import { Box, Button } from '@mui/material';
 import { Typography } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Navigation from '../src/components/common/Navigation';
-import { Container } from '../src/components/common';
+import { Container, CustomModal } from '../src/components/common';
 import styled from '@emotion/styled';
-import { setCookie } from '../token/TokenManager';
+import { setCookie, getCookie } from '../token/TokenManager';
 import Link from 'next/link';
+import { getApi } from '../apis';
 
 const StyledTypo = styled.div`
   margin-bottom: 16px;
@@ -27,6 +28,16 @@ const MainButton = styled(Button)({
 });
 const Home = () => {
   const [count, setCount] = useState(350);
+  const isLogin = getCookie('isLogin');
+
+  const [userID, setUserID] = useState(-1);
+  useEffect(async () => {
+    const ID = await getApi.getUserID(getCookie('userName'));
+    setUserID(ID);
+  }, []);
+
+  console.log(isLogin);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   return (
     <Container>
       <div style={{ width: '100%', alignItems: 'flex-start' }}>
@@ -40,7 +51,7 @@ const Home = () => {
           </b>
         </Typography>
       </div>
-      {setCookie.isLogin ? (
+      {isLogin ? (
         <StyledTypo>
           <Typography variant="h5" align="left">
             이 상태라면
@@ -75,18 +86,16 @@ const Home = () => {
         component="div"
         sx={{ display: 'flex', flexDirection: 'row', position: 'relative' }}
       >
-        {setCookie.isLogin ? (
+        {isLogin ? (
           <Link href="/login">
             <MainButton>
               <Typography variant="button">시험보기</Typography>
             </MainButton>
           </Link>
         ) : (
-          <Link href="/login">
-            <MainButton>
-              <Typography variant="button">시작하기</Typography>
-            </MainButton>
-          </Link>
+          <MainButton>
+            <Typography variant="button">시작하기</Typography>
+          </MainButton>
         )}
         <Image
           src={setCookie.isLogin ? 'image/main_text.png' : '/image/main.png'}
@@ -96,6 +105,15 @@ const Home = () => {
         />
       </Box>
       <Navigation />
+      <CustomModal
+        isModalOpen={isModalOpen}
+        onClick={() => {
+          router.replace(`/write/${userID}`);
+        }}
+        text="입학을 축하드립니다."
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      />
     </Container>
   );
 };
