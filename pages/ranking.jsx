@@ -19,10 +19,17 @@ const LoginPage = () => {
     { rank: 10, setence: '웬만하면', percentage: '56%' },
   ];
   return (
-    <Container>
+    <Container bgColor={'#F8F0E9'}>
       <div style={{ display: 'flex', width: '100%', flexDirection: 'column' }}>
-        <Typography sx={{ fontSize: '28px', fontWeight: 'bold' }}>
-          어려운 맞춤법 순위
+        <Typography
+          sx={{
+            fontSize: '28px',
+            fontWeight: 'bold',
+            fontFamily: 'Pretendard',
+            color: '#443C22',
+          }}
+        >
+          많이 틀린 문제 10
         </Typography>
         <div
           style={{
@@ -37,22 +44,39 @@ const LoginPage = () => {
                 <div
                   style={{
                     fontSize: '16px',
-                    lineHeight: '19.09px',
+                    height: '64px',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
                     fontWeight: 'bold',
-                    width: '50px',
+                    width: '44px',
+                    borderRight: '1px solid #c4c4c4',
                   }}
                 >
-                  {data.rank}등
+                  {data.rank}
                 </div>
                 <div
                   style={{
-                    width: 'calc(100% - 50px)',
+                    width: 'calc(100% - 44px)',
+                    padding: '16px',
                     display: 'flex',
+                    fontSize: '22px',
                     justifyContent: 'space-between',
                   }}
                 >
-                  <div>{data.setence}</div>
-                  <div> {data.percentage}</div>
+                  <div style={{ fontFamily: 'Middleschool_student' }}>
+                    {data.setence}
+                  </div>
+                  <div
+                    style={{
+                      fontWeight: '700',
+                      fontSize: '14px',
+                      color: '#C02C3D',
+                    }}
+                  >
+                    {' '}
+                    {data.percentage}
+                  </div>
                 </div>
               </Box>
             );
@@ -67,7 +91,7 @@ const Box = styled.div`
   width: 100%;
   height: 64px;
   display: flex;
-  padding: 20px 12px;
+  align-items: center;
   border: 1px solid #c4c4c4;
   border-top: ${(props) => (props.isEven ? '1px solid #c4c4c4' : 'none')};
   border-bottom: ${(props) =>
