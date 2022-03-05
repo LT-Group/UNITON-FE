@@ -13,7 +13,7 @@ const ColorButton = ({
   console.log(props);
   return (
     <Button
-      onClick={() => setIsModalOpen(false)}
+    onClick={props.onClick?props.onClick:()=>{}}
       sx={{
         ...props.sx,
         color: color,
