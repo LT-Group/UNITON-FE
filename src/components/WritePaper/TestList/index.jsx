@@ -40,7 +40,8 @@ const TestList = () => {
               <Divider orientation="vertical" />
               <Input
                 name={`input${i}`}
-                sx={{ maxWidth: 282, marginLeft: 2 }}
+                fullWidth
+                sx={{ ml: 2, mr: 2 }}
                 placeholder={answerWriter}
                 disableUnderline
                 onChange={handleChange}
