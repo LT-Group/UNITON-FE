@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import WriteTitle from '../common/WriteTitle';
 import TestList from './TestList';
 import { useRouter } from 'next/router';
@@ -9,11 +9,10 @@ import axios from 'axios';
 import next from 'next';
 import { UserInfo } from '../../../stores/userInfo';
 
-const WritePaper = ({ isButton, onToggle, isPlay }) => {
+const WritePaper = ({ isButton, onToggle, isPlay, paperId }) => {
   const router = useRouter();
   const [problems, setProblems] = useRecoilState(ProblemsState);
-  const { page_id } = useRecoilValue(UserInfo);
-  console.log('page_id', page_id);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -23,7 +22,7 @@ const WritePaper = ({ isButton, onToggle, isPlay }) => {
 
     const requestData = {
       user_id: userId,
-      paper_id: page_id,
+      paper_id: paperId,
       answer,
     };
 
