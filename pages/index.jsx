@@ -4,7 +4,6 @@ import { Typography } from '@mui/material';
 import { useState } from 'react';
 import Navigation from '../src/components/common/Navigation';
 import { Container } from '../src/components/common';
-import Container from '../src/components/common/Container';
 import styled from '@emotion/styled';
 import { setCookie } from '../token/TokenManager';
 import Link from 'next/link';
