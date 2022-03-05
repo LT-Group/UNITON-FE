@@ -64,7 +64,7 @@ const getAllTestCount = async () => {
   try {
     const { data } = await axios({
       baseURL: API_DOMAIN,
-      url: `/papers/page_count/`,
+      url: `/papers/paper_count/`,
       method: 'get',
     });
     console.log('[SUCCESS] GET ALL TEST COUNT', data);

@@ -48,7 +48,7 @@ const LoginPage = () => {
             })}
         </div>
       </div>
-      <Navigation />
+      <Navigation value='ranking' />
     </Container>
   );
 };
