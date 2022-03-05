@@ -109,7 +109,7 @@ const SignUpPage = () => {
   };
 
   const handleCheckID = async () => {
-    const { result } = await postApi.checkID({ username: inputData.id });
+    const { result } = await postApi.checkID({ id: inputData.id });
     if (result) {
       setIsFormatOkay({ ...isFormatOkay, id: true });
     } else {
@@ -188,8 +188,7 @@ const SignUpPage = () => {
             onClick={handleCheckID}
             variant="contained"
             width={'80px'}
-            fontSize={12}
-            sx={{ position: 'absolute', right: 24 }}
+            sx={{ position: 'absolute', right: 24, fontSize: '12px' }}
             height={'30px'}
             text="중복 확인"
           />
@@ -314,8 +313,9 @@ const SignUpPage = () => {
             text="회원가입"
           />
           <Button
+            onClick={() => router.replace('/')}
             sx={{
-              color: '#E5E5E5',
+              color: '#015B30',
               height: '56px',
               fontWeight: 'bold',
               fontSize: '16px',
@@ -341,6 +341,6 @@ export default SignUpPage;
 
 const cssstyle = `
 .MuiFormHelperText-root{
-  margin-top:-1.35rem;
+  margin-top:-20px;
 }
 `;
