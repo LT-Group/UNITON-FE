@@ -2,7 +2,7 @@ import { Modal, Box, Typography } from '@mui/material';
 import { ColorButton } from '.';
 import PropTypes from 'prop-types';
 
-const CustomModal = ({ text, onClick, isModalOpen }) => {
+const CustomModal = ({ text, btnText, onClick, isModalOpen, isBackClick }) => {
   const boxStyle = {
     position: 'absolute',
     top: '50%',
@@ -29,7 +29,7 @@ const CustomModal = ({ text, onClick, isModalOpen }) => {
   };
   return (
     <Modal
-      open={isModalOpen}
+      open={isBackClick}
       onClose={onClick}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
@@ -54,7 +54,7 @@ const CustomModal = ({ text, onClick, isModalOpen }) => {
           variant="contained"
           width={'100%'}
           height={'56px'}
-          text="확인"
+          text={btnText}
         />
       </Box>
     </Modal>
@@ -64,6 +64,8 @@ export default CustomModal;
 
 Modal.propTypes = {
   text: PropTypes.string,
+  btnText: PropTypes.string,
   onClick: PropTypes.func,
   isModalOpen: PropTypes.bool,
+  isBackClick: PropTypes.func,
 };
