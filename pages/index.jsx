@@ -52,7 +52,7 @@ const Home = () => {
 
   // pause audio
   useEffect(() => {
-    audio.pause();
+    audio?.pause();
   });
 
   const handleGoTest = () => {
