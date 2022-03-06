@@ -183,30 +183,40 @@ const LoginPage = () => {
               paddingBottom: '2rem',
             }}
           >
-            <ColorButton
-              sx={{ fontSize: '16px', fontWeight: 'bold' }}
-              color="white"
-              bgColor={'#015B30'}
-              hoverBgColor={'#015B30'}
-              variant="contained"
-              width={'100%'}
-              height={'56px'}
-              text="로그인"
-              onClick={handleLogin}
-            />
-            <Link href="/signup" passHref>
-              <Button
-                sx={{
-                  color: '#015B30',
-                  height: '56px',
-                  fontSize: '16px',
-                  fontWeight: 'bold',
-                }}
-                variant="text"
-              >
-                회원가입
-              </Button>
-            </Link>
+            <div style={{ maxWidth: '432px' }}>
+              <ColorButton
+                sx={{ fontSize: '16px', fontWeight: 'bold' }}
+                color="white"
+                bgColor={'#015B30'}
+                hoverBgColor={'#015B30'}
+                variant="contained"
+                width={'100%'}
+                height={'56px'}
+                text="로그인"
+                onClick={handleLogin}
+              />
+            </div>
+            <div
+              style={{
+                maxWidth: '432px',
+                display: 'flex',
+                justifyContent: 'center',
+              }}
+            >
+              <Link href="/signup" passHref>
+                <Button
+                  sx={{
+                    color: '#015B30',
+                    height: '56px',
+                    fontSize: '16px',
+                    fontWeight: 'bold',
+                  }}
+                  variant="text"
+                >
+                  회원가입
+                </Button>
+              </Link>
+            </div>
           </div>
         </BtnContainer>
       </div>
@@ -221,11 +231,9 @@ const BtnContainer = styled.div`
     width: 480px;
     margin: 0 auto;
     bottom: 0;
-    position: fixed;
   }
   @media screen and (max-width: 480px) {
     width: 100%;
     bottom: 0;
-    position: fixed;
   }
 `;
