@@ -10,9 +10,10 @@ const TestList = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     const nameIndex = Number(name.split('input')[1]);
-    const nextState = problems.map((prevValue, i) =>
-      nameIndex === i ? { ...problems[i], input: value } : prevValue,
-    );
+    const nextState = problems.map((prevValue, i) => {
+      if (i === 0) return prevValue;
+      return nameIndex === i ? { ...problems[i], input: value } : prevValue;
+    });
 
     setProblems(nextState);
   };
