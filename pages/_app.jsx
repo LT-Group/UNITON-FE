@@ -163,9 +163,11 @@ const ISPC = styled.div`
   @media screen and (min-width: 480px) {
     width: 480px;
     hegiht: 100%;
+    margin: 0 auto;
   }
   @media screen and (max-width: 480px) {
     width: 100%;
     hegiht: 100%;
+    margin: 0 auto;
   }
 `;
