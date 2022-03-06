@@ -5,13 +5,13 @@ const Container = styled.div`
   @media screen and (min-width: 480px) {
     width: 480px;
     margin: 0 auto;
-    height: clac(100vh + 87px);
+    height: 100vh;
   }
   @media screen and (max-width: 480px) {
     width: 100%;
-    height: clac(100vh + 87px);
+    height: 100vh;
   }
-  padding: 24px;
+  padding: 24px 24px 100px 24px;
   padding-bottom: 0;
   background-color: ${(props) => (props?.bgColor ? props?.bgColor : 'none')};
   display: flex;

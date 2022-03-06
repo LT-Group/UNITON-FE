@@ -22,6 +22,8 @@ const LoginPage = () => {
           backgroundColor: '#F8F0E9',
           width: '100%',
           flexDirection: 'column',
+          height: '100%',
+          overflow: 'scroll',
         }}
       >
         <Typography
