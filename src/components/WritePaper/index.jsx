@@ -21,8 +21,10 @@ const WritePaper = ({ isButton, onToggle, isPlay, paperId, removeToggle }) => {
     setIsLoading(true);
 
     const [score, ...inputs] = problems;
-    const answer = [...inputs].map((input) => input.input);
-    const userId = await localStorage.getItem('userID');
+    const answer = inputs.map((input) => {
+      return input?.input;
+    });
+    const userId = localStorage.getItem('userID');
 
     const requestData = {
       user_id: userId,

@@ -147,7 +147,7 @@ const MyApp = ({ Component, pageProps }) => {
       !config.url.includes('checkid')
     )
       config.headers.Authorization = `JWT ${token}`;
-    //console.log(config);
+    console.log(config);
     //console.log(token);
     return config;
   });
@@ -185,12 +185,12 @@ export default MyApp;
 
 const ISPC = styled.div`
   dsiplay: flex;
-  background-color: #f8f0e9;
   @media screen and (min-width: 480px) {
     width: 480px;
-    margin: 0 auto;
+    hegiht: 100%;
   }
   @media screen and (max-width: 480px) {
     width: 100%;
+    hegiht: 100%;
   }
 `;
