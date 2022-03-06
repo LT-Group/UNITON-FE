@@ -2,6 +2,7 @@ import '../styles/globals.css';
 import React, { useEffect } from 'react';
 import { CssBaseline } from '@mui/material';
 import Head from 'next/head';
+import styled from '@emotion/styled';
 import { RecoilRoot } from 'recoil';
 // moment
 import moment from 'moment';
@@ -147,10 +148,24 @@ const MyApp = ({ Component, pageProps }) => {
       </Head>
       <RecoilRoot>
         <CssBaseline />
-        <Component {...pageProps} />
+        <ISPC>
+          <Component {...pageProps} />
+        </ISPC>
       </RecoilRoot>
     </>
   );
 };
 
 export default MyApp;
+
+const ISPC = styled.div`
+  dsiplay: flex;
+  background-color: #f8f0e9;
+  @media screen and (min-width: 480px) {
+    width: 480px;
+    margin: 0 auto;
+  }
+  @media screen and (max-width: 480px) {
+    width: 100%;
+  }
+`;
