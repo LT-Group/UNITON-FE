@@ -5,11 +5,11 @@ const Container = styled.div`
   @media screen and (min-width: 480px) {
     width: 480px;
     margin: 0 auto;
-    height: 100vh;
+    height: clac(100vh + 87px);
   }
   @media screen and (max-width: 480px) {
     width: 100%;
-    height: 100vh;
+    height: clac(100vh + 87px);
   }
   padding: 24px;
   padding-bottom: 0;
