@@ -15,7 +15,7 @@
 |                                          이선재                                           |                                          변우진                                           |                                          김지은                                          |
 | :---------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------: |
 | <img src="https://avatars.githubusercontent.com/u/63578094?v=4" width=100 alt="seonjae"/> | <img src="https://avatars.githubusercontent.com/u/68841691?v=4" width=100 alt="woojin" /> | <img src="https://avatars.githubusercontent.com/u/19404865?v=4" width=100 alt="jieun" /> |
-|                                 시험지 제출, 보기 페이지                                  |                               로그인, 회원가입, 랭킹 페이지                               |                                    메인, 마이 페이지                                     |
+|                                 시험지 제출, 보기 페이지                                  |                               로그인, 회원가입, 랭킹 페이지 메인, 마이 페이지                              |                                    메인, 마이 페이지                                     |
 |                           [Github](https://github.com/Sunjae95)                           |                          [Github](https://github.com/Byunwoojin)                          |                           [Github](https://github.com/oranjik)                           |
 
 <br />
