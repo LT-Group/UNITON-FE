@@ -90,7 +90,7 @@ const Home = () => {
             <b>
               세종대왕님이
               <br />
-              하늘에서
+              하늘에서 노하셔
             </b>
           </Typography>
         )}
@@ -156,7 +156,6 @@ const Home = () => {
           )}
         </div>
       </div>
-      <div style={{ paddingBottom: '150px' }}></div>
       <Navigation />
       <CustomModal
         isModalOpen={isModalOpen}
