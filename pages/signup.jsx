@@ -1,6 +1,8 @@
 import React from 'react';
 import { styled } from '@mui/material/styles';
 import styles from '@emotion/styled';
+import { css } from '@emotion/react';
+
 import { useRouter } from 'next/router';
 // components
 import { ColorButton, Container, CustomModal } from '../src/components/common';
@@ -27,6 +29,7 @@ import { setCookie, COOKIE_OPTION } from '../token/TokenManager';
 
 const SignUpPage = () => {
   const router = useRouter();
+  const [isPC, setIsPC] = useState(true);
   const [inputData, setInputData] = useState({
     id: '',
     password: '',
@@ -41,13 +44,26 @@ const SignUpPage = () => {
     id: null,
     password: null,
   });
+  const [isFocus, setIsFocus] = useState({
+    id: false,
+    password: false,
+    password_check: false,
+  });
+  useEffect(() => {
+    setIsFormatOkay({ ...isFormatOkay, id: null });
+  }, [inputData.id]);
+
+  useEffect(() => {
+    setIsFormatOkay({ ...isFormatOkay, password: null });
+  }, [inputData.password]);
+
   const handleSignUp = async () => {
     if (isFormatOkay.id === null) {
       alert('아이디 중복 검사를 해주세요');
     } else if (
       inputData.id.length < 11 &&
       inputData.id.length > 0 &&
-      inputData.password.length > 6 &&
+      inputData.password.length >= 6 &&
       isFormatOkay.id &&
       isFormatOkay.password
     ) {
@@ -132,14 +148,21 @@ const SignUpPage = () => {
         : setIsFormatOkay({ ...isFormatOkay, password: true });
     }
   };
-  useEffect(() => {
-    console.log(inputData);
-  }, [inputData]);
 
   const gotoHome = () => {
     setIsModalOpen(false);
     router.replace('/');
   };
+
+  let filter =
+    'win16|win32|win64|wince|mac|macintel|macppc|mac68k|linux i686|linux armv7l|hp-ux|sunos';
+  useEffect(() => {
+    if (navigator.platform) {
+      if (filter.indexOf(navigator.platform.toLowerCase()) < 0) {
+        setIsPC(false);
+      }
+    }
+  }, []);
 
   return (
     <Container bgColor={'#F8F0E9'}>
@@ -156,6 +179,10 @@ const SignUpPage = () => {
         </div>
         <div style={{ width: '100%' }}>
           <TextField
+            id="id"
+            className="input"
+            onFocus={() => setIsFocus({ ...isFocus, id: true })}
+            onBlur={() => setIsFocus({ ...isFocus, id: false })}
             error={
               isFormatOkay.id || isFormatOkay.id === null
                 ? inputData.id.length > 8
@@ -167,10 +194,18 @@ const SignUpPage = () => {
               isFormatOkay.id || isFormatOkay.id === null
                 ? inputData.id.length > 8
                   ? '8자 이내로 입력해주세요'
+                  : isFormatOkay.id
+                  ? '사용가능한 아이디입니다.'
                   : ''
                 : '*중복된 아이디입니다.'
             }
-            sx={{ width: '100%' }}
+            sx={{
+              width: '100%',
+              '& .MuiFormHelperText-root': { color: '#015B30' },
+              '& .css-1d1r5q-MuiFormHelperText-root.Mui-error': {
+                color: '#C02C3D',
+              },
+            }}
             id="id"
             InputProps={{
               classes: {
@@ -199,6 +234,9 @@ const SignUpPage = () => {
         </div>
         <TextField
           id="password"
+          className="input"
+          onFocus={() => setIsFocus({ ...isFocus, password: true })}
+          onBlur={() => setIsFocus({ ...isFocus, password: false })}
           sx={{ marginTop: '24px' }}
           placeholder="비밀번호 (6자 이상)"
           error={
@@ -229,12 +267,6 @@ const SignUpPage = () => {
                       password: !isVisible.password,
                     }))
                   }
-                  onMouseDown={() =>
-                    setIsVisible((isVisible) => ({
-                      ...isVisible,
-                      password: !isVisible.password,
-                    }))
-                  }
                 >
                   {isVisible?.password ? (
                     <Visibility style={{ width: '18px' }} />
@@ -248,6 +280,9 @@ const SignUpPage = () => {
         />
         <TextField
           id="password_check"
+          className="input"
+          onFocus={() => setIsFocus({ ...isFocus, password_check: true })}
+          onBlur={() => setIsFocus({ ...isFocus, password_check: false })}
           error={
             isFormatOkay.password || isFormatOkay.password === null
               ? false
@@ -265,19 +300,17 @@ const SignUpPage = () => {
           onChange={handleChange}
           InputLabelProps={{ shrink: false }}
           InputProps={{
-            style: { fontSize: 14, paddingBottom: '20px' },
+            style: {
+              fontSize: 14,
+              paddingBottom: '20px',
+              marginBottom: '100px',
+            },
             // <-- This is where the toggle button is added.
             endAdornment: (
               <InputAdornment position="end">
                 <IconButton
                   aria-label="toggle password visibility"
                   onClick={() =>
-                    setIsVisible((isVisible) => ({
-                      ...isVisible,
-                      password_check: !isVisible.password_check,
-                    }))
-                  }
-                  onMouseDown={() =>
                     setIsVisible((isVisible) => ({
                       ...isVisible,
                       password_check: !isVisible.password_check,
@@ -295,51 +328,35 @@ const SignUpPage = () => {
           }}
         />
         <style>{cssstyle}</style>
-        <BtnContainer>
-          <div
-            style={{
-              position: 'absolute',
-              bottom: 0,
-              display: 'flex',
-              flexDirection: 'column',
-              width: `calc(100% - 4.8rem)`,
-              paddingBottom: '2rem',
+        <BtnContainer
+          isBlur={
+            !(isFocus.id || isFocus.password || isFocus.password_check) && !isPC
+          }
+        >
+          <ColorButton
+            sx={{ fontSize: '16px', fontWeight: 'bold' }}
+            color="white"
+            bgColor="#015B30"
+            hoverBgColor="#015B30"
+            onClick={handleSignUp}
+            variant="contained"
+            width={'100%'}
+            height={'56px'}
+            text="회원가입"
+          />
+          <Button
+            onClick={() => router.replace('/')}
+            sx={{
+              width: '100%',
+              color: '#015B30',
+              height: '56px',
+              fontWeight: 'bold',
+              fontSize: '16px',
             }}
+            variant="text"
           >
-            <div style={{ maxWidth: '432px' }}>
-              <ColorButton
-                sx={{ fontSize: '16px', fontWeight: 'bold' }}
-                color="white"
-                bgColor="#015B30"
-                hoverBgColor="#015B30"
-                onClick={handleSignUp}
-                variant="contained"
-                width={'100%'}
-                height={'56px'}
-                text="회원가입"
-              />
-            </div>
-            <div
-              style={{
-                maxWidth: '432px',
-                display: 'flex',
-                justifyContent: 'center',
-              }}
-            >
-              <Button
-                onClick={() => router.replace('/')}
-                sx={{
-                  color: '#015B30',
-                  height: '56px',
-                  fontWeight: 'bold',
-                  fontSize: '16px',
-                }}
-                variant="text"
-              >
-                다음에 하기
-              </Button>
-            </div>
-          </div>
+            다음에 하기
+          </Button>
         </BtnContainer>
       </div>
       <CustomModal
@@ -364,13 +381,21 @@ const cssstyle = `
 `;
 
 const BtnContainer = styles.div`
-@media screen and (min-width: 480px) {
-    width: 480px;
-    margin: 0 auto;
-    bottom: 0;
-  }
-  @media screen and (max-width: 480px) {
-    width: 100%;
-    bottom: 0;
-  }
+position: ${(props) => (props.isBlur ? 'fixed' : 'relative')};
+bottom: 2rem;
+${(props) =>
+  props.isBlur
+    ? css`
+        @media screen and (min-width: 480px) {
+          width: 432px;
+          margin: 0 auto;
+        }
+        @media screen and (max-width: 480px) {
+          width: calc(100% - 4.8rem);
+          margin: 0 auto;
+        }
+      `
+    : css`
+        width: 100%;
+      `};
 `;
