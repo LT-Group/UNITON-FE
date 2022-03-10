@@ -90,6 +90,21 @@ const getUserInfo = async (ID) => {
   }
 };
 
+const getTestResult = async ({ userId, paperId }) => {
+  try {
+    const { data } = await axios({
+      baseURL: API_DOMAIN,
+      url: `/papers/get_paper_detail/${userId}/${paperId}/`,
+      method: 'get',
+    });
+
+    return data;
+  } catch (e) {
+    console.log(e);
+    return e;
+  }
+};
+
 const getApi = {
   getUserID,
   getRankingData,
@@ -97,5 +112,6 @@ const getApi = {
   getTestCount,
   getAllTestCount,
   getUserInfo,
+  getTestResult,
 };
 export default getApi;
