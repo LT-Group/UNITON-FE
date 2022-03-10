@@ -1,31 +1,38 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import WriteTitle from '../common/WriteTitle';
 import TestEndList from './TestEndList';
 import { useRouter } from 'next/router';
 import { Button, Grid } from '@mui/material';
-import { useRecoilState } from 'recoil';
-import { problemsInitialState, ProblemsState } from '../../../stores/problems';
+import { useRecoilValue } from 'recoil';
+import { userPaperId } from '../../../stores/paperId';
+import { getApi } from '../../../apis';
 
 const WriteEndPaper = () => {
   const router = useRouter();
-  const [problems, setProblems] = useRecoilState(ProblemsState);
+  const paperId = useRecoilValue(userPaperId);
+  const [results, setResults] = useState(null);
 
-  const goMyPage = () => {
-    setProblems(problemsInitialState);
+  useEffect(() => {
+    fetchResults();
+  }, []);
 
-    router.push(`/mypage`);
+  const fetchResults = async () => {
+    const userId = localStorage.getItem('userID');
+
+    try {
+      const data = await getApi.getTestResult({ userId, paperId });
+      setResults(data);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
-  const goTesting = () => {
-    setProblems(problemsInitialState);
-
-    router.push(`/`);
-  };
+  if (!router) return null;
 
   return (
     <>
       <WriteTitle />
-      <TestEndList />
+      {results && <TestEndList results={results} />}
       <Grid container spacing={2} mt={6}>
         <Grid item xs={6}>
           <Button
@@ -40,7 +47,7 @@ const WriteEndPaper = () => {
                 backgroundColor: '#015B30',
               },
             }}
-            onClick={goMyPage}
+            onClick={() => router.push(`/mypage`)}
           >
             생활기록부 보기
           </Button>
@@ -57,7 +64,7 @@ const WriteEndPaper = () => {
                 backgroundColor: '#015B30',
               },
             }}
-            onClick={goTesting}
+            onClick={() => router.push(`/`)}
           >
             다른 시험 보기
           </Button>

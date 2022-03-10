@@ -1,15 +1,14 @@
 import { atom } from 'recoil';
 
-export const problemsInitialState = [
-  0,
-  { input: '', answer: '' },
-  { input: '', answer: '' },
-  { input: '', answer: '' },
-  { input: '', answer: '' },
-  { input: '', answer: '' },
-];
+export const problemsInitialState = {
+  problem0: '',
+  problem1: '',
+  problem2: '',
+  problem3: '',
+  problem4: '',
+};
 
-export const ProblemsState = atom({
+export const problemsState = atom({
   key: 'ProblomsState',
   default: problemsInitialState,
 });
