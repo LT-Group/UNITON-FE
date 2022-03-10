@@ -153,7 +153,7 @@ const MyApp = ({ Component, pageProps }) => {
   });
 
   return (
-    <>
+    <ISPC class="container">
       <Head>
         <title>마춤뻡에서 살아남기 </title>
         <meta
@@ -173,26 +173,24 @@ const MyApp = ({ Component, pageProps }) => {
       </Head>
       <RecoilRoot>
         <CssBaseline />
-        <ISPC>
-          <Component {...pageProps} />
-        </ISPC>
+        <Component {...pageProps} />
       </RecoilRoot>
-    </>
+    </ISPC>
   );
 };
 
 export default MyApp;
 
 const ISPC = styled.div`
-  dsiplay: flex;
+  display: flex;
   @media screen and (min-width: 480px) {
     width: 480px;
-    hegiht: 100%;
     margin: 0 auto;
+    min-height: 100vh;
   }
   @media screen and (max-width: 480px) {
     width: 100%;
-    hegiht: 100%;
     margin: 0 auto;
+    min-height: 100vh;
   }
 `;
