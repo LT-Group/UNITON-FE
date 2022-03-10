@@ -5,12 +5,11 @@ const Container = styled.div`
   @media screen and (min-width: 480px) {
     width: 480px;
     margin: 0 auto;
-    height: 100vh;
   }
   @media screen and (max-width: 480px) {
     width: 100%;
-    height: 100vh;
   }
+  min-height: 100vh;
   padding: 24px 24px 100px 24px;
   padding-bottom: 0;
   background-color: ${(props) => (props?.bgColor ? props?.bgColor : 'none')};
