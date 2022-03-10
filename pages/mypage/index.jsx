@@ -27,28 +27,6 @@ import { removeCookie, getCookie } from '../../token/TokenManager';
 import { common } from '../../src/styles/common';
 import { getApi } from '../../apis';
 
-const userData = {
-  username: '마춤뻐 파괘자', // 닉네임 (ID)
-  paper_count: 3, // 총 시험지 수
-  paper_list: [1, 2, 3], // paper_id,
-  stamp: [1, 3, 4], // 도장 수 순서대로
-};
-
-const MyPageContainer = styled(Box)({
-  position: 'absolute',
-  alignItems: 'center',
-});
-
-const StyledTableContainer = styled(TableContainer)({
-  width: '80%',
-  border: '0.2px',
-  borderStyle: 'solid',
-  boxShadow: 'none',
-  borderRadius: '0px',
-  borderCollapse: 'collapse',
-  marginBottom: '32px',
-});
-
 const StyledTableCell = styled(TableCell)({
   outline: '0.5px solid',
   outlineColor: '#C4C4C4',
@@ -73,8 +51,34 @@ const MyPage = () => {
   const [isLogin, setIsLogin] = useState(null);
   const [userID, setUserID] = useState(-1);
   const [userInfo, setUserInfo] = useState({});
-  const handleSignUp = () => {};
 
+  const kakaoID = '7867d65d97b436959a20d12a5bb1beae';
+
+  useEffect(() => {
+    if (window.Kakao) {
+      const kakao = window.Kakao;
+      // 중복 initialization 방지
+      if (!kakao.isInitialized()) {
+        // 두번째 step 에서 가져온 javascript key 를 이용하여 initialize
+        kakao.init(kakaoID);
+      }
+    }
+  }, []);
+
+  const kakaoSend = () => {
+    console.log('send');
+    if (window.Kakao) {
+      const kakao = window.Kakao;
+      // 중복 initialization 방지
+      if (!kakao.isInitialized()) {
+        // 두번째 step 에서 가져온 javascript key 를 이용하여 initialize
+        kakao.init(kakaoID);
+      }
+      window?.Kakao?.Link?.sendScrap({
+        requestUrl: 'https://grammer-survive.netlify.app/',
+      });
+    }
+  };
   useEffect(() => {
     const getData = async () => {
       setIsLogin(getCookie('isLogin'));
@@ -135,9 +139,12 @@ const MyPage = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            <TableRow>
-              <StyledTableCell align="left" sx={{ padding: 0 }}>
-                <img
+            <TableRow sx={{ height: '12.6rem' }}>
+              <StyledTableCell
+                align="left"
+                sx={{ padding: 0, width: '100%', height: '100%' }}
+              >
+                <ProfileImg
                   src="/image/mypage/profile_Default.png"
                   alt="profile"
                   style={{ objectFit: 'cover' }}
@@ -163,12 +170,12 @@ const MyPage = () => {
                   }}
                 >
                   <div>1학년</div>
-                  <div style={{ opacity: '0.3' }}>2학년 진학&nbsp; 0/4</div>
+                  <div style={{ opacity: '0.3' }}>2학년 진학&nbsp; 0/2</div>
                 </div>
                 <BorderLinearProgress variant="determinate" value={0} />
               </StyledTableCell>
             </TableRow>
-            <TableRow>
+            <TableRow sx={{ height: '12.6rem' }}>
               <StyledTableCell
                 align="right"
                 sx={{
@@ -217,7 +224,7 @@ const MyPage = () => {
                 </StyledStampContainer>
               </StyledTableCell>
             </TableRow>
-            <TableRow>
+            <TableRow sx={{ height: '2.4rem' }}>
               <StyledTableCell
                 align="right"
                 sx={{
@@ -310,43 +317,138 @@ const MyPage = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            <TableRow>
-              <StyledTableCell align="left" sx={{ padding: 0 }}>
-                <img
-                  src="/image/mypage/profile_SoSo.png"
-                  alt="profile"
-                  style={{ objectFit: 'cover' }}
-                />
+            <TableRow sx={{ height: '12.6rem' }}>
+              <StyledTableCell
+                align="left"
+                sx={{ padding: 0, height: '12.6rem', width: '10.2rem' }}
+              >
+                {userInfo.total_score_avg >= 90 ? (
+                  <ProfileImg
+                    src="/image/mypage/profile_Good.png"
+                    alt="profile"
+                    style={{ objectFit: 'cover', height: '100%' }}
+                  />
+                ) : userInfo.total_score_avg >= 70 ? (
+                  <ProfileImg
+                    src="/image/mypage/profile_Default.png"
+                    alt="profile"
+                    style={{ objectFit: 'cover' }}
+                  />
+                ) : userInfo.total_score_avg >= 30 ? (
+                  <ProfileImg
+                    src="/image/mypage/profile_SoSo.png"
+                    alt="profile"
+                    style={{ objectFit: 'cover' }}
+                  />
+                ) : (
+                  <ProfileImg
+                    src="/image/mypage/profile_Bad.png"
+                    alt="profile"
+                    style={{ objectFit: 'cover', height: '100%' }}
+                  />
+                )}
               </StyledTableCell>
               <StyledTableCell
                 align="right"
-                sx={{ fontSize: '28px', fontWeight: 'bold' }}
+                sx={{
+                  fontWeight: 'bold',
+                }}
               >
-                {userInfo.username}
-                <div
-                  style={{
-                    fontSize: '14px',
-                    marginTop: '20px',
-                    marginBottom: '5px',
-                    display: 'flex',
-                    color: '#015B30',
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                  }}
-                >
-                  <div>{Math.floor(userInfo?.paper_count / 4) + 1}학년</div>
-                  <div style={{ opacity: '0.3' }}>
-                    {Math.floor(userInfo?.paper_count / 4) + 2}학년 진학&nbsp;
-                    {userInfo?.paper_count % 4}/4
-                  </div>
+                <div>
+                  {userInfo.total_score_avg >= 90 ? (
+                    <div
+                      style={{
+                        fontSize: '1.4rem',
+                        lineHeight: '1.68rem',
+                        fontWeight: '400',
+                      }}
+                    >
+                      전생 집현전 학자
+                    </div>
+                  ) : userInfo.total_score_avg >= 70 ? (
+                    <div
+                      style={{
+                        fontSize: '1.4rem',
+                        lineHeight: '1.68rem',
+                        fontWeight: '400',
+                      }}
+                    >
+                      바른생활 어린이
+                    </div>
+                  ) : userInfo.total_score_avg >= 30 ? (
+                    <div
+                      style={{
+                        fontSize: '1.4rem',
+                        lineHeight: '1.68rem',
+                        fontWeight: '400',
+                      }}
+                    >
+                      마춤뻡 파괘자
+                    </div>
+                  ) : (
+                    <div
+                      style={{
+                        fontSize: '1.4rem',
+                        lineHeight: '1.68rem',
+                        fontWeight: '400',
+                      }}
+                    >
+                      국적 소멸 위기
+                    </div>
+                  )}
                 </div>
-                <BorderLinearProgress
-                  variant="determinate"
-                  value={(userInfo?.paper_count % 4) * 25}
-                />
+                <div style={{ fontSize: '2.8rem', lineHieght: '3.36rem' }}>
+                  {userInfo?.username ? userInfo?.username : '...'}
+                </div>
+                {Math.ceil(userInfo?.paper_count / 2) > 6 ||
+                (Math.ceil(userInfo?.paper_count / 2) == 6 &&
+                  userInfo.dictionary.paper_count / 2 == 0) ? (
+                  <>
+                    <div
+                      style={{
+                        fontSize: '14px',
+                        marginTop: '2.6rem',
+                        marginBottom: '5px',
+                        display: 'flex',
+                        color: '#015B30',
+                        flexDirection: 'row',
+                        justifyContent: 'space-between',
+                      }}
+                    >
+                      <div>{Math.ceil(userInfo?.paper_count / 2)}학년</div>
+                      <div>졸업 🎉</div>
+                    </div>
+                    <BorderLinearProgress variant="determinate" value={100} />
+                  </>
+                ) : (
+                  <>
+                    <div
+                      style={{
+                        fontSize: '14px',
+                        marginTop: '2.6rem',
+                        marginBottom: '5px',
+                        display: 'flex',
+                        color: '#015B30',
+                        flexDirection: 'row',
+                        justifyContent: 'space-between',
+                      }}
+                    >
+                      <div>{Math.ceil(userInfo?.paper_count / 2)}학년</div>
+                      <div style={{ opacity: '0.3' }}>
+                        {Math.ceil(userInfo?.paper_count / 2) + 1}학년
+                        진학&nbsp;
+                        {userInfo?.paper_count % 2}/2
+                      </div>
+                    </div>
+                    <BorderLinearProgress
+                      variant="determinate"
+                      value={(userInfo?.paper_count % 2) * 50}
+                    />
+                  </>
+                )}
               </StyledTableCell>
             </TableRow>
-            <TableRow>
+            <TableRow sx={{ height: '12.6rem' }}>
               <StyledTableCell
                 align="right"
                 sx={{
@@ -395,7 +497,7 @@ const MyPage = () => {
                 </StyledStampContainer>
               </StyledTableCell>
             </TableRow>
-            <TableRow>
+            <TableRow sx={{ height: '2.4rem' }}>
               <StyledTableCell
                 align="right"
                 sx={{
@@ -416,11 +518,35 @@ const MyPage = () => {
                   color: '#443C22',
                 }}
               >
-                {userInfo.paper_count}회 / 평균 {userInfo.total_score_avg}
+                {userInfo.paper_count}회 / 평균 {userInfo.total_score_avg}점
               </StyledTableCell>
             </TableRow>
           </TableBody>
         </Table>
+        <div
+          style={{
+            width: '18.2rem',
+            height: '3rem',
+            backgroundColor: '#C02C3D',
+            fontSize: '1.2rem',
+            fontWeight: '700',
+            color: 'white',
+            borderRadius: '2rem',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+          onClick={kakaoSend}
+        >
+          마춤뻡에서 살아남기 공유하기
+        </div>
+        <div
+          style={{
+            width: '100%',
+            borderTop: '0.12rem solid #E5E5E5',
+            margin: '1.6rem 0 2rem 0',
+          }}
+        ></div>
         <Imgcontainer height={userInfo?.paper_list?.length * 207}>
           {userInfo?.paper_list?.length > 0 &&
             userInfo?.paper_list.map((id, index) => {
@@ -474,9 +600,7 @@ const cssstyle = `
   margin-top:-20px;
 }
 `;
-const ProfileImg = styled.div`
-  background: url(${(props) => props.src}) center center /;
-`;
+
 const Imgcontainer = styled.div`
   width: calc(100% + 48px);
   padding: 0 24px;
@@ -489,6 +613,13 @@ const Imgcontainer = styled.div`
   justify-content: center;
   column-gap: 2rem;
   row-gap: 2rem;
+`;
+
+const ProfileImg = styled.div`
+  background: url(${(props) => props.src}) center center / cover;
+  background-color: #dedede;
+  width: 100%;
+  height: 100%;
 `;
 
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
