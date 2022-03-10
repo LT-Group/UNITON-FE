@@ -61,7 +61,15 @@ const Home = () => {
 
   return (
     <Container bgColor={'#F8F0E9'}>
-      <div style={{ width: '100%', alignItems: 'flex-start' }}>
+      <div
+        style={{
+          display: 'flex',
+          backgroundColor: '#F8F0E9',
+          width: '100%',
+          flexDirection: 'column',
+          height: '100%',
+        }}
+      >
         {isLogin ? (
           <Typography sx={{ fontSize: '28px', lineHeight: '33.6px' }}>
             <span style={{ fontWeight: 'bold', color: '#015B30' }}>
@@ -82,7 +90,7 @@ const Home = () => {
             <b>
               세종대왕님이
               <br />
-              하늘에서
+              하늘에서 노하셔
             </b>
           </Typography>
         )}

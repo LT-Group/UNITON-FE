@@ -9,7 +9,8 @@ const Container = styled.div`
   @media screen and (max-width: 480px) {
     width: 100%;
   }
-  padding: 24px;
+  min-height: 100vh;
+  padding: 24px 24px 100px 24px;
   padding-bottom: 0;
   background-color: ${(props) => (props?.bgColor ? props?.bgColor : 'none')};
   display: flex;

@@ -2,6 +2,7 @@ import '../styles/globals.css';
 import React, { useEffect } from 'react';
 import { CssBaseline } from '@mui/material';
 import Head from 'next/head';
+import styled from '@emotion/styled';
 import { RecoilRoot } from 'recoil';
 // moment
 import moment from 'moment';
@@ -62,7 +63,8 @@ const MyApp = ({ Component, pageProps }) => {
           router.router.asPath !== '/' &&
           router.router.asPath !== '/login' &&
           router.router.asPath !== '/signup' &&
-          router.router.asPath !== '/mypage'
+          router.router.asPath !== '/mypage' &&
+          router.router.asPath !== '/ranking'
         )
           router.replace('/');
       } else if (isLogin) {
@@ -145,13 +147,13 @@ const MyApp = ({ Component, pageProps }) => {
       !config.url.includes('checkid')
     )
       config.headers.Authorization = `JWT ${token}`;
-    //console.log(config);
+    console.log(config);
     //console.log(token);
     return config;
   });
 
   return (
-    <>
+    <ISPC class="container">
       <Head>
         <title>마춤뻡에서 살아남기 </title>
         <meta
@@ -173,8 +175,22 @@ const MyApp = ({ Component, pageProps }) => {
         <CssBaseline />
         <Component {...pageProps} />
       </RecoilRoot>
-    </>
+    </ISPC>
   );
 };
 
 export default MyApp;
+
+const ISPC = styled.div`
+  display: flex;
+  @media screen and (min-width: 480px) {
+    width: 480px;
+    margin: 0 auto;
+    min-height: 100vh;
+  }
+  @media screen and (max-width: 480px) {
+    width: 100%;
+    margin: 0 auto;
+    min-height: 100vh;
+  }
+`;

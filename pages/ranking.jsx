@@ -16,7 +16,16 @@ const LoginPage = () => {
   }, []);
   return (
     <Container bgColor={'#F8F0E9'}>
-      <div style={{ display: 'flex', width: '100%', flexDirection: 'column' }}>
+      <div
+        style={{
+          display: 'flex',
+          backgroundColor: '#F8F0E9',
+          width: '100%',
+          flexDirection: 'column',
+          height: '100%',
+          overflow: 'scroll',
+        }}
+      >
         <Typography
           sx={{
             fontSize: '28px',
@@ -31,6 +40,7 @@ const LoginPage = () => {
           style={{
             display: 'flex',
             marginTop: '28px',
+            marginBottom: '100px',
             flexDirection: 'column',
           }}
         >
