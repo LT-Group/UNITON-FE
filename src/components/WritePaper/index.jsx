@@ -1,58 +1,47 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import WriteTitle from '../common/WriteTitle';
 import TestList from './TestList';
 import { useRouter } from 'next/router';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { problemsInitialState, ProblemsState } from '../../../stores/problems';
+import { problemsInitialState, problemsState } from '../../../stores/problems';
 import { Box, Button } from '@mui/material';
-import axios from 'axios';
-import next from 'next';
-import { UserInfo } from '../../../stores/userInfo';
+import { userPaperId } from '../../../stores/paperId';
+import { postApi } from '../../../apis';
 
-const WritePaper = ({ isButton, onToggle, isPlay, paperId, removeToggle }) => {
-  console.log(paperId);
-  console.log('비교');
+const WritePaper = ({ isButton, onToggle, isPlay, removeToggle }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-  const [problems, setProblems] = useRecoilState(ProblemsState);
+  const paperId = useRecoilValue(userPaperId);
+  const [problems, setProblems] = useRecoilState(problemsState);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setProblems({ ...problems, [name]: value });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
 
-    const [score, ...inputs] = problems;
-    const answer = [...inputs].map((input) => input.input);
-    const userId = await localStorage.getItem('userID');
-
-    const requestData = {
-      user_id: userId,
-      paper_id: paperId,
-      answer,
-    };
+    const userId = localStorage.getItem('userID');
+    const answer = Object.entries(problems).map((problem) => problem[1]);
 
     try {
       removeToggle();
 
-      const { data } = await axios({
-        baseURL: API_DOMAIN,
-        url: `papers/post_paper/`,
-        method: 'post',
-        data: requestData,
+      await postApi.submitAnswer({
+        user_id: userId,
+        paper_id: paperId,
+        answer,
       });
 
-      const nextState = data.answer.map((resAnswer, i) => {
-        if (data.is_correct[i]) {
-          return { input: answer[i], answer: inputs[i + 1].answer };
-        }
-        return { input: answer[i], answer: resAnswer };
-      });
-
-      setProblems([data.score, ...nextState]);
+      setProblems(problemsInitialState);
+      setIsLoading(false);
       router.push(`/write/${router.query.id}/end`);
     } catch (e) {
       console.log('error', e);
+      setIsLoading(false);
     }
-    setIsLoading(false);
   };
 
   const moveMainPage = () => {
@@ -60,12 +49,12 @@ const WritePaper = ({ isButton, onToggle, isPlay, paperId, removeToggle }) => {
     router.replace('/');
   };
 
-  if (!router.query.id) return null;
+  if (!router) return null;
 
   return (
     <>
       <WriteTitle isButton={isButton} onToggle={onToggle} isPlay={isPlay} />
-      <TestList />
+      <TestList handleChange={handleChange} />
       <Box sx={{ width: '100%', mt: '31px' }}>
         <Button
           component="a"

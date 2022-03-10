@@ -66,10 +66,27 @@ const getToken = async (body) => {
     return e;
   }
 };
+
+const submitAnswer = async (body) => {
+  try {
+    const { data } = await axios({
+      baseURL: API_DOMAIN,
+      url: `papers/post_paper/`,
+      method: 'post',
+      data: body,
+    });
+
+    return data;
+  } catch (e) {
+    return e;
+  }
+};
+
 const postApi = {
   signup,
   checkID,
   login,
   getToken,
+  submitAnswer,
 };
 export default postApi;
