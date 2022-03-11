@@ -2,65 +2,54 @@ import React, { useEffect, useState } from 'react';
 import { getApi } from '../../../apis';
 import WritePaper from '../../../src/components/WritePaper';
 import { useRecoilState } from 'recoil';
-import { userTestStart, testSound } from '../../../stores/write';
 import { Container } from '../../../src/components/common';
 import { userPaperId } from '../../../stores/paperId';
 
 const WritePage = () => {
-  const [isModalOpen, setIsModalOpen] = useRecoilState(userTestStart);
-  const [audio, setAudio] = useRecoilState(testSound);
-
-  const [playing, setPlaying] = useState(null);
+  const [audio, setAudio] = useState(null);
+  const [playing, setPlaying] = useState(false);
   const [paperId, setPaper] = useRecoilState(userPaperId);
-  const [isFirstTime, setIsFirstTime] = useState(true);
+  const controlAudio = () => setPlaying(!playing);
+  const stopAudio = () => setPlaying(false);
 
   useEffect(() => {
-    getData();
+    const getData = async () => {
+      const userId = localStorage.getItem('userID');
+      const { paper_id, file } = await getApi.getTestData(userId);
 
-    return () => setAudio(null);
+      setPaper(paper_id);
+      setAudio(new Audio('../../../audio/story1page3.mp3'));
+      // setAudio(new Audio('file'));
+    };
+
+    getData();
   }, []);
 
-  const getData = async () => {
-    const userId = localStorage.getItem('userID');
-    const { paper_id, file } = await getApi.getTestData(userId);
-
-    setPaper(paper_id);
-    setAudio(new Audio(file));
-  };
-
+  //오디오 상태 변경 후 처음 시작할 때
   useEffect(() => {
-    if ((!isModalOpen, audio)) {
-      setTimeout(() => {
-        setPlaying(true);
-      }, [100]);
-    }
-  }, [isModalOpen, audio]);
+    if (!audio) return;
 
-  const toggle = () => setPlaying((playing) => !playing);
-  const removeToggle = () => setPlaying(false);
+    audio.addEventListener('ended', stopAudio);
 
+    setTimeout(() => setPlaying(true), [100]);
+
+    return audio.removeEventListener('ended', stopAudio);
+  }, [audio]);
+
+  //오디오 버튼 클릭 시 일어나는 함수
   useEffect(() => {
-    if (audio) {
-      playing ? audio.play() : audio?.pause();
-    }
-  }, [playing]);
+    if (!audio) return;
 
-  useEffect(() => {
-    if (audio) {
-      audio?.addEventListener('ended', () => setPlaying(false));
-      return () => {
-        audio?.removeEventListener('ended', () => setPlaying(false));
-      };
-    }
+    playing ? audio.play() : audio.pause();
   }, [audio, playing]);
 
   return (
     <Container bgColor={'#F8F0E9'}>
       <WritePaper
         isButton={true}
-        onToggle={toggle}
+        controlAudio={controlAudio}
         isPlay={playing}
-        removeToggle={removeToggle}
+        stopAudio={stopAudio}
       />
     </Container>
   );
@@ -69,11 +58,11 @@ const WritePage = () => {
 export default WritePage;
 
 // url 직접 접근 방지
-export async function getServerSideProps({ req, res, params }) {
-  if (!req.headers.referer) {
-    res.statusCode = 302;
-    res.setHeader('Location', `/`);
-    res.end();
-  }
-  return { props: {} };
-}
+// export async function getServerSideProps({ req, res, params }) {
+//   if (!req.headers.referer) {
+//     res.statusCode = 302;
+//     res.setHeader('Location', `/`);
+//     res.end();
+//   }
+//   return { props: {} };
+// }

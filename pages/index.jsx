@@ -10,7 +10,6 @@ import Link from 'next/link';
 import { getApi } from '../apis';
 import { useRouter } from 'next/router';
 import { useRecoilState } from 'recoil';
-import { userTestStart, testSound } from '../stores/write';
 import { UserInfo } from '../stores/userInfo';
 
 const StyledTypo = styled.div`
@@ -21,8 +20,7 @@ const Home = () => {
   const router = useRouter();
   const [isLogin, setIsLogin] = useState(null);
   const [userInfo, setUserInfo] = useRecoilState(UserInfo);
-  const [isModalOpen, setIsModalOpen] = useRecoilState(userTestStart);
-  const [audio, setAudio] = useRecoilState(testSound);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const getData = async () => {
@@ -47,12 +45,6 @@ const Home = () => {
 
     getData();
   }, []);
-
-  // pause audio
-  useEffect(() => {
-    setAudio(null);
-    audio?.pause();
-  });
 
   const handleGoTest = () => {
     setIsModalOpen(false);
