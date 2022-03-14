@@ -4,25 +4,9 @@ import { Box, Divider, Input, List, ListItem, Typography } from '@mui/material';
 import { useRecoilValue } from 'recoil';
 import { problemsState } from '../../../stores/problems';
 
-<<<<<<< HEAD:src/components/WritePaper/TestList.jsx
 const TestList = ({ handleChange }) => {
   const problems = useRecoilValue(problemsState);
   const lists = Object.entries(problems);
-=======
-const TestList = () => {
-  const [problems, setProblems] = useRecoilState(ProblemsState);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    const nameIndex = Number(name.split('input')[1]);
-    const nextState = problems.map((prevValue, i) => {
-      if (i === 0) return prevValue;
-      return nameIndex === i ? { ...problems[i], input: value } : prevValue;
-    });
-
-    setProblems(nextState);
-  };
->>>>>>> cd1d250 (Fix: 오류수정):src/components/WritePaper/TestList/index.jsx
 
   return (
     <List disablePadding sx={{ width: '100%', border: '1px solid' }}>
