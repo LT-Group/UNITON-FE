@@ -33,6 +33,7 @@ const TestList = ({ handleChange }) => {
               </Box>
               <Divider orientation="vertical" />
               <Input
+                autoComplete="off"
                 name={`problem${i}`}
                 sx={{
                   width: `calc(100% - 44px)`,
