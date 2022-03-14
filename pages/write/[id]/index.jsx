@@ -18,8 +18,8 @@ const WritePage = () => {
       const { paper_id, file } = await getApi.getTestData(userId);
 
       setPaper(paper_id);
-      setAudio(new Audio('../../../audio/story1page3.mp3'));
-      // setAudio(new Audio('file'));
+      // setAudio(new Audio('../../../audio/story1page3.mp3'));
+      setAudio(new Audio(file));
     };
 
     getData();
