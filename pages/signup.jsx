@@ -206,7 +206,6 @@ const SignUpPage = () => {
                 color: '#C02C3D',
               },
             }}
-            id="id"
             InputProps={{
               classes: {
                 input: cssstyle.resize,
