@@ -142,12 +142,12 @@ const MyPage = () => {
             <TableRow sx={{ height: '12.6rem' }}>
               <StyledTableCell
                 align="left"
-                sx={{ padding: 0, width: '100%', height: '100%' }}
+                sx={{ padding: 0, height: '12.6rem', width: '10.2rem' }}
               >
                 <ProfileImg
                   src="/image/mypage/profile_Default.png"
                   alt="profile"
-                  style={{ objectFit: 'cover' }}
+                  style={{ objectFit: 'cover', height: '100%' }}
                 />
               </StyledTableCell>
 
