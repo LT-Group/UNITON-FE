@@ -23,7 +23,7 @@ const WriteEndPaper = () => {
       const data = await getApi.getTestResult({ userId, paperId });
       setResults(data);
     } catch (e) {
-      console.log(e);
+      // console.log(e);
     }
   };
 

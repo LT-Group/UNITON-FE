@@ -32,7 +32,7 @@ const MyTestPaper = () => {
 
         setTestData(data);
       } catch (e) {
-        console.log(e);
+        // console.log(e);
       }
     };
 

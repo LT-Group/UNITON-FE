@@ -11,7 +11,6 @@ const LoginPage = () => {
 
   useEffect(async () => {
     const result = await getApi.getRankingData();
-    console.log(result);
     setDatas(result);
   }, []);
   return (

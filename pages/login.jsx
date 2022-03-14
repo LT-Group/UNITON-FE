@@ -29,7 +29,6 @@ const LoginPage = () => {
   });
   const [isVisible, setIsVisible] = useState({ password: false });
   const handleChange = (e) => {
-    console.log(e);
     setInputData({
       ...inputData,
       [e.target.id]: e.target.value,
@@ -66,7 +65,6 @@ const LoginPage = () => {
       username: inputData.id,
       password: inputData.password,
     });
-    console.log(typeof token === 'object');
 
     if (!token.refresh) {
       return false;

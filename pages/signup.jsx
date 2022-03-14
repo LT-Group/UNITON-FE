@@ -71,7 +71,6 @@ const SignUpPage = () => {
         username: inputData.id,
         password: inputData.password,
       });
-      console.log(result);
       if (!result) {
         setToken();
         // 쿠키 설정 완료
@@ -141,7 +140,6 @@ const SignUpPage = () => {
       ...inputData,
       [e.target.id]: e.target.value,
     });
-    console.log(e);
     if (e.target.id === 'password_check') {
       e.target.value.length > 0 && e.target.value !== inputData.password
         ? setIsFormatOkay({ ...isFormatOkay, password: false })

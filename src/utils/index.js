@@ -1,6 +1,6 @@
 export const getStamp = (scoreAny) => {
   const score = Number(scoreAny);
-  console.log(score);
+  // console.log(score);
   if (score >= 80) {
     return 'Good';
   } else if (score >= 60) {

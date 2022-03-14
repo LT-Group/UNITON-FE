@@ -7,10 +7,10 @@ const getUserID = async (name) => {
       url: `/accounts/get_user_id/?username=${name}`,
       method: 'get',
     });
-    console.log('[SUCCESS] GET USER ID', data);
+    // console.log('[SUCCESS] GET USER ID', data);
     return data;
   } catch (e) {
-    console.log('[FAIL] GET USER ID', e);
+    // console.log('[FAIL] GET USER ID', e);
     return e;
   }
 };
@@ -22,10 +22,10 @@ const getRankingData = async () => {
       url: `/papers/question_rank/`,
       method: 'get',
     });
-    console.log('[SUCCESS] GET RANKING DATA', data);
+    // console.log('[SUCCESS] GET RANKING DATA', data);
     return data;
   } catch (e) {
-    console.log('[FAIL] GET RANKING DATA', e);
+    // console.log('[FAIL] GET RANKING DATA', e);
     return e;
   }
 };
@@ -37,10 +37,10 @@ const getTestData = async (ID) => {
       url: `/papers/get_paper/${ID}/`,
       method: 'get',
     });
-    console.log('[SUCCESS] GET TEST DATA', data);
+    // console.log('[SUCCESS] GET TEST DATA', data);
     return data;
   } catch (e) {
-    console.log('[FAIL] GET TEST DATA', e);
+    // console.log('[FAIL] GET TEST DATA', e);
     return e;
   }
 };
@@ -52,10 +52,10 @@ const getTestCount = async (ID) => {
       url: `/papers/count_paperuser/${ID}/`,
       method: 'get',
     });
-    console.log('[SUCCESS] GET TEST COUNT', data);
+    // console.log('[SUCCESS] GET TEST COUNT', data);
     return data;
   } catch (e) {
-    console.log('[FAIL] GET TEST COUNT', e);
+    // console.log('[FAIL] GET TEST COUNT', e);
     return e;
   }
 };
@@ -67,10 +67,10 @@ const getAllTestCount = async () => {
       url: `/papers/paper_count/`,
       method: 'get',
     });
-    console.log('[SUCCESS] GET ALL TEST COUNT', data);
+    // console.log('[SUCCESS] GET ALL TEST COUNT', data);
     return data;
   } catch (e) {
-    console.log('[FAIL] GET ALL TEST COUNT', e);
+    // console.log('[FAIL] GET ALL TEST COUNT', e);
     return e;
   }
 };
@@ -82,10 +82,10 @@ const getUserInfo = async (ID) => {
       url: `/accounts/my_profile/${ID}/`,
       method: 'get',
     });
-    console.log('[SUCCESS] GET USER INFO', data);
+    // console.log('[SUCCESS] GET USER INFO', data);
     return data;
   } catch (e) {
-    console.log('[FAIL] GET USER INFO', e);
+    // console.log('[FAIL] GET USER INFO', e);
     return e;
   }
 };
@@ -100,7 +100,7 @@ const getTestResult = async ({ userId, paperId }) => {
 
     return data;
   } catch (e) {
-    console.log(e);
+    // console.log(e);
     return e;
   }
 };

@@ -39,7 +39,7 @@ const WritePaper = ({ isButton, controlAudio, isPlay, stopAudio }) => {
       setIsLoading(false);
       router.push(`/write/${router.query.id}/end`);
     } catch (e) {
-      console.log('error', e);
+      // console.log('error', e);
       setIsLoading(false);
     }
   };

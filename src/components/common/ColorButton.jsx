@@ -13,7 +13,6 @@ const ColorButton = ({
   variant = 'contained',
   ...props
 }) => {
-  console.log(props);
   return (
     <Button
       onClick={props.onClick ? props.onClick : () => {}}

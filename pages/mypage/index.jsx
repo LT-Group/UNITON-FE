@@ -66,7 +66,6 @@ const MyPage = () => {
   }, []);
 
   const kakaoSend = () => {
-    console.log('send');
     if (window.Kakao) {
       const kakao = window.Kakao;
       // 중복 initialization 방지
@@ -87,7 +86,6 @@ const MyPage = () => {
 
       // ID로 바꿀것
       const Info = await getApi.getUserInfo(ID);
-      console.log(Info);
       setUserInfo(Info);
     };
     getData();
@@ -104,7 +102,6 @@ const MyPage = () => {
 
     router.replace('/login');
   };
-  console.log(isLogin);
 
   if (!router) return null;
 
@@ -554,7 +551,6 @@ const MyPage = () => {
                 <div key={id}>
                   <img
                     onClick={() => {
-                      console.log(id);
                       router.push(`/mypage/${id}`);
                     }}
                     src="/image/main/onboarding-1.png"
