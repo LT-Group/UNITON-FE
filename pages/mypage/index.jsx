@@ -99,8 +99,7 @@ const MyPage = () => {
     removeCookie('rfExpireAt');
     removeCookie('isLoading');
     removeCookie('isLogin');
-
-    router.replace('/login');
+    router.replace('/');
   };
 
   if (!router) return null;
