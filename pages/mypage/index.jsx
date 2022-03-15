@@ -521,7 +521,7 @@ const MyPage = () => {
         </Table>
         <div
           style={{
-            width: '18.2rem',
+            width: '19rem',
             height: '3rem',
             backgroundColor: '#C02C3D',
             fontSize: '1.2rem',
