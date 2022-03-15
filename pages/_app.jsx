@@ -149,7 +149,7 @@ const MyApp = ({ Component, pageProps }) => {
   });
 
   return (
-    <ISPC class="container">
+    <ISPC>
       <Head>
         <title>마춤뻡에서 살아남기 </title>
         <meta
