@@ -531,10 +531,11 @@ const MyPage = () => {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
+            cursor: 'pointer',
           }}
-          onClick={kakaoSend}
+          onClick={() => window.open('https://forms.gle/F8Kf7WAz2Hg4rWf98')}
         >
-          마춤뻡에서 살아남기 공유하기
+          마춤뻡에서 살아남기 설문조사
         </div>
         <div
           style={{
