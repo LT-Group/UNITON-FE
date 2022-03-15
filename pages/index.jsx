@@ -31,7 +31,11 @@ const Home = () => {
       setUserInfo((userInfo) => ({ ...userInfo, userName }));
 
       const { user_id } = await getApi.getUserID(userName);
-      const { count_paperuser } = await getApi.getTestCount(user_id);
+      const { count_paperuser } =
+        user_id !== 'None user found'
+          ? await getApi.getTestCount(user_id)
+          : { count_paperuser: 0 };
+
       const { paper_count } = await getApi.getAllTestCount();
 
       setUserInfo((userInfo) => ({
@@ -59,7 +63,6 @@ const Home = () => {
           backgroundColor: '#F8F0E9',
           width: '100%',
           flexDirection: 'column',
-          height: '100%',
         }}
       >
         {isLogin ? (
@@ -132,19 +135,17 @@ const Home = () => {
               text="시험보기"
             />
           ) : (
-            <Link href="/login" passHref>
-              <ColorButton
-                sx={{ fontSize: '16px', fontWeight: 'bold' }}
-                color="white"
-                bgColor="#015B30"
-                hoverBgColor="#037A41"
-                onClick={() => {}}
-                variant="contained"
-                width={'100%'}
-                height={'56px'}
-                text="시작하기"
-              />
-            </Link>
+            <ColorButton
+              onClick={() => router.push('/login')}
+              sx={{ fontSize: '16px', fontWeight: 'bold' }}
+              color="white"
+              bgColor="#015B30"
+              hoverBgColor="#037A41"
+              variant="contained"
+              width={'100%'}
+              height={'56px'}
+              text="시작하기"
+            />
           )}
         </div>
       </div>
