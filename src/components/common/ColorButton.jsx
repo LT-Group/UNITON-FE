@@ -37,9 +37,9 @@ ColorButton.propTypes = {
   color: PropTypes.string,
   bgColor: PropTypes.string,
   hoverBgColor: PropTypes.string,
-  hoverBgColor: PropTypes.text,
-  width: PropTypes.number,
-  height: PropTypes.number,
+  hoverBgColor: PropTypes.string,
+  width: PropTypes.string,
+  height: PropTypes.string,
   fontSize: PropTypes.number,
 };
 export default ColorButton;
