@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { Box, Button, Divider, Typography } from '@mui/material';
 import { getDate } from '../../utils';
 
-const WriteTitle = ({ isButton, controlAudio, isPlay }) => {
+const WriteTitle = ({ isButton, isTotalTest, soundClick }) => {
   const router = useRouter();
   const [userName, setUserName] = useState('');
 
@@ -40,7 +40,8 @@ const WriteTitle = ({ isButton, controlAudio, isPlay }) => {
         </Typography>
         {isButton && (
           <Button
-            onClick={controlAudio}
+            onClick={soundClick}
+            id="total"
             sx={{
               width: 88,
               height: 30,
@@ -53,7 +54,7 @@ const WriteTitle = ({ isButton, controlAudio, isPlay }) => {
               },
             }}
           >
-            {isPlay ? '일시정지' : '시험시작'}
+            {isTotalTest ? '일시정지' : '시험시작'}
           </Button>
         )}
       </Box>

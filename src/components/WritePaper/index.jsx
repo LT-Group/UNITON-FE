@@ -8,7 +8,7 @@ import { Box, Button } from '@mui/material';
 import { userPaperId } from '../../../stores/paperId';
 import { postApi } from '../../../apis';
 
-const WritePaper = ({ isButton, controlAudio, isPlay, stopAudio }) => {
+const WritePaper = ({ isTotalTest, isButton, soundClick }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const paperId = useRecoilValue(userPaperId);
@@ -27,8 +27,6 @@ const WritePaper = ({ isButton, controlAudio, isPlay, stopAudio }) => {
     const answer = Object.entries(problems).map((problem) => problem[1]);
 
     try {
-      stopAudio();
-
       await postApi.submitAnswer({
         user_id: userId,
         paper_id: paperId,
@@ -46,7 +44,7 @@ const WritePaper = ({ isButton, controlAudio, isPlay, stopAudio }) => {
 
   const moveMainPage = () => {
     setProblems(problemsInitialState);
-    stopAudio();
+
     router.replace('/');
   };
 
@@ -56,10 +54,10 @@ const WritePaper = ({ isButton, controlAudio, isPlay, stopAudio }) => {
     <>
       <WriteTitle
         isButton={isButton}
-        controlAudio={controlAudio}
-        isPlay={isPlay}
+        isTotalTest={isTotalTest}
+        soundClick={soundClick}
       />
-      <TestList handleChange={handleChange} />
+      <TestList handleChange={handleChange} soundClick={soundClick} />
       <Box sx={{ width: '100%', mt: '31px' }}>
         <Button
           component="a"

@@ -4,7 +4,7 @@ import { Box, Divider, Input, List, ListItem, Typography } from '@mui/material';
 import { useRecoilValue } from 'recoil';
 import { problemsState } from '../../../stores/problems';
 
-const TestList = ({ handleChange }) => {
+const TestList = ({ handleChange, soundClick }) => {
   const problems = useRecoilValue(problemsState);
   const lists = Object.entries(problems);
 
@@ -21,12 +21,15 @@ const TestList = ({ handleChange }) => {
             >
               <Box sx={{ width: 44, textAlign: 'center' }}>
                 <Typography
+                  id={`problem${i + 1}`}
                   component="span"
                   sx={{
+                    cursor: 'pointer',
                     fontFamily: `'Nanum Myeongjo', serif`,
                     fontWeight: 600,
                     fontSize: 16,
                   }}
+                  onClick={soundClick}
                 >
                   {i + 1}
                 </Typography>
