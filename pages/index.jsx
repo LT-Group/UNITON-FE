@@ -145,7 +145,7 @@ const Home = () => {
           style={{
             width: `calc(100% - 4.8rem)`,
             maxWidth: '380px',
-            marginBottom: 'rem',
+            marginBottom: '3rem',
             position: 'absolute',
             padding: '0 2.5rem',
           }}
@@ -197,8 +197,8 @@ export default Home;
 const Image = styled.img`
   box-shadow: 0 0 0.2rem 0.2rem rgba(0, 0, 0, 0.05);
   @media screen and (min-width: 380px) {
-    width: 380px;
-    height: 490.2px;
+    width: calc(380px - 4.8rem);
+    height: calc(490.2px - 6.192rem);
   }
   @media screen and (max-width: 380px) {
     width: calc(100vw - 4.8rem);
