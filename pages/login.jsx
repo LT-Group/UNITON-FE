@@ -188,7 +188,7 @@ const LoginPage = () => {
             }}
           />
         </div>
-        <BtnContainer isBlur={!(isFocus.id || isFocus.password) && !isPC}>
+        <BtnContainer isBlur={!isFocus.id && !isFocus.password} isPC={isPC}>
           <ColorButton
             sx={{ fontSize: '16px', fontWeight: 'bold' }}
             color="white"
@@ -224,10 +224,11 @@ const LoginPage = () => {
 export default LoginPage;
 
 const BtnContainer = styled.div`
-  position: ${(props) => (!props.isBlur ? 'fixed' : 'relative')};
+  position: ${(props) => (props.isBlur || props.isPC ? 'fixed' : 'relative')};
   bottom: 2rem;
+  margin-bottom: ${(props) => (props.isBlur || props.isPC ? '0' : '2rem')};
   ${(props) =>
-    !props.isBlur
+    props.isBlur || props.isPC
       ? css`
           @media screen and (min-width: 480px) {
             width: 432px;

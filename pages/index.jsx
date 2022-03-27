@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import { Box, Button } from '@mui/material';
 import { Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
@@ -21,6 +20,7 @@ const Home = () => {
   const [isLogin, setIsLogin] = useState(null);
   const [userInfo, setUserInfo] = useRecoilState(UserInfo);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const kakaoID = '7867d65d97b436959a20d12a5bb1beae';
 
   useEffect(() => {
     const getData = async () => {
@@ -53,6 +53,31 @@ const Home = () => {
   const handleGoTest = () => {
     setIsModalOpen(false);
     router.push(`/write/${userInfo.count}`);
+  };
+
+  useEffect(() => {
+    if (window.Kakao) {
+      const kakao = window.Kakao;
+      // 중복 initialization 방지
+      if (!kakao.isInitialized()) {
+        // 두번째 step 에서 가져온 javascript key 를 이용하여 initialize
+        kakao.init(kakaoID);
+      }
+    }
+  }, []);
+
+  const kakaoSend = () => {
+    if (window.Kakao) {
+      const kakao = window.Kakao;
+      // 중복 initialization 방지
+      if (!kakao.isInitialized()) {
+        // 두번째 step 에서 가져온 javascript key 를 이용하여 initialize
+        kakao.init(kakaoID);
+      }
+      window?.Kakao?.Link?.sendScrap({
+        requestUrl: 'https://grammer-survive.netlify.app/',
+      });
+    }
   };
 
   return (
@@ -100,26 +125,29 @@ const Home = () => {
           개의 시험이 풀렸어요.
         </Typography>
       </div>
-      <div style={{ width: '100%', maxWidth: '320px' }}>
-        <img
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'flex-end',
+        }}
+      >
+        <Image
           src={
             isLogin
               ? '/image/main/onboarding-1.png'
               : '/image/main/onboarding-2.png'
           }
           alt={isLogin ? '철수와 영희 이미지' : '시험지 이미지'}
-          style={{
-            width: '100%',
-            boxShadow: '0 0 0.2rem 0.2rem rgba(0,0,0,0.05)',
-          }}
         />
         <div
           style={{
-            width: 'calc(100% - 48px)',
+            width: `calc(100% - 4.8rem)`,
+            maxWidth: '380px',
+            marginBottom: '3rem',
             position: 'absolute',
-            marginTop: '-100px',
-            padding: '0 25px',
-            maxWidth: '320px',
+            padding: '0 2.5rem',
           }}
         >
           {isLogin ? (
@@ -149,6 +177,7 @@ const Home = () => {
           )}
         </div>
       </div>
+      <ShareBtn onClick={kakaoSend}>마춤뻡에서 살아남기 공유하기</ShareBtn>
       <Navigation />
       <CustomModal
         isModalOpen={isModalOpen}
@@ -164,3 +193,30 @@ const Home = () => {
   );
 };
 export default Home;
+
+const Image = styled.img`
+  box-shadow: 0 0 0.2rem 0.2rem rgba(0, 0, 0, 0.05);
+  @media screen and (min-width: 380px) {
+    width: calc(380px - 4.8rem);
+    height: calc(490.2px - 6.192rem);
+  }
+  @media screen and (max-width: 380px) {
+    width: calc(100vw - 4.8rem);
+    height: calc(129vw - 6.192rem);
+  }
+`;
+
+const ShareBtn = styled.div`
+  width: 18.2rem;
+  height: 3rem;
+  background-color: #c02c3d;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: white;
+  border-radius: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 3.5rem;
+  margin-bottom: 12.2rem;
+`;
