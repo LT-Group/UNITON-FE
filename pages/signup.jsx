@@ -326,9 +326,8 @@ const SignUpPage = () => {
         />
         <style>{cssstyle}</style>
         <BtnContainer
-          isBlur={
-            !(isFocus.id || isFocus.password || isFocus.password_check) && !isPC
-          }
+          isBlur={!isFocus.id && !isFocus.password && !isFocus.password_check}
+          isPC={isPC}
         >
           <ColorButton
             sx={{ fontSize: '16px', fontWeight: 'bold' }}
@@ -378,10 +377,11 @@ const cssstyle = `
 `;
 
 const BtnContainer = styles.div`
-position: ${(props) => (props.isBlur ? 'fixed' : 'relative')};
+position: ${(props) => (props.isBlur || props.isPC ? 'fixed' : 'relative')};
 bottom: 2rem;
+margin-bottom: ${(props) => (props.isBlur || props.isPC ? '0' : '2rem')};
 ${(props) =>
-  props.isBlur
+  props.isBlur || props.isPC
     ? css`
         @media screen and (min-width: 480px) {
           width: 432px;
