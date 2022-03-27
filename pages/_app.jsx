@@ -166,6 +166,21 @@ const MyApp = ({ Component, pageProps }) => {
           content="세종대왕님이 노하시기 전에 받아쓰기를 연습하자!"
         />
         <link rel="icon" href="/favicon.ico" />
+        <link
+          rel="preload"
+          href="https://cdn.jsdelivr.net/gh/projectnoonnu/naverfont_08@1.0/Middleschool_student.woff"
+          as="font"
+          type="font/woff"
+          crossOrigin=""
+        />
+        <link
+          rel="preload"
+          href="https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff"
+          as="font"
+          type="font/woff"
+          crossOrigin=""
+        />
+        <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
       </Head>
       <RecoilRoot>
         <CssBaseline />
