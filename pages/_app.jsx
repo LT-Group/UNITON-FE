@@ -42,15 +42,12 @@ const MyApp = ({ Component, pageProps }) => {
       const isLoading = getCookie('isLoading');
 
       const isLogin = getCookie('isLogin');
-      console.log(isLoading);
-      console.log(isLogin);
-      console.log(accessToken);
+
       // 토큰이 없는 경우, 로그아웃
       if (
         (accessToken === undefined && isLoading !== true) ||
         (!isLogin && isLoading !== true)
       ) {
-        console.log('hi');
         localStorage.removeItem('userName');
         removeCookie('accessToken');
         removeCookie('refreshToken');
@@ -147,13 +144,12 @@ const MyApp = ({ Component, pageProps }) => {
       !config.url.includes('checkid')
     )
       config.headers.Authorization = `JWT ${token}`;
-    console.log(config);
     //console.log(token);
     return config;
   });
 
   return (
-    <>
+    <ISPC>
       <Head>
         <title>마춤뻡에서 살아남기 </title>
         <meta
@@ -170,29 +166,42 @@ const MyApp = ({ Component, pageProps }) => {
           content="세종대왕님이 노하시기 전에 받아쓰기를 연습하자!"
         />
         <link rel="icon" href="/favicon.ico" />
+        <link
+          rel="preload"
+          href="https://cdn.jsdelivr.net/gh/projectnoonnu/naverfont_08@1.0/Middleschool_student.woff"
+          as="font"
+          type="font/woff"
+          crossOrigin=""
+        />
+        <link
+          rel="preload"
+          href="https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff"
+          as="font"
+          type="font/woff"
+          crossOrigin=""
+        />
+        <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
       </Head>
       <RecoilRoot>
         <CssBaseline />
-        <ISPC>
-          <Component {...pageProps} />
-        </ISPC>
+        <Component {...pageProps} />
       </RecoilRoot>
-    </>
+    </ISPC>
   );
 };
 
 export default MyApp;
 
 const ISPC = styled.div`
-  dsiplay: flex;
+  display: flex;
   @media screen and (min-width: 480px) {
     width: 480px;
-    hegiht: 100%;
     margin: 0 auto;
+    min-height: 100vh;
   }
   @media screen and (max-width: 480px) {
     width: 100%;
-    hegiht: 100%;
     margin: 0 auto;
+    min-height: 100vh;
   }
 `;

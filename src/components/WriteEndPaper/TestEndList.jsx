@@ -1,26 +1,15 @@
-import {
-  Avatar,
-  Box,
-  Divider,
-  List,
-  ListItem,
-  Typography,
-} from '@mui/material';
+import { Box, Divider, List, ListItem, Typography } from '@mui/material';
 import React from 'react';
 import Image from 'next/image';
-import { useRecoilValue } from 'recoil';
-import { ProblemsState } from '../../../../stores/problems';
-import TotalScore from '../../common/TotalScore';
+import TotalScore from '../common/TotalScore';
 
-const TestEndList = () => {
-  const problems = useRecoilValue(ProblemsState);
+const TestEndList = ({ results }) => {
+  const { answer, answer_user, score, is_correct_list } = results;
 
   return (
     <>
       <List disablePadding sx={{ width: '100%', border: '1px solid' }}>
-        {problems.map((problem, i) => {
-          if (i === 0) return;
-
+        {answer_user.map((answerUser, i) => {
           return (
             <React.Fragment key={i}>
               <ListItem
@@ -30,12 +19,16 @@ const TestEndList = () => {
                 }}
               >
                 <Box sx={{ width: 44, textAlign: 'center' }}>
-                  <Image
-                    src={`/image/paper/${i}.png`}
-                    alt={i}
-                    width={9}
-                    height={23}
-                  />
+                  <Typography
+                    component="span"
+                    sx={{
+                      fontFamily: `'Nanum Myeongjo', serif`,
+                      fontWeight: 600,
+                      fontSize: 16,
+                    }}
+                  >
+                    {i + 1}
+                  </Typography>
                 </Box>
                 <Divider orientation="vertical" />
                 <Box
@@ -56,9 +49,9 @@ const TestEndList = () => {
                       color: '#443C22',
                     }}
                   >
-                    {problem.input}
+                    {answerUser}
                   </Typography>
-                  {problem.answer && (
+                  {!is_correct_list[i] && (
                     <Typography
                       component="div"
                       variant="body2"
@@ -68,7 +61,7 @@ const TestEndList = () => {
                         fontFamily: 'Middleschool_student',
                       }}
                     >
-                      {problem.answer}
+                      {answer[i]}
                     </Typography>
                   )}
                 </Box>
@@ -77,7 +70,7 @@ const TestEndList = () => {
             </React.Fragment>
           );
         })}
-        <TotalScore score={problems[0]} />
+        <TotalScore score={score} />
       </List>
     </>
   );

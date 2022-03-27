@@ -6,7 +6,6 @@ import styles from '@emotion/styled';
 import { useRouter } from 'next/router';
 const Navigation = () => {
   const router = useRouter();
-  const [value, setValue] = useState('');
   return (
     <Container>
       <BottomNavigationList
@@ -16,9 +15,8 @@ const Navigation = () => {
           bottom: 0,
           boxShadow: '0 0 0.15rem 0.15rem rgba(0,0,0,0.05)',
         }}
-        value={value}
+        value={router?.route?.slice(1)}
         onChange={(event, newValue) => {
-          setValue(newValue);
           router.replace(`/${newValue}`);
         }}
       >

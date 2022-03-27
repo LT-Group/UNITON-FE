@@ -1,66 +1,81 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { getApi } from '../../../apis';
 import WritePaper from '../../../src/components/WritePaper';
 import { useRecoilState } from 'recoil';
-import { userTestStart, testSound } from '../../../stores/write';
 import { Container } from '../../../src/components/common';
+import { userPaperId } from '../../../stores/paperId';
+import { getTestProblems } from '../../../src/utils';
+
+class TestAudios {
+  currentPlaying = null;
+
+  constructor(testProblems) {
+    this.testProblems = testProblems;
+  }
+
+  play(name) {
+    if (this.currentPlaying) {
+      this.testProblems[this.currentPlaying].pause();
+    }
+    this.testProblems[name].play();
+    this.currentPlaying = name;
+  }
+
+  pause(name) {
+    this.currentPlaying = null;
+    this.testProblems[name].pause();
+  }
+}
 
 const WritePage = () => {
-  const [isModalOpen, setIsModalOpen] = useRecoilState(userTestStart);
-  const [audio, setAudio] = useRecoilState(testSound);
-
-  const [playing, setPlaying] = useState(null);
-  const [paperId, setPaper] = useState(null);
-  const [isFirstTime, setIsFirstTime] = useState(true);
+  const [paperId, setPaper] = useRecoilState(userPaperId);
+  const [isTotalTest, setIsTotalTest] = useState(false);
+  const testSound = useRef(null);
 
   useEffect(() => {
+    const getData = async () => {
+      const userId = localStorage.getItem('userID');
+      const { paper_id, file, question_url_list } = await getApi.getTestData(
+        userId,
+      );
+      const testProblems = getTestProblems({
+        total: file,
+        restProblems: question_url_list,
+      });
+
+      testSound.current = new TestAudios(testProblems);
+      testSound.current?.play('total');
+
+      setIsTotalTest(true);
+      setPaper(paper_id);
+    };
+
     getData();
 
-    return () => setAudio(null);
+    return () => testSound.current?.pause(testSound.current.currentPlaying);
   }, []);
 
-  const getData = async () => {
-    const ID = await localStorage.getItem('userID');
-    const data = await getApi.getTestData(ID);
-    console.log(data);
-    setPaper(() => data.paper_id);
-    setAudio(new Audio(data.file));
+  const soundClick = (e) => {
+    const { id } = e.target;
+    if (!id || !testSound.current) return;
+
+    if (id === 'total') {
+      setIsTotalTest(!isTotalTest);
+    }
+
+    if (id === testSound.current.currentPlaying) {
+      testSound.current.pause(id);
+    } else {
+      testSound.current.play(id);
+    }
   };
-
-  useEffect(() => {
-    if ((!isModalOpen, audio)) {
-      setTimeout(() => {
-        setPlaying(true);
-      }, [100]);
-    }
-  }, [isModalOpen, audio]);
-
-  const toggle = () => setPlaying((playing) => !playing);
-  const removeToggle = () => setPlaying(false);
-
-  useEffect(() => {
-    if (audio) {
-      playing ? audio.play() : audio?.pause();
-    }
-  }, [playing]);
-
-  useEffect(() => {
-    if (audio) {
-      audio?.addEventListener('ended', () => setPlaying(false));
-      return () => {
-        audio?.removeEventListener('ended', () => setPlaying(false));
-      };
-    }
-  }, [audio, playing]);
 
   return (
     <Container bgColor={'#F8F0E9'}>
       <WritePaper
+        isTotalTest={isTotalTest}
+        soundClick={soundClick}
         isButton={true}
-        onToggle={toggle}
-        isPlay={playing}
-        paperId={paperId}
-        removeToggle={removeToggle}
       />
     </Container>
   );

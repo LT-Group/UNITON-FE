@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import styled from '@emotion/styled';
+import { css } from '@emotion/react';
 // components
 import { Container, ColorButton } from '../src/components/common';
 // mui
@@ -21,18 +22,22 @@ import moment from 'moment';
 import { useRouter } from 'next/router';
 const LoginPage = () => {
   const router = useRouter();
+  const [isPC, setIsPC] = useState(true);
   const [inputData, setInputData] = useState({
     id: '',
     password: '',
   });
   const [isVisible, setIsVisible] = useState({ password: false });
   const handleChange = (e) => {
-    console.log(e);
     setInputData({
       ...inputData,
       [e.target.id]: e.target.value,
     });
   };
+  const [isFocus, setIsFocus] = useState({
+    id: false,
+    password: false,
+  });
   const handleLogin = async () => {
     if (
       inputData.id.length < 11 &&
@@ -60,7 +65,6 @@ const LoginPage = () => {
       username: inputData.id,
       password: inputData.password,
     });
-    console.log(typeof token === 'object');
 
     if (!token.refresh) {
       return false;
@@ -101,6 +105,16 @@ const LoginPage = () => {
     return true;
   };
 
+  let filter =
+    'win16|win32|win64|wince|mac|macintel|macppc|mac68k|linux i686|linux armv7l|hp-ux|sunos';
+  useEffect(() => {
+    if (navigator.platform) {
+      if (filter.indexOf(navigator.platform.toLowerCase()) < 0) {
+        setIsPC(false);
+      }
+    }
+  }, []);
+
   return (
     <Container bgColor={'#F8F0E9'}>
       <div style={{ display: 'flex', width: '100%', flexDirection: 'column' }}>
@@ -123,6 +137,8 @@ const LoginPage = () => {
           <TextField
             id="id"
             placeholder="아이디를 입력해주세요."
+            onFocus={() => setIsFocus({ ...isFocus, id: true })}
+            onBlur={() => setIsFocus({ ...isFocus, id: false })}
             type="string"
             autoComplete="current-id"
             InputProps={{
@@ -135,6 +151,8 @@ const LoginPage = () => {
           <TextField
             sx={{ marginTop: '24px', color: '#A9A69E', borderColor: '#A9A69E' }}
             id="password"
+            onFocus={() => setIsFocus({ ...isFocus, password: true })}
+            onBlur={() => setIsFocus({ ...isFocus, password: false })}
             placeholder="비밀번호를 입력해주세요."
             type={isVisible.password ? 'text' : 'password'}
             autoComplete="current-password"
@@ -142,19 +160,17 @@ const LoginPage = () => {
             onChange={handleChange}
             InputLabelProps={{ shrink: false }}
             InputProps={{
-              style: { fontSize: 14, paddingBottom: '15px' },
+              style: {
+                fontSize: 14,
+                paddingBottom: '20px',
+                marginBottom: '100px',
+              },
               // <-- This is where the toggle button is added.
               endAdornment: (
                 <InputAdornment position="end">
                   <IconButton
                     aria-label="toggle password visibility"
                     onClick={() =>
-                      setIsVisible((isVisible) => ({
-                        ...isVisible,
-                        password: !isVisible.password,
-                      }))
-                    }
-                    onMouseDown={() =>
                       setIsVisible((isVisible) => ({
                         ...isVisible,
                         password: !isVisible.password,
@@ -172,52 +188,33 @@ const LoginPage = () => {
             }}
           />
         </div>
-        <BtnContainer>
-          <div
-            style={{
-              position: 'absolute',
-              bottom: 0,
-              display: 'flex',
-              flexDirection: 'column',
-              width: `calc(100% - 4.8rem)`,
-              paddingBottom: '2rem',
-            }}
-          >
-            <div style={{ maxWidth: '432px' }}>
-              <ColorButton
-                sx={{ fontSize: '16px', fontWeight: 'bold' }}
-                color="white"
-                bgColor={'#015B30'}
-                hoverBgColor={'#015B30'}
-                variant="contained"
-                width={'100%'}
-                height={'56px'}
-                text="로그인"
-                onClick={handleLogin}
-              />
-            </div>
-            <div
-              style={{
-                maxWidth: '432px',
-                display: 'flex',
-                justifyContent: 'center',
+        <BtnContainer isBlur={!isFocus.id && !isFocus.password} isPC={isPC}>
+          <ColorButton
+            sx={{ fontSize: '16px', fontWeight: 'bold' }}
+            color="white"
+            bgColor={'#015B30'}
+            hoverBgColor={'#015B30'}
+            variant="contained"
+            width={'100%'}
+            height={'56px'}
+            text="로그인"
+            onClick={handleLogin}
+          />
+
+          <Link href="/signup" passHref>
+            <Button
+              sx={{
+                width: '100%',
+                color: '#015B30',
+                height: '56px',
+                fontSize: '16px',
+                fontWeight: 'bold',
               }}
+              variant="text"
             >
-              <Link href="/signup" passHref>
-                <Button
-                  sx={{
-                    color: '#015B30',
-                    height: '56px',
-                    fontSize: '16px',
-                    fontWeight: 'bold',
-                  }}
-                  variant="text"
-                >
-                  회원가입
-                </Button>
-              </Link>
-            </div>
-          </div>
+              회원가입
+            </Button>
+          </Link>
         </BtnContainer>
       </div>
     </Container>
@@ -227,13 +224,22 @@ const LoginPage = () => {
 export default LoginPage;
 
 const BtnContainer = styled.div`
-  @media screen and (min-width: 480px) {
-    width: 480px;
-    margin: 0 auto;
-    bottom: 0;
-  }
-  @media screen and (max-width: 480px) {
-    width: 100%;
-    bottom: 0;
-  }
+  position: ${(props) => (props.isBlur || props.isPC ? 'fixed' : 'relative')};
+  bottom: 2rem;
+  margin-bottom: ${(props) => (props.isBlur || props.isPC ? '0' : '2rem')};
+  ${(props) =>
+    props.isBlur || props.isPC
+      ? css`
+          @media screen and (min-width: 480px) {
+            width: 432px;
+            margin: 0 auto;
+          }
+          @media screen and (max-width: 480px) {
+            width: calc(100% - 4.8rem);
+            margin: 0 auto;
+          }
+        `
+      : css`
+          width: 100%;
+        `};
 `;

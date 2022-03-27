@@ -1,28 +1,16 @@
 import React from 'react';
 import Image from 'next/image';
-import { Box, Divider, Input, List, ListItem } from '@mui/material';
-import { ProblemsState } from '../../../../stores/problems';
-import { useRecoilState } from 'recoil';
+import { Box, Divider, Input, List, ListItem, Typography } from '@mui/material';
+import { useRecoilValue } from 'recoil';
+import { problemsState } from '../../../stores/problems';
 
-const TestList = () => {
-  const [problems, setProblems] = useRecoilState(ProblemsState);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    const nameIndex = Number(name.split('input')[1]);
-    const nextState = problems.map((prevValue, i) => {
-      if (i === 0) return prevValue;
-      return nameIndex === i ? { ...problems[i], input: value } : prevValue;
-    });
-
-    setProblems(nextState);
-  };
+const TestList = ({ handleChange, soundClick }) => {
+  const problems = useRecoilValue(problemsState);
+  const lists = Object.entries(problems);
 
   return (
     <List disablePadding sx={{ width: '100%', border: '1px solid' }}>
-      {problems.map((problem, i) => {
-        if (i === 0) return;
-
+      {lists.map((problem, i) => {
         return (
           <React.Fragment key={i}>
             <ListItem
@@ -32,22 +20,35 @@ const TestList = () => {
               }}
             >
               <Box sx={{ width: 44, textAlign: 'center' }}>
-                <Image
-                  src={`/image/paper/${i}.png`}
-                  alt={i}
-                  width={9}
-                  height={23}
-                />
+                <Typography
+                  id={`problem${i + 1}`}
+                  component="span"
+                  sx={{
+                    cursor: 'pointer',
+                    fontFamily: `'Nanum Myeongjo', serif`,
+                    fontWeight: 600,
+                    fontSize: 16,
+                  }}
+                  onClick={soundClick}
+                >
+                  {i + 1}
+                </Typography>
               </Box>
               <Divider orientation="vertical" />
               <Input
-                name={`input${i}`}
-                fullWidth
-                sx={{ ml: 2, mr: 2, color: '#443C22' }}
-                placeholder={answerWriter}
+                autoComplete="off"
+                name={`problem${i}`}
+                sx={{
+                  width: `calc(100% - 44px)`,
+                  pl: 2,
+                  pr: 2,
+                  color: '#443C22',
+                }}
+                placeholder="답안 작성"
                 disableUnderline
                 inputProps={{
                   style: {
+                    display: 'block',
                     fontSize: '22px',
                     fontFamily: 'Middleschool_student',
                   },
@@ -72,7 +73,5 @@ const TestList = () => {
     </List>
   );
 };
-
-const answerWriter = '답안 작성';
 
 export default TestList;
