@@ -13,45 +13,48 @@ const TotalScore = ({ score }) => {
         pl: '18px',
         height: 116,
         alignItems: 'flex-start',
+        justifyContent: 'space-between',
       }}
     >
-      <Box mt="18px">
-        <Image
-          src="/image/paper/totalScore.png"
-          alt="totalScore"
-          width={31}
-          height={18}
-        />
-      </Box>
-      <Box ml={5} mt={1} sx={{ position: 'relative', width: 64, height: 92 }}>
-        <Typography
-          variant="h2"
-          color="#C02C3D"
-          sx={{
-            position: 'absolute',
-            fontSize: 80,
-            top: '-30px',
-            left: '10%',
-            fontFamily: 'Middleschool_student',
-          }}
-        >
-          {score}
-        </Typography>
-        <Box
-          sx={{
-            width: 74,
-            height: 26,
-            position: 'absolute',
-            top: '55%',
-            left: 0,
-          }}
-        >
+      <Box sx={{ display: 'flex' }}>
+        <Box mt="18px">
           <Image
-            width={74}
-            height={26}
-            src="/image/paper/scoreUnderline.png"
-            alt="scoreUnderline"
+            src="/image/paper/totalScore.png"
+            alt="totalScore"
+            width={31}
+            height={18}
           />
+        </Box>
+        <Box ml={5} mt={1} sx={{ position: 'relative', width: 64, height: 92 }}>
+          <Typography
+            variant="h2"
+            color="#C02C3D"
+            sx={{
+              position: 'absolute',
+              fontSize: 80,
+              top: '-30px',
+              left: '10%',
+              fontFamily: 'Middleschool_student',
+            }}
+          >
+            {score}
+          </Typography>
+          <Box
+            sx={{
+              width: 74,
+              height: 26,
+              position: 'absolute',
+              top: '55%',
+              left: 0,
+            }}
+          >
+            <Image
+              width={74}
+              height={26}
+              src="/image/paper/scoreUnderline.png"
+              alt="scoreUnderline"
+            />
+          </Box>
         </Box>
       </Box>
       {score >= 0 && (
@@ -60,7 +63,7 @@ const TotalScore = ({ score }) => {
           alt="stamp"
           sx={{
             mt: 1,
-            ml: 7,
+            mr: 5,
             width: 96,
             height: 96,
           }}
