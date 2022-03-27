@@ -24,7 +24,6 @@ import {
   Navigation,
 } from '../../src/components/common';
 import { removeCookie, getCookie } from '../../token/TokenManager';
-import { common } from '../../src/styles/common';
 import { getApi } from '../../apis';
 
 const StyledTableCell = styled(TableCell)({
@@ -80,13 +79,14 @@ const MyPage = () => {
   };
   useEffect(() => {
     const getData = async () => {
-      setIsLogin(getCookie('isLogin'));
-      const ID = localStorage.getItem('userID');
-      setUserID(ID);
-
-      // ID로 바꿀것
-      const Info = await getApi.getUserInfo(ID);
-      setUserInfo(Info);
+      const is_login = await getCookie('isLogin');
+      setIsLogin(is_login);
+      if (is_login) {
+        const ID = localStorage.getItem('userID');
+        setUserID(ID);
+        const Info = await getApi.getUserInfo(ID);
+        setUserInfo(Info);
+      }
     };
     getData();
   }, []);
@@ -519,23 +519,7 @@ const MyPage = () => {
             </TableRow>
           </TableBody>
         </Table>
-        <div
-          style={{
-            width: '18.2rem',
-            height: '3rem',
-            backgroundColor: '#C02C3D',
-            fontSize: '1.2rem',
-            fontWeight: '700',
-            color: 'white',
-            borderRadius: '2rem',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-          onClick={kakaoSend}
-        >
-          마춤뻡에서 살아남기 공유하기
-        </div>
+        <ShareBtn onClick={kakaoSend}>마춤뻡에서 살아남기 공유하기</ShareBtn>
         <div
           style={{
             width: '100%',
@@ -547,7 +531,7 @@ const MyPage = () => {
           {userInfo?.paper_list?.length > 0 &&
             userInfo?.paper_list.map((id, index) => {
               return (
-                <div key={id}>
+                <div key={index}>
                   <img
                     onClick={() => {
                       router.push(`/mypage/${id}`);
@@ -608,6 +592,19 @@ const Imgcontainer = styled.div`
   justify-content: center;
   column-gap: 2rem;
   row-gap: 2rem;
+`;
+
+const ShareBtn = styled.div`
+  width: 18.2rem;
+  height: 3rem;
+  background-color: #c02c3d;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: white;
+  border-radius: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const ProfileImg = styled.div`
