@@ -29,7 +29,7 @@ class TestAudios {
 
 const WritePage = () => {
   const [paperId, setPaper] = useRecoilState(userPaperId);
-  const [isTotalTest, setIsTotalTest] = useState(false);
+  const [isPlayAudio, setIsPlayAudio] = useState(false);
   const testSound = useRef(null);
 
   useEffect(() => {
@@ -45,8 +45,7 @@ const WritePage = () => {
 
       testSound.current = new TestAudios(testProblems);
       testSound.current?.play('total');
-
-      setIsTotalTest(true);
+      setIsPlayAudio('total');
       setPaper(paper_id);
     };
 
@@ -60,20 +59,29 @@ const WritePage = () => {
     if (!id || !testSound.current) return;
 
     if (id === 'total') {
-      setIsTotalTest(!isTotalTest);
+      if (isPlayAudio === 'total') {
+        testSound.current.pause('total');
+        setIsPlayAudio(false);
+      } else {
+        testSound.current.play('total');
+        setIsPlayAudio('total');
+      }
+      return;
     }
 
     if (id === testSound.current.currentPlaying) {
       testSound.current.pause(id);
+      setIsPlayAudio(false);
     } else {
       testSound.current.play(id);
+      setIsPlayAudio(id);
     }
   };
 
   return (
     <Container bgColor={'#F8F0E9'}>
       <WritePaper
-        isTotalTest={isTotalTest}
+        isPlayAudio={isPlayAudio}
         soundClick={soundClick}
         isButton={true}
       />
