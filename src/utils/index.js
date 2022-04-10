@@ -24,6 +24,7 @@ export const getDate = (inputDate) => {
 export const getTestProblems = ({ total, restProblems }) => {
   const problems = restProblems.reduce((prev, problem, i) => {
     prev[`problem${i + 1}`] = new Audio(problem);
+    prev[`problem${i + 1}`].loop = true;
     return prev;
   }, {});
 

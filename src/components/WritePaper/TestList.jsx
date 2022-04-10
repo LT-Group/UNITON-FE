@@ -4,7 +4,7 @@ import { Box, Divider, Input, List, ListItem, Typography } from '@mui/material';
 import { useRecoilValue } from 'recoil';
 import { problemsState } from '../../../stores/problems';
 
-const TestList = ({ handleChange, soundClick }) => {
+const TestList = ({ isPlayAudio, handleChange, soundClick }) => {
   const problems = useRecoilValue(problemsState);
   const lists = Object.entries(problems);
 
@@ -21,7 +21,6 @@ const TestList = ({ handleChange, soundClick }) => {
             >
               <Box sx={{ width: 44, textAlign: 'center' }}>
                 <Typography
-                  id={`problem${i + 1}`}
                   component="span"
                   sx={{
                     cursor: 'pointer',
@@ -29,7 +28,6 @@ const TestList = ({ handleChange, soundClick }) => {
                     fontWeight: 600,
                     fontSize: 16,
                   }}
-                  onClick={soundClick}
                 >
                   {i + 1}
                 </Typography>
@@ -55,6 +53,20 @@ const TestList = ({ handleChange, soundClick }) => {
                 }}
                 onChange={handleChange}
               />
+              <Box sx={{ mr: 2, cursor: 'pointer' }}>
+                <Image
+                  id={`problem${i + 1}`}
+                  onClick={soundClick}
+                  src={
+                    isPlayAudio === `problem${i + 1}`
+                      ? '/icon/problemStop.svg'
+                      : '/icon/problemPlay.svg'
+                  }
+                  alt="play"
+                  width={24}
+                  height={24}
+                />
+              </Box>
             </ListItem>
             <Divider />
           </React.Fragment>

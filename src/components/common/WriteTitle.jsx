@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { Box, Button, Divider, Typography } from '@mui/material';
 import { getDate } from '../../utils';
 
-const WriteTitle = ({ isButton, isTotalTest, soundClick }) => {
+const WriteTitle = ({ isPlayAudio, isButton, soundClick }) => {
   const router = useRouter();
   const [userName, setUserName] = useState('');
 
@@ -25,6 +25,7 @@ const WriteTitle = ({ isButton, isTotalTest, soundClick }) => {
           display: 'flex',
           width: '100%',
           alignItems: 'center',
+          justifyContent: `${isButton ? 'space-between' : 'flex-start'}`,
         }}
       >
         <Typography
@@ -39,23 +40,26 @@ const WriteTitle = ({ isButton, isTotalTest, soundClick }) => {
           제 {router.query.id}회 받아쓰기
         </Typography>
         {isButton && (
-          <Button
-            onClick={soundClick}
-            id="total"
+          <Box
             sx={{
-              width: 88,
-              height: 30,
-              ml: 4,
-              color: 'white',
-              borderRadius: 20,
-              backgroundColor: '#C02C3D',
-              '&:hover': {
-                backgroundColor: '#C02C3D',
-              },
+              display: 'flex',
+              alignItems: 'center',
+              cursor: 'pointer',
             }}
           >
-            {isTotalTest ? '일시정지' : '시험시작'}
-          </Button>
+            <Image
+              id="total"
+              onClick={soundClick}
+              src={
+                isPlayAudio === 'total'
+                  ? '/icon/totalStop.svg'
+                  : '/icon/totalPlay.svg'
+              }
+              alt="totalSound"
+              width={88}
+              height={32}
+            />
+          </Box>
         )}
       </Box>
       <Box sx={{ display: 'flex', width: '100%', alignItems: 'center' }}>
