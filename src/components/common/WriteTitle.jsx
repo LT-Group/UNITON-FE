@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { Box, Button, Divider, Typography } from '@mui/material';
 import { getDate } from '../../utils';
 
-const WriteTitle = ({ isButton, isTotalTest, soundClick }) => {
+const WriteTitle = ({ isPlayAudio, isButton, soundClick }) => {
   const router = useRouter();
   const [userName, setUserName] = useState('');
 
@@ -50,7 +50,11 @@ const WriteTitle = ({ isButton, isTotalTest, soundClick }) => {
             <Image
               id="total"
               onClick={soundClick}
-              src={isTotalTest ? '/icon/totalStop.svg' : '/icon/totalPlay.svg'}
+              src={
+                isPlayAudio === 'total'
+                  ? '/icon/totalStop.svg'
+                  : '/icon/totalPlay.svg'
+              }
               alt="totalSound"
               width={88}
               height={32}
